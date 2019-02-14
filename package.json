@@ -1,0 +1,27 @@
+{
+  "name": "hekimcan.com",
+  "version": "1.0.0",
+  "description": "Med, Doc, Diseases database for Turkish speaking people",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yittoo/hekimcan.com.git"
+  },
+  "author": "Yit",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yittoo/hekimcan.com/issues"
+  },
+  "homepage": "https://github.com/yittoo/hekimcan.com#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  }
+}
