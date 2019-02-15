@@ -1,3 +1,7 @@
+html, body{
+    min-height: 100%;
+}
+
 @media (min-width: 576px){
     .container {
         max-width: 540px;
@@ -44,10 +48,35 @@
     border: none;
 }
 
-.menu select{
+.menu form {
+    display: flex;
+}
+
+.menu form select{
     border: 0;
     appearance: none;
     cursor: pointer;
+}
+
+.nav-submit{
+    border: none;
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.0);
+    position: absolute;
+    line-height: 1;
+    text-align: center;
+    top: 0;
+    right: 0;
+    margin: 0;
+    height: 100%;
+    opacity: .5;
+    border-radius: 0 .28571429rem .28571429rem 0;
+    -webkit-transition: opacity .3s ease;
+    transition: opacity .3s ease;
+}
+
+.ui.secondary.menu .dropdown.item>.menu {
+    margin-top: 1px;
 }
 
 .bg-gray{
@@ -72,13 +101,12 @@
         0px 2px #9c88ff;
 }
 
-.bg-soft-blue{
-    background-color: rgba(37, 204, 247,0.3);
+.dropdown a{
+    color: rgba(0,0,0,.87);
 }
 
-.py-40px{
-    padding-top: 40px;
-    padding-bottom: 40px;
+.bg-soft-blue{
+    background-color: rgba(37, 204, 247,0.3);
 }
 
 .ui.grid>.row{
@@ -107,8 +135,26 @@
     margin-right: auto;
 }
 
+.py-40px{
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.py-20px{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.pl-10px{
+    padding-left: 10px;
+}
+
 .mb-40px {
     margin-bottom: 40px;
+}
+
+.mb-20px {
+    margin-bottom: 20px;
 }
 
 .mt-40px {
@@ -136,8 +182,80 @@ hr.seperator {
     margin-top: 0.5rem;
 }
 
-
-
 .general-text{
     font-size: 1.3rem;
+}
+
+summary::-webkit-details-marker {
+    color: rgba(89,106,114,1);
+}
+
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-1.25em);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.details-animated[open] .details-child {
+    animation-name: fadeInDown;
+    animation-duration: 1s;
+}
+
+details summary {
+    padding: 10px;
+    background: rgb(206,220,231); /* Old browsers */
+    background: -moz-linear-gradient(left, rgba(206,220,231,1) 0%, rgba(89,106,114,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, rgba(206,220,231,1) 0%,rgba(89,106,114,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, rgba(206,220,231,1) 0%,rgba(89,106,114,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cedce7', endColorstr='#596a72',GradientType=1 ); /* IE6-9 */
+    border-radius: 10px;
+    padding: 20px 20px;
+}
+
+details p {
+    font-size: 1.3rem;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 5px;
+    margin: 10px 5px;
+}
+
+.float-right {
+    float: right;
+    clear: right;
+}
+
+.info-card {
+    border: 1px solid #a2a9b1;
+    border-spacing: 3px;
+    background-color: #f8f9fa;
+    color: black;
+    margin: 0.5em 0 0.5em 1em;
+    padding: 0.2em;
+    float: right;
+    clear: right;
+    font-size: 88%;
+    line-height: 1.5em;
+}
+
+.footer {
+    display: block;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.1);
+    color: rgba(0, 0, 0, 0.65);
+    text-align: center;
+}
+
+.thin-outline{
+    border: rgba(0, 0, 0, 0.4) 1px solid;
+    border-radius: 10px;
+    box-shadow: 1px 1px rgba(0, 0, 0, 0.2),
+        1px 2px rgba(0, 0, 0, 0.2),
+        1px 2px rgba(0, 0, 0, 0.1),
+        2px 3px rgba(0, 0, 0, 0.1),
+        1px 4px rgba(0, 0, 0, 0.1);
 }

@@ -7,13 +7,14 @@
 </div>
 <div class="container">
     <div class="ui secondary menu">
-    <a class="active item">
+    <a href="/" class="active item">
         Logo
     </a>
     <div class="ui compact menu">
         <div class="ui simple dropdown item">
-            Hastalıklar
-            <i class="dropdown icon"></i>
+            <a href="/hastaliklar">
+                Hastalıklar<i class="dropdown icon"></i>
+            </a>
             <div class="menu">
             <div class="item">Kronik</div>
             <div class="item">Virübik</div>
@@ -40,17 +41,18 @@
         </div>
     </div>
     <div class="right menu">
-        <select>
-            <option value=".">Aranacak Öğe</option>
-            <option value="disease">Hastalık</option>
-            <option value="symtom">Semptom</option>
-            <option value="medicine">İlaç</option>
-        </select>
-        <div class="item">
-        <div class="ui icon input">
-            <input type="text" placeholder="Search...">
-            <i class="search link icon"></i>
-        </div>
+        <form>
+            <select>
+                <option value="hastalik">Hastalık</option>
+                <option value="semptom">Semptom</option>
+                <option value="ilac">İlaç</option>
+            </select>
+            <div class="item">
+            <div class="ui icon input">
+                <input type="text" placeholder="Ara...">
+                <button class="nav-submit"><i class="search link icon"></i></button>
+            </div>
+        </form>
         </div>
         <a class="ui item">
             Kayıt Ol
