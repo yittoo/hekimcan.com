@@ -4,14 +4,51 @@
 
 
 <div class="container thin-outline py-20px">
-        <h1 class="primary-header mb-20px pl-10px"><%= disease %></h1>
-    <details open class="details-animated">
-        <summary class="secondary-header">Hastalık Hakkında:</summary>
-        <p class="details-child">Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim doloribus harum voluptas necessitatibus quidem maxime assumenda sit accusamus at eveniet natus eos quam explicabo quasi error, sunt incidunt ea quae. A iste, quae autem nostrum optio animi iusto libero blanditiis eum sit eius eligendi totam quas quisquam cumque vitae alias quis voluptate inventore deleniti odit asperiores corrupti rerum? In voluptas reprehenderit reiciendis facilis mollitia? Dolores esse similique tempora, aliquam vitae cum soluta obcaecati adipisci! Dolor consequatur odio voluptatibus odit, provident asperiores rem suscipit velit magnam modi minus. Aut accusamus qui similique eius possimus consectetur, non, quaerat, illum molestias velit ipsa!</p>
-        <img src="/img/germ.jpg" alt="hastaliklar" class="ui medium bordered image details-child">
-    </details>
+    <h1 class="primary-header mb-20px pl-10px"><%= disease %></h1>
+    <div class="ui grid stackable">
+        <div class="eleven wide column">
+            <details open class="details-animated">
+                <summary class="secondary-header">Hastalık Hakkında:</summary>
+                <p class="details-child">Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim doloribus harum voluptas necessitatibus quidem maxime assumenda sit accusamus at eveniet natus eos quam explicabo quasi error, sunt incidunt ea quae. A iste, quae autem nostrum optio animi iusto libero blanditiis eum sit eius eligendi totam quas quisquam cumque vitae alias quis voluptate inventore deleniti odit asperiores corrupti rerum? In voluptas reprehenderit reiciendis facilis mollitia? Dolores esse similique tempora, aliquam vitae cum soluta obcaecati adipisci! Dolor consequatur odio voluptatibus odit, provident asperiores rem suscipit velit magnam modi minus. Aut accusamus qui similique eius possimus consectetur, non, quaerat, illum molestias velit ipsa!</p>
+            </details>
+        </div>
+        <div class="five wide column">
+            <div class="card" id="info-card">
+                <img class="ui medium bordered image" src="/img/germ.jpg" alt="hastalikresim">
+                <div class="content">
+                    <div class="header">Hastalık İsmi</div>
+                    <div class="description">
+                        <span class="content-sub-header">Çıkış yeri</span>
+                        <span class="content-sub-text">Bilmiyoruz daha öğretin de öğrenelim.</span>
+                    </div>
+                    <div class="description">
+                        <span class="content-sub-header">Lagalugası</span>
+                        <span class="content-sub-text">Bilmiyoruz daha öğretin de öğrenelim. Bilmiyoruz daha öğretin de öğrenelim.</span>
+                    </div>
+                    <div class="description">
+                        <span class="content-sub-header">Yaygın olduğu bölge</span>
+                        <span class="content-sub-text">Güney Afrika.</span>
+                    </div>
+                    <div class="description">
+                        <span class="content-sub-header">Bulunuş Tarihi</span>
+                        <span class="content-sub-text">22.02.2016</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="four wide column">
+            <img src="/img/germ.jpg" alt="hastaliklar" class="ui medium bordered image details-child">
+        </div>
+        <div class="twelve wide column">
+            <details class="details-animated">
+                <summary class="secondary-header">Tedavisi:</summary>
+                <p class="details-child">Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim doloribus harum voluptas necessitatibus quidem maxime assumenda sit accusamus at eveniet natus eos quam explicabo quasi error, sunt incidunt ea quae. A iste, quae autem nostrum optio animi iusto libero blanditiis eum sit eius eligendi totam quas quisquam cumque vitae alias quis voluptate inventore deleniti odit asperiores corrupti rerum? In voluptas reprehenderit reiciendis facilis mollitia? Dolores esse similique tempora, aliquam vitae cum soluta obcaecati adipisci! Dolor consequatur odio voluptatibus odit, provident asperiores rem suscipit velit magnam modi minus. Aut accusamus qui similique eius possimus consectetur, non, quaerat, illum molestias velit ipsa!</p>
+            </details>
+        </div>
+    </div>
 </div>
-   
 
+
+<% include ../partials/featTopics %>
 
 <% include ../partials/footer %>

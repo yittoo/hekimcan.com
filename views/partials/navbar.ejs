@@ -54,15 +54,21 @@
             </div>
         </form>
         </div>
-        <a class="ui item">
+        <% if(!currentUser){ %>
+        <a class="ui item" href="/register">
             Kayıt Ol
         </a>
-        <a class="ui item">
+        <a class="ui item" href="/login">
             Giriş
         </a>
-        <a class="ui item">
+        <% } else { %>
+        <a class="ui item" href="/profil">
+            Profil
+        </a>
+        <a class="ui item" href="/logout">
             Çıkış
         </a>
+        <% } %>
     </div>
     </div>
 </div>

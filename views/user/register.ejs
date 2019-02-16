@@ -1,0 +1,34 @@
+<% include ../partials/header %>
+<% include ../partials/navbar %>
+
+
+
+<h1 style="text-align: center;">Register:</h1>
+
+<form action="/register" method="post">
+    <div>
+        <input type="text" name="username" placeholder="Kullanıcı Adı" required>
+    </div>
+    <div>
+        <input type="password" name="password" placeholder="Şifre" required>
+    </div>
+    <div>
+        <input type="text" name="name" placeholder="İsim">
+        <input type="text" name="surname" placeholder="Soyisim">
+    </div>
+    <div>
+        <input type="email" name="email" placeholder="E-Posta">
+    </div>
+    <div>
+        <input type="text" name="degreeNo" placeholder="Diploma Numarası">
+    </div>
+    <div>
+        <input type="text" name="title" placeholder="Doç. Dr.">
+        <input type="text" name="profession" placeholder="Uzman Old. Alan">
+    </div>
+    <div>
+        <input type="submit">
+    </div>
+</form>
+
+<% include ../partials/footer %>
