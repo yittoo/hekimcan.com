@@ -1,7 +1,9 @@
-html, body{
-    min-height: 100%;
+* {
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 400;
+}
+html, body{
+    min-height: 100%;
 }
 
 @media (min-width: 576px){
@@ -224,8 +226,6 @@ details summary {
 
 details p {
     font-size: 1.3rem;
-    border: 2px solid rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
     padding: 5px;
     margin: 10px 5px;
 }
@@ -258,7 +258,7 @@ details p {
     margin-right: auto;
 }
 
-#info-card{
+.info-card{
     border: 1px solid #a2a9b1;
     border-spacing: 3px;
     background-color: #f8f9fa;
@@ -269,19 +269,19 @@ details p {
     line-height: 1.5em;
 }
 
-#info-card img{
+.info-card img{
     margin-right: auto;
     margin-left: auto;
 }
 
-#info-card .content .header {
+.info-card .content .header {
     text-align: center;
     font-weight: 900;
 }
 
-#info-card .content-sub-header{
+.info-card .content-sub-header{
     font-weight: 700;
 }
-#info-card .content-sub-header::after{
+.info-card .content-sub-header::after{
     content: ": ";
 }

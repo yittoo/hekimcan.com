@@ -43,9 +43,15 @@ app.get("/hastaliklar/", function(req, res){
     res.render("diseases/index");
 });
 
+app.get("/hastaliklar/yeni", function(req, res){
+    res.render("diseases/new");
+});
+
 app.get("/hastaliklar/:diseaseId", function(req, res){
     res.render("diseases/show", {disease: req.params.diseaseId});
 });
+
+
 
 //-----Login & Register
 app.get("/register", middleware.isLoggedOut, function(req, res) {
@@ -87,7 +93,7 @@ app.post("/login",passport.authenticate("local",
 });
 
 app.get("/profil", middleware.isLoggedIn, function(req, res) {
-    res.render("user/profil");
+    res.render("user/profile");
 });
 
 app.get("/logout", function(req, res) {

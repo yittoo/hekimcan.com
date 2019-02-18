@@ -1,3 +1,6 @@
+    </head>
+<body>
+
 <div class="container">
     <div class="ui secondary menu" style="display: none;">
         <a href="ui">Doktora Danışın</a>
@@ -19,6 +22,11 @@
             <div class="item">Kronik</div>
             <div class="item">Virübik</div>
             <div class="item">Çükübik</div>
+            <% if(currentUser){ %>
+                <a class="ui item" href="/hastaliklar/yeni">
+                    Yeni
+                </a>
+            <% } %>
             </div>
         </div>
         <div class="ui simple dropdown item">
@@ -62,12 +70,18 @@
             Giriş
         </a>
         <% } else { %>
-        <a class="ui item" href="/profil">
-            Profil
-        </a>
-        <a class="ui item" href="/logout">
-            Çıkış
-        </a>
+        <div class="ui simple dropdown item">
+            <%= currentUser.name %>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+                <a class="ui item" href="/profil">
+                    Profil
+                </a>
+                <a class="ui item" href="/logout">
+                    Çıkış
+                </a>
+            </div>
+        </div>
         <% } %>
     </div>
     </div>

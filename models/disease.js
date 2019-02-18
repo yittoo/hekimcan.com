@@ -5,13 +5,13 @@ var diseaseSchema = new mongoose.Schema({
     name: String,
     image: String,
     description: String,
-    editBy: {
+    editBy: [{
         id:{
             type: mongoose.Schema.Types.ObjectId,
             ref:"User"
         },
         username: String,
-    },
+    }],
     author: {
         id:{
             type: mongoose.Schema.Types.ObjectId,
@@ -19,12 +19,19 @@ var diseaseSchema = new mongoose.Schema({
         },
         username: String
     },
-    beforeEdit: {
+    beforeEdit: [{
         id:{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Disease"
         }
-    }
+    }],
+    symptoms:[{
+        id:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Symptom"
+        },
+        name: String
+    }]
 });
 
 module.exports = mongoose.model("Disease", diseaseSchema);
