@@ -6,13 +6,10 @@ details {
     z-index: -2;
 }
 
-.editBtn {
-    color: rgb(50, 63, 243);
+.editBtn, .delBtn{
     background: none;
     margin-left: 7px;
     font-size: 0.7em;
-    vertical-align: middle;
-    border: 2px solid rgb(50, 63, 243);
     font-family: 'montserrat', sans-serif;
     cursor: pointer;
     transition: color 0.4s linear;
@@ -20,21 +17,16 @@ details {
     border-radius: 10px;
     position: relative;
     z-index: 2;
+    vertical-align: middle;
 }
 
-.editBtn:hover {
-    color: #fff;
-    border-color: rgb(50, 63, 243);
-}
-
-.editBtn::before{
+.editBtn::before, .delBtn::before{
     content: "";
     position: absolute;
     left:0;
     top:0;
     height: 100%;
     width: 100%;
-    background-color: rgb(50, 63, 243);
     z-index: -1;
     transition: transform 0.5s;
     transform-origin: 100% 0;
@@ -42,6 +34,28 @@ details {
     transform: scaleX(0);
 }
 
-.editBtn:hover::before {
+.editBtn {
+    color: rgb(50, 63, 243);
+    border: 2px solid rgb(50, 63, 243);
+}
+
+.delBtn {
+    color: #c0392b;
+    border: 2px solid #c0392b;
+}
+
+.editBtn:hover, .delBtn:hover {
+    color: #fff;
+}
+
+.editBtn::before{
+    background-color: rgb(50, 63, 243);
+}
+
+.delBtn::before{
+    background-color: #c0392b;
+}
+
+.editBtn:hover::before, .delBtn:hover::before {
     transform: scaleX(1);
 }
