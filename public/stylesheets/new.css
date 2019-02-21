@@ -6,6 +6,8 @@ details {
     z-index: -2;
 }
 
+
+
 .editBtn, .delBtn{
     background: none;
     margin-left: 7px;
@@ -58,4 +60,18 @@ details {
 
 .editBtn:hover::before, .delBtn:hover::before {
     transform: scaleX(1);
+}
+
+.pageCover {
+    background-color: rgba(0, 0, 0, 0.6);
+    height: 10000px;
+    width: 8000px;
+    z-index: 10;
+    position: fixed;
+    top: -400px;
+    transition: background-color 0.3s linear;
+}
+
+.frontOfPageCover{
+    z-index: 20;
 }
