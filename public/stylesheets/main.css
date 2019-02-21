@@ -185,9 +185,10 @@ hr.seperator {
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-.content .header{
+.content .header p{
     font-size: 1.2rem;
     margin-top: 0.5rem;
+    font-weight: 700;
 }
 
 .general-text{
@@ -289,10 +290,13 @@ details p {
     font-weight: 900;
 }
 
-.info-card .content-sub-header{
+.info-card .content-sub-header span{
     font-weight: 700;
-    margin: 0;
+}
+.info-card span.content-sub-text{
+    font-weight: 400;
 }
 .info-card .content-sub-text::before{
     content: ": ";
+    margin-left: 2px;
 }

@@ -6,8 +6,6 @@ details {
     z-index: -2;
 }
 
-
-
 .editBtn, .delBtn{
     background: none;
     margin-left: 7px;
@@ -74,4 +72,13 @@ details {
 
 .frontOfPageCover{
     z-index: 20;
+}
+
+
+.d-none{
+    display: none;
+}
+
+.w-50p{
+    width: 50%;
 }
