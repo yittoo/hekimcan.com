@@ -5,6 +5,7 @@ var diseaseSchema = new mongoose.Schema({
     name: String,
     image: String,
     description: String,
+    htmlCode: String,
     editBy: [{
         id:{
             type: mongoose.Schema.Types.ObjectId,
@@ -29,6 +30,13 @@ var diseaseSchema = new mongoose.Schema({
         id:{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Symptom"
+        },
+        name: String
+    }],
+    drugs:[{
+        id:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Drug"
         },
         name: String
     }]

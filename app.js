@@ -43,12 +43,45 @@ app.get("/hastaliklar/", function(req, res){
     res.render("diseases/index");
 });
 
+app.post("/hastaliklar", middleware.isLoggedIn , function(req, res){
+    Disease.create({
+        name: req.body.name,
+        image: req.body.image,
+        description: req.body.description,
+        // editBy: req.body.editBy,
+        author: {
+            id: req.user._id,
+            username: req.user.username
+        },
+        // beforeEdit: req.body.beforeEdit,
+        // symptoms: req.body.symptoms,
+        // drugs: req.body.drugs,
+        htmlCode: req.body.htmlCode
+    }, function(err, newDisease){
+        if(err){
+            console.log(err);
+            res.redirect("/");
+        } else {
+            console.log(newDisease);
+            res.redirect("/hastaliklar/"+newDisease._id);
+        }
+    })
+});
+
 app.get("/hastaliklar/yeni", function(req, res){
     res.render("diseases/new");
 });
 
 app.get("/hastaliklar/:diseaseId", function(req, res){
-    res.render("diseases/show", {disease: req.params.diseaseId});
+    Disease.findById(req.params.diseaseId, function(err, foundDisease){
+        if(err){
+            console.log(err);
+            res.redirect("/");
+        } else {
+            res.render("diseases/show", {disease: foundDisease});
+            console.log(foundDisease);
+        }
+    });
 });
 
 

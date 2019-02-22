@@ -2,6 +2,11 @@
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 400;
 }
+
+*:focus{
+    outline:none;
+}
+
 html, body{
     min-height: 100%;
 }
@@ -65,6 +70,10 @@ html, body{
     border: 0;
     appearance: none;
     cursor: pointer;
+}
+
+.menu form select:focus{
+    outline: rgba(0, 0, 0, 0.1) 1px solid;
 }
 
 .nav-submit{
@@ -217,9 +226,9 @@ summary::-webkit-details-marker {
 details summary {
     padding: 10px;
     background: rgb(206,220,231); /* Old browsers */
-    background: -moz-linear-gradient(left, rgba(206,220,231,1) 0%, rgba(129, 236, 236,1.0) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(left, rgba(206,220,231,1) 0%,rgba(129, 236, 236,1.0) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to right, rgba(206,220,231,1) 0%,rgba(129, 236, 236,1.0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    background: -moz-linear-gradient(left, #FCDFFF 0%, rgba(253, 167, 223,1.0) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, #FCDFFF 0%,rgba(253, 167, 223,1.0) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #FCDFFF 0%,rgba(253, 167, 223,1.0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cedce7', endColorstr='#596a72',GradientType=1 ); /* IE6-9 */
     border-radius: 10px;
     padding: 20px 20px;

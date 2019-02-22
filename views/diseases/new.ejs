@@ -5,6 +5,9 @@
 
 <div class="siteOverlay"></div>
 
+<div class="toast-helper-gen" style="display: none;">Kaydetmek için <strong>kutu seçiliyken</strong> Enter'a basın, iptal için ESC</div>
+<div class="toast-helper-card"></div>
+
 <div class="container thin-outline py-20px mb-20px">
     <div class="ui grid stackable">
         <div class="twelve wide column">
@@ -16,11 +19,11 @@
         <div class="four wide column">
             <div class="card info-card">
                 <div class="image-div">
-                    <img class="ui medium bordered image" alt="kart resim" srcset="/img/germ.jpg">
+                    <img class="ui medium bordered image disease-image" alt="kart resim" srcset="/img/germ.jpg">
                     <p>Açıklama</p>
                 </div>
                 <div class="content">
-                    <div class="header"><p>Hastalık İsmi</p></div>
+                    <div class="header" id="disease-name"><p>Hastalık İsmi</p></div>
                     <div class="description">
                         <p class="content-sub-header">
                             <span>Değer</span><span class="content-sub-text">Değer Karşılığı</span><button class="delBtn">Sil</button>
@@ -35,13 +38,15 @@
 
 <div class="container thin-outline py-20px">
     <select class="select-form" id="type-select">
+        <option>Yeni bölüm ekle</option>
         <option value="text">Yazı</option>
         <option value="imgText">Resim + Yazı</option>
         <option value="textImg">Yazı + Resim</option>
         <option value="cardText">Kart + Yazı</option>
         <option value="textCard">Yazı + Kart</option>
     </select>
-    <button id="addDiv">Ekle</button>
+<button id="addDiv">Ekle</button>
+<button id="submit-btn">Kaydet & Gönder</button>
 </div>
 
 

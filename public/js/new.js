@@ -23,7 +23,7 @@ $(".container .grid").on("click", "details summary .delBtn", function(){
 
 $(".container .grid").on("click", ".content .delBtn", function(){
     $(this).parent().parent().remove();
-})
+});
 
 $(".container .grid").on("click", "details p .editBtn", function(){
     var parent = $(this).parent(),
@@ -114,6 +114,22 @@ $("#addDiv").on("click", {data: $(".select-form")},
         }
 });
 
+$("#submit-btn").on("click", function(){
+    refactorForDB();
+    var params = {
+            name: $("#disease-name").text(),
+            image: $(".disease-image")[0].srcset,
+            description: $("details p")[0].textContent,
+            editBy: [{}], //current logged in push on app side
+            // author set to current logged in user
+            beforeEdit: [{}], //before edit html code
+            symptoms: [{}],
+            drugs: [{}],
+            htmlCode: $(".grid.stackable").html()
+        }
+    post("/hastaliklar", params, "POST");
+});
+
 function randomId(){
     return Math.floor(Math.random()*999999999999999);
 }
@@ -121,8 +137,7 @@ function randomId(){
 function save(ele, parent, activator, oldHtml, isDelAfter, column){
     var delBtnFunc = (isDelAfter) ? delBtn() : "";
     activator.on("click", function(){
-        parent.html(ele.val());
-        parent.html(parent.text()+editBtn()+delBtnFunc);
+        parent.html(ele.val().remXss()+editBtn()+delBtnFunc);
         toggleForward(column);
     });
     ele.keydown(function(){
@@ -140,7 +155,7 @@ var listen = {
                 if(ele.val()==="" || ele.val()===" "){
                     ele.val("**Boş Kalamaz**");
                 }
-                parent.html('<p>'+ele.val()+'</p>');
+                parent.html('<p>'+ele.val().remXss()+'</p>');
                 toggleForward(parent.parent().parent().parent());
             }
             if(event.which===27){
@@ -151,7 +166,7 @@ var listen = {
     enterCardDesc: function(headEle, descEle, parent, oldHtml){
         var f = function(){
             if(event.which===13){
-                parent.html('<span>'+headEle.val()+'</span><span class="content-sub-text">'+descEle.val()+'</span>'+delBtn());
+                parent.html('<span>'+headEle.val().remXss()+'</span><span class="content-sub-text">'+descEle.val().remXss()+'</span>'+delBtn());
                 toggleForward(parent.parent().parent().parent().parent());
             }
             if(event.which===27){
@@ -165,7 +180,7 @@ var listen = {
     enterImg: function(imgEle, descEle, parent, oldSrc, oldDesc){
         var f = function(){
             if(event.which===13){
-                parent.html('<img class="ui medium bordered image" alt="kart resim" srcset="'+imgEle.val()+'"><p>'+descEle.val()+'</p>');
+                parent.html('<img class="ui medium bordered image" alt="kart resim" srcset="'+imgEle.val().remXss()+'"><p>'+descEle.val().remXss()+'</p>');
                 toggleForward(imgEle.parent().parent().parent());
             }
             if(event.which===27){
@@ -187,7 +202,7 @@ function editBtn(){
 }
 
 function saveBtn(id){
-    return '<button class="saveBtn" id="'+ id +'">Kaydet(ESC İptal)</button>';
+    return '<button class="saveBtn" id="'+ id +'">Kaydet</button>';
 }
 
 function toggleForward(ele){
@@ -198,9 +213,36 @@ function toggleForward(ele){
         $(".addRowBtn, .delBtn").removeClass("d-none");
         $(".siteOverlay").removeClass("pageCover");
         $(".wide.column").removeClass("frontOfPageCover");
+        $(".toast-helper-gen").fadeOut(300);
+    } else {
+        $(".toast-helper-gen").fadeIn(300);
     }
 }
 
-String.prototype.encodeSpecial = function(){
-    return this.replace("<", "%3C").replace(">", "%3E");
+String.prototype.remXss = function(){
+    return this.replace("<script>", "").replace("</script>", "");
 };
+
+function refactorForDB(){
+    $("").replaceAll(".editBtn, .delBtn, .addRowBtn");
+}
+
+function post(path, params, method) {
+    method = method || "post"; 
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+            form.appendChild(hiddenField);
+        }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+}
