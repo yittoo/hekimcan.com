@@ -40,35 +40,36 @@ app.get("/", function(req, res){
 
 //-----Diseases
 app.get("/hastaliklar/", function(req, res){
-    res.render("diseases/index");
+    Disease.find({}, function(err, allDiseases){
+        if(err){
+            console.log(err);
+        } else {
+            res.render("diseases/index", {diseases: allDiseases});
+        }
+    });
 });
 
-app.post("/hastaliklar", middleware.isLoggedIn , function(req, res){
+app.post("/hastaliklar", middleware.isLoggedIn, function(req, res){
     Disease.create({
         name: req.body.name,
         image: req.body.image,
         description: req.body.description,
-        // editBy: req.body.editBy,
         author: {
             id: req.user._id,
             username: req.user.username
         },
-        // beforeEdit: req.body.beforeEdit,
-        // symptoms: req.body.symptoms,
-        // drugs: req.body.drugs,
         htmlCode: req.body.htmlCode
     }, function(err, newDisease){
         if(err){
             console.log(err);
-            res.redirect("/");
+            res.redirect("/hastaliklar");
         } else {
-            console.log(newDisease);
             res.redirect("/hastaliklar/"+newDisease._id);
         }
     })
 });
 
-app.get("/hastaliklar/yeni", function(req, res){
+app.get("/hastaliklar/yeni", middleware.isLoggedIn, function(req, res){
     res.render("diseases/new");
 });
 
@@ -79,11 +80,43 @@ app.get("/hastaliklar/:diseaseId", function(req, res){
             res.redirect("/");
         } else {
             res.render("diseases/show", {disease: foundDisease});
-            console.log(foundDisease);
         }
     });
 });
 
+app.get("/hastaliklar/:diseaseId/degistir", function(req, res){
+    Disease.findById(req.params.diseaseId, function(err, foundDisease){
+        if(err){
+            console.log(err);
+            res.redirect("/");
+        } else {
+            res.render("diseases/edit", {disease: foundDisease});
+        }
+    });
+});
+
+app.put("/hastaliklar/:diseaseId", middleware.isLoggedIn, function(req, res){
+    Disease.findByIdAndUpdate(req.params.diseaseId, {
+        name: req.body.name,
+        image: req.body.image,
+        description: req.body.description,
+        $push: {
+            editBy: req.user._id,
+        },
+        $push: {
+            beforeEdit: req.body.beforeEdit,
+        },
+        htmlCode: req.body.htmlCode
+    },
+    function(err, updatedDisease){
+        if(err){
+            console.log(err);
+            res.redirect("/hastaliklar");
+        } else {
+            res.redirect("/hastaliklar/" + req.params.id);
+        }
+    });
+});
 
 
 //-----Login & Register
@@ -133,8 +166,6 @@ app.get("/logout", function(req, res) {
     req.logout();
     res.redirect("/");
 });
-
-
 
 app.listen(3000, "127.0.0.1" , function(){
     console.log("medi is a go");

@@ -78,11 +78,10 @@ textarea{
     cursor: pointer;
     transition: color 0.4s linear;
     transition: border-color 0.1s linear;
-    border-radius: 10px;
+    border-radius: 15px;
     position: relative;
     z-index: 2;
     vertical-align: middle;
-    
 }
 
 .editBtn::before, .delBtn::before, .saveBtn::before{
@@ -92,6 +91,7 @@ textarea{
     top:0;
     height: 100%;
     width: 100%;
+    border-radius: 12px;
     z-index: -1;
     transition: transform 0.5s;
     transform-origin: 100% 0;
@@ -222,7 +222,7 @@ input{
 }
 
 
-#submit-btn{
+#submit-btn, #submit-edit-btn{
     position: relative;
     left: 98%;
     transform: translate(-100%, 0);
@@ -234,7 +234,7 @@ input{
     cursor: pointer;
 }
 
-#submit-btn:hover{
+#submit-btn:hover, #submit-edit-btn:hover{
     background-color: #41A317;
     color: white;
     transition: all 0.3s linear;

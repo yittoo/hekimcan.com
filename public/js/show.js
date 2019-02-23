@@ -1,6 +1,3 @@
-
-
-
 $("#page-content").html(createElementFromHTML($("#page-content").text()))
 
 function createElementFromHTML(htmlString) {
