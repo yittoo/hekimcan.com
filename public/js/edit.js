@@ -1,12 +1,22 @@
 var oldHtmlBeforeEdit = $(".grid").html();
 
-$(".secondary-header").html($(".secondary-header").html()+newAndEdit.editBtn()+newAndEdit.delBtn());
+document.querySelectorAll(".secondary-header").forEach(function(chosen){
+    chosen.innerHTML += newAndEdit.editBtn() + newAndEdit.delBtn();
+});
+
 document.querySelector(".delBtn").outerHTML = "";
-$(".details-child").html($(".details-child").html()+newAndEdit.editBtn());
-$(".content").html($(".content").html()+'<button class="addRowBtn">Satır Ekle</button>');
-$(".content-sub-header").html($(".content-sub-header").html()+newAndEdit.delBtn());
 
+document.querySelectorAll(".details-child").forEach(function(chosen){
+    chosen.innerHTML += newAndEdit.editBtn();
+});
 
+document.querySelectorAll(".content").forEach(function(chosen){
+    chosen.innerHTML += '<button class="addRowBtn">Satır Ekle</button>';
+});
+
+document.querySelectorAll(".content-sub-header").forEach(function(chosen){
+    chosen.innerHTML += newAndEdit.delBtn();
+});
 
 
 $("#submit-edit-btn").on("click", function(){

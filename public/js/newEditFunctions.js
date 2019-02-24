@@ -1,5 +1,10 @@
 var newAndEdit = {
 
+    detailsAttrSet: function detailsAttrSet(){
+        $("details").removeAttr("open");
+        $("details")[0].setAttribute("open", "");
+    },
+
     randomId: function randomId(){
         return Math.floor(Math.random()*999999999999999);
     },

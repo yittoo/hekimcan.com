@@ -10,6 +10,7 @@ var userSchema = new mongoose.Schema({
     degreeNo: String,
     profession: String,
     title: String,
+    ip: String
 });
 
 userSchema.plugin(passportLocalMongoose);

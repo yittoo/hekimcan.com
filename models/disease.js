@@ -6,13 +6,23 @@ var diseaseSchema = new mongoose.Schema({
     image: String,
     description: String,
     htmlCode: String,
-    editBy: [Object],
+    editBy: [
+        {
+            _id:{
+                type: mongoose.Schema.Types.ObjectId,
+                ref:"User",
+            },
+            username: String,
+            ip: String
+        }
+    ],
     author: {
         id:{
             type: mongoose.Schema.Types.ObjectId,
             ref:"User"
         },
-        username: String
+        username: String,
+        ip: String
     },
     beforeEdit: [String],
     symptoms:[{

@@ -1,0 +1,80 @@
+
+.text-center{
+    text-align: center;
+}
+
+.center-content{
+    display: inline-block;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border: 2px solid rgba(106, 137, 204,0.7);
+    border-radius: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    background-color: rgba(106, 137, 204,0.2);
+}
+
+.center-content input{
+    border: 2px solid rgba(106, 137, 204,0.7);
+    text-align: center;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin: 5px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    transition: all 0.7s ease-in-out;
+}
+.center-content input:hover{
+    border: 2px solid rgba(7, 153, 146,1.0);
+    background-color: rgba(7, 153, 146,0.20);
+    box-sizing: border-box;
+}
+.center-content input:focus{
+    border: 2px solid rgba(7, 153, 146,1.0);
+    background-color: rgba(7, 153, 146,0.8);
+    color: white;
+}
+
+.center-content input:focus::selection{
+    background-color: rgba(7, 153, 146,1);
+    color: white;
+}
+
+.center-content input:focus::placeholder{
+    transition-delay: 0.15s;
+    color: white;
+}
+
+.center-content input[type="submit"]{
+    color: #41A317;
+    border: 2px solid #41A317;
+    background-color: white;
+    margin-top: 7px;
+    border-radius: 10px;
+    padding: 5px;
+    cursor: pointer;
+    transition: all 0.3s linear;
+    position: relative;
+    left: 50%;
+    width: 61px;
+    transform: translate(-50%, 0);
+}
+
+.center-content input[type="submit"]:hover{
+    background-color: #41A317;
+    animation: btn-hover 0.4s ease-in-out;
+    color: white;
+    width: 172px;
+}
+
+@keyframes btn-hover{
+    from {
+        width: 61px;
+    }
+    to {
+        width: 172px;
+    }
+}

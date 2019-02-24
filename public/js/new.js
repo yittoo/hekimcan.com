@@ -1,5 +1,4 @@
-
-
+newAndEdit.detailsAttrSet();
 
 $(".container .grid").on("click", "details summary .editBtn", function(){
     var parent = $(this).parent(),

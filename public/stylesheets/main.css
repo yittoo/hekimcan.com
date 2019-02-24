@@ -138,6 +138,12 @@ html, body{
     font-weight: 700;
 }
 
+.primary-header a{
+    font-size: 2rem;
+    display: inline-block;
+    vertical-align: middle;
+}
+
 .secondary-header{
     color: #0097e6;
     font-size: 2.4rem;

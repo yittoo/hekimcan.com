@@ -1,20 +1,21 @@
 <% include ../partials/header %>
+<link rel="stylesheet" type="text/css" href="/stylesheets/authentication.css"/>
 <% include ../partials/navbar %>
 
 
+<h1 class="text-center">Giriş:</h1>
 
-<h1 style="text-align: center;">Login:</h1>
+<div class="center-content">
+    <form action="/login" method="post">
+        <div>
+            <input class="form-control" type="text" name="username" placeholder="Kullanıcı Adı" required>
+        </div>
+        <div>
+            <input class="form-control" type="password" name="password" placeholder="Parola" required>
+        </div>
+        <input type="submit" value="Gönder">
+    </form>
+</div>
 
-<form action="/login" method="post">
-    <div>
-        <input class="form-control" type="text" name="username" placeholder="username" required>
-    </div>
-    <div>
-        <input class="form-control" type="password" name="password" placeholder="password" required>
-    </div>
-    <div>
-        <input type="submit">
-    </div>
-</form>
 
 <% include ../partials/footer %>

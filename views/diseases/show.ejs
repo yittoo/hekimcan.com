@@ -3,8 +3,11 @@
 
 
 <div class="container">
-    <h1 class="primary-header mb-20px pl-10px"><%= disease.name %></h1>
-    <a href="/hastaliklar/<%=disease._id%>/degistir">Değiştir</a>
+    <h1 class="primary-header mb-20px pl-10px"><%= disease.name %>
+        <% if(currentUser){ %>
+            <a href="/hastaliklar/<%=disease._id%>/degistir">Değiştir</a>
+        <% } %>
+    </h1>
 </div>
 
 <br>

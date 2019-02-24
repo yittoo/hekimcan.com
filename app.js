@@ -7,7 +7,8 @@ var express = require("express"),
     methodOverride   = require("method-override"),
     User = require("./models/user.js"),
     middleware = require("./middleware"),
-    Disease = require("./models/disease.js");
+    Disease = require("./models/disease.js"),
+    requestIp = require('request-ip');
 
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + '/public'));
@@ -27,6 +28,12 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+const ipMiddleware = function(req, res, next) {
+    const clientIp = requestIp.getClientIp(req);
+    console.log(clientIp)
+    next();
+};
 
 app.use(function(req, res, next){
     res.locals.currentUser = req.user;
@@ -56,7 +63,8 @@ app.post("/hastaliklar", middleware.isLoggedIn, function(req, res){
         description: req.body.description,
         author: {
             id: req.user._id,
-            username: req.user.username
+            username: req.user.username,
+            ip: requestIp.getClientIp(req)
         },
         htmlCode: req.body.htmlCode
     }, function(err, newDisease){
@@ -96,28 +104,34 @@ app.get("/hastaliklar/:diseaseId/degistir", function(req, res){
 });
 
 app.put("/hastaliklar/:diseaseId", middleware.isLoggedIn, function(req, res){
-    Disease.findByIdAndUpdate(req.params.diseaseId, {
-        name: req.body.name,
-        image: req.body.image,
-        description: req.body.description,
+    Disease.findOneAndUpdate({_id: req.params.diseaseId},{
         $push: {
-            editBy: req.user._id,
-        },
-        $push: {
+            editBy: {
+                _id: req.user._id,
+                username: req.user.username,
+                ip: requestIp.getClientIp(req)
+            },
             beforeEdit: req.body.beforeEdit,
         },
-        htmlCode: req.body.htmlCode
-    },
+    } ,
     function(err, updatedDisease){
         if(err){
-            console.log(err);
             res.redirect("/hastaliklar");
         } else {
-            res.redirect("/hastaliklar/" + req.params.id);
+            updatedDisease.name = req.body.name;
+            updatedDisease.image = req.body.image;
+            updatedDisease.description = req.body.description;
+            updatedDisease.htmlCode = req.body.htmlCode;
+            updatedDisease.save(function(err){
+                if(err){
+                    res.redirect("/hastaliklar");
+                } else {
+                    res.redirect("/hastaliklar/" + req.params.diseaseId);
+                }
+            });
         }
     });
 });
-
 
 //-----Login & Register
 app.get("/register", middleware.isLoggedOut, function(req, res) {
@@ -134,6 +148,7 @@ app.post("/register", middleware.isLoggedOut, function(req, res) {
             degreeNo: req.body.degreeNo,
             profession: req.body.profession,
             title: req.body.title,
+            ip: requestIp.getClientIp(req)
         }), req.body.password, 
     function(err, user){
         if(err){
@@ -170,3 +185,4 @@ app.get("/logout", function(req, res) {
 app.listen(3000, "127.0.0.1" , function(){
     console.log("medi is a go");
 });
+
