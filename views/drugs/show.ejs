@@ -1,0 +1,26 @@
+<% include ../partials/header %>
+<% include ../partials/navbar %>
+
+
+<div class="container">
+    <h1 class="primary-header mb-20px pl-10px"><%= drug.name %>
+        <% if(currentUser){ %>
+            <a href="/ilaclar/<%=drug._id%>/degistir">Değiştir</a>
+        <% } %>
+    </h1>
+</div>
+
+<br>
+
+<div class="container thin-outline py-20px" id="page-content">
+    <%= drug.htmlCode %>
+</div>
+
+
+
+<% include ../partials/featTopics %>
+
+<script src="/js/show.js"></script>
+
+
+<% include ../partials/footer %>

@@ -6,9 +6,10 @@ var express = require("express"),
     LocalStrategy = require("passport-local"),
     methodOverride   = require("method-override"),
     User = require("./models/user.js"),
-    middleware = require("./middleware"),
-    Disease = require("./models/disease.js"),
-    requestIp = require('request-ip');
+    requestIp = require('request-ip'),
+    diseaseRoutes   = require("./routes/diseases"),
+    drugRoutes = require("./routes/drugs"),
+    userRoutes = require("./routes/users");
 
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + '/public'));
@@ -41,146 +42,24 @@ app.use(function(req, res, next){
 });
 
 //-----Home
+
 app.get("/", function(req, res){
     res.render("index");
 });
 
 //-----Diseases
-app.get("/hastaliklar/", function(req, res){
-    Disease.find({}, function(err, allDiseases){
-        if(err){
-            console.log(err);
-        } else {
-            res.render("diseases/index", {diseases: allDiseases});
-        }
-    });
-});
 
-app.post("/hastaliklar", middleware.isLoggedIn, function(req, res){
-    Disease.create({
-        name: req.body.name,
-        image: req.body.image,
-        description: req.body.description,
-        author: {
-            id: req.user._id,
-            username: req.user.username,
-            ip: requestIp.getClientIp(req)
-        },
-        htmlCode: req.body.htmlCode
-    }, function(err, newDisease){
-        if(err){
-            console.log(err);
-            res.redirect("/hastaliklar");
-        } else {
-            res.redirect("/hastaliklar/"+newDisease._id);
-        }
-    })
-});
+app.use("/hastaliklar", diseaseRoutes);
 
-app.get("/hastaliklar/yeni", middleware.isLoggedIn, function(req, res){
-    res.render("diseases/new");
-});
+//-----Drugs
 
-app.get("/hastaliklar/:diseaseId", function(req, res){
-    Disease.findById(req.params.diseaseId, function(err, foundDisease){
-        if(err){
-            console.log(err);
-            res.redirect("/");
-        } else {
-            res.render("diseases/show", {disease: foundDisease});
-        }
-    });
-});
-
-app.get("/hastaliklar/:diseaseId/degistir", function(req, res){
-    Disease.findById(req.params.diseaseId, function(err, foundDisease){
-        if(err){
-            console.log(err);
-            res.redirect("/");
-        } else {
-            res.render("diseases/edit", {disease: foundDisease});
-        }
-    });
-});
-
-app.put("/hastaliklar/:diseaseId", middleware.isLoggedIn, function(req, res){
-    Disease.findOneAndUpdate({_id: req.params.diseaseId},{
-        $push: {
-            editBy: {
-                _id: req.user._id,
-                username: req.user.username,
-                ip: requestIp.getClientIp(req)
-            },
-            beforeEdit: req.body.beforeEdit,
-        },
-    } ,
-    function(err, updatedDisease){
-        if(err){
-            res.redirect("/hastaliklar");
-        } else {
-            updatedDisease.name = req.body.name;
-            updatedDisease.image = req.body.image;
-            updatedDisease.description = req.body.description;
-            updatedDisease.htmlCode = req.body.htmlCode;
-            updatedDisease.save(function(err){
-                if(err){
-                    res.redirect("/hastaliklar");
-                } else {
-                    res.redirect("/hastaliklar/" + req.params.diseaseId);
-                }
-            });
-        }
-    });
-});
+app.use("/ilaclar", drugRoutes);
 
 //-----Login & Register
-app.get("/register", middleware.isLoggedOut, function(req, res) {
-    res.render("user/register");
-});
 
-app.post("/register", middleware.isLoggedOut, function(req, res) {
-    User.register(new User(
-        {
-            username: req.body.username,
-            name: req.body.name,
-            surname: req.body.surname,
-            email: req.body.email,
-            degreeNo: req.body.degreeNo,
-            profession: req.body.profession,
-            title: req.body.title,
-            ip: requestIp.getClientIp(req)
-        }), req.body.password, 
-    function(err, user){
-        if(err){
-            return res.redirect("register");
-        }
-        passport.authenticate("local")(req, res, function(){
-            res.redirect("/");
-        });
-    });
-});
+app.use("", userRoutes);
 
-app.get("/login", middleware.isLoggedOut, function(req, res) {
-    res.render("user/login");
-});
-
-app.post("/login",passport.authenticate("local", 
-    {
-        successRedirect: "/",
-        failureRedirect: "/login",
-    }),
-        function(req, res) {
-        
-});
-
-app.get("/profil", middleware.isLoggedIn, function(req, res) {
-    res.render("user/profile");
-});
-
-app.get("/logout", function(req, res) {
-    req.logout();
-    res.redirect("/");
-});
+//-----Listener
 
 app.listen(3000, "127.0.0.1" , function(){
     console.log("medi is a go");

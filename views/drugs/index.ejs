@@ -6,7 +6,7 @@
 
 <div class="bg-soft-blue py-40px">
     <div class="container">
-        <h2 class="secondary-header">Hastalık Neden Olur?</h2>
+        <h2 class="secondary-header">İlaç kullanımları hakkında:</h2>
         <p class="general-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam, quam. Ratione beatae tempora voluptatibus. Deserunt itaque iste doloribus accusantium, dignissimos quo. Odio est quisquam sunt minima ut pariatur adipisci corrupti aperiam, quasi eius, eaque cum sequi incidunt suscipit accusantium harum et sint ab? Iste consequuntur tenetur aliquam odit, facere quos nisi numquam dolorem a, magnam, fugit explicabo possimus? Qui eos aliquam, vitae ab ducimus officiis odio voluptatibus, autem, pariatur sunt quidem asperiores praesentium quisquam perspiciatis magni nemo. Rem ullam ipsum rerum eius! Excepturi inventore explicabo, recusandae neque ut tenetur atque, sint minus deleniti optio, laborum quos magni labore? Libero esse ab illo vel consequatur ea saepe, eos explicabo ipsum molestiae ex id, repellat, iste omnis repudiandae architecto. Voluptatum modi rerum numquam reiciendis magnam saepe praesentium explicabo eos fugiat voluptates quidem iusto aut eveniet quisquam, consequatur dolorum veniam obcaecati distinctio unde, perferendis mollitia suscipit nam id temporibus. Dolores magnam, fugit odio molestias modi suscipit dolor nulla atque voluptatibus praesentium sunt, hic provident harum quia error minus quos placeat voluptates architecto omnis reprehenderit totam neque obcaecati? Iusto ducimus magni consequatur! Placeat at nihil sint vero nulla, perferendis beatae, harum dolorum expedita animi neque voluptas, enim error qui iusto quod dolores facere. Quam?</p>    
     </div>
 </div>
@@ -14,21 +14,21 @@
 <br>
 
 <div class="container mb">
-    <h1 class="primary-header">En son eklenen hastalıklar:</h1>
+    <h1 class="primary-header">En son eklenen ilaçlar:</h1>
     <div class="ui grid stackable">
-        <% for(var i = diseases.length-1; i > diseases.length-5; i--){ %>
-            <% if(diseases[i]){ %>
+        <% for(var i = drugs.length-1; i > drugs.length-5; i--){ %>
+            <% if(drugs[i]){ %>
                 <div class="four wide column">
                     <div class="card info-card">
                         <div class="image-div">
-                            <img class="ui medium bordered image" alt="kart resim" srcset="<%= diseases[i].image %>">
+                            <img class="ui medium bordered image" alt="kart resim" srcset="<%= drugs[i].image %>">
                         </div>
                         <div class="content">
-                            <div class="header" id="disease-name"><p><%= diseases[i].name %></p></div>
+                            <div class="header" id="disease-name"><p><%= drugs[i].name %></p></div>
                             <div class="description">
                                 <p class="content-sub-header">
-                                    <%= diseases[i].description.split("", 160).join("") %>
-                                    <a href="/hastaliklar/<%=diseases[i]._id%>">Daha Fazla...</a>
+                                    <%= drugs[i].description.split("", 160).join("") %>
+                                    <a href="/ilaclar/<%=drugs[i]._id%>">Daha Fazla...</a>
                                 </p>
                             </div>
                         </div>

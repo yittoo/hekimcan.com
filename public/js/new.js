@@ -117,13 +117,18 @@ $("#addDiv").on("click", {data: $(".select-form")},
 
 $("#submit-btn").on("click", function(){
     newAndEdit.refactorForDB();
+    if(window.location.href.split("/")[3]==="hastaliklar"){
+        var path = "/hastaliklar"
+    } else if(window.location.href.split("/")[3]==="ilaclar"){
+        var path = "/ilaclar"
+    }
     var params = {
-            name: $("#disease-name").text(),
+            name: $("#data-name").text(),
             image: $(".image")[0].srcset,
             description: $("details p")[0].textContent,
             htmlCode: $(".grid.stackable").html()
         }
-    post("/hastaliklar", params, "POST");
+    post(path, params, "POST");
 });
 
 String.prototype.remXss = function(){

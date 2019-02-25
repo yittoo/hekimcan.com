@@ -30,21 +30,33 @@
             </div>
         </div>
         <div class="ui simple dropdown item">
-            Semptomlar
-            <i class="dropdown icon"></i>
+            <a href="/semptomlar">
+                Semptomlar<i class="dropdown icon"></i>
+            </a>
             <div class="menu">
             <div class="item">Kronik</div>
             <div class="item">Virübik</div>
             <div class="item">Çükübik</div>
+            <% if(currentUser){ %>
+                <a class="ui item" href="/semptomlar/yeni">
+                    Yeni
+                </a>
+            <% } %>
             </div>
         </div>
         <div class="ui simple dropdown item">
-            İlaçlar
-            <i class="dropdown icon"></i>
+            <a href="/ilaclar">
+                İlaçlar<i class="dropdown icon"></i>
+            </a>
             <div class="menu">
             <div class="item">Kronik</div>
             <div class="item">Virübik</div>
             <div class="item">Çükübik</div>
+            <% if(currentUser){ %>
+                <a class="ui item" href="/ilaclar/yeni">
+                    Yeni
+                </a>
+            <% } %>
             </div>
         </div>
     </div>

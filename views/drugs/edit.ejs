@@ -1,0 +1,37 @@
+<% include ../partials/header %>
+<link rel="stylesheet" type="text/css" href="/stylesheets/new.css"/>
+
+<% include ../partials/navbar %>
+<div class="siteOverlay"></div>
+
+<div class="toast-helper-gen" style="display: none;">Kaydetmek için <strong>kutu seçiliyken</strong> Enter'a basın, iptal için ESC</div>
+
+<div class="container">
+    <h1 class="primary-header mb-20px pl-10px"><%= drug.name %></h1>
+</div>
+
+<br>
+
+<div class="container thin-outline py-20px mb-20px" id="page-content">
+    <%= drug.htmlCode %>
+</div>
+
+<div class="container thin-outline py-20px">
+    <select class="select-form" id="type-select">
+        <option>Yeni bölüm ekle</option>
+        <option value="text">Yazı</option>
+        <option value="imgText">Resim + Yazı</option>
+        <option value="textImg">Yazı + Resim</option>
+        <option value="cardText">Kart + Yazı</option>
+        <option value="textCard">Yazı + Kart</option>
+    </select>
+    <button id="addDiv">Ekle</button>
+    <button id="submit-edit-btn">Değiştir & Gönder</button>
+</div>
+
+<script src="/js/newEditFunctions.js"></script>
+<script src="/js/show.js"></script>
+<script src="/js/edit.js"></script>
+<script src="/js/new.js"></script>
+
+<% include ../partials/footer %>

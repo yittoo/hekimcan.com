@@ -22,7 +22,6 @@ var newAndEdit = {
             }
         })
     },
-    
     listen: {
         enterCardHeader: function enterCardHeader(ele, parent, oldDesc){
             ele.keydown(function(){
@@ -35,6 +34,7 @@ var newAndEdit = {
                 }
                 if(event.which===27){
                     parent.html(oldDesc);
+                    newAndEdit.toggleForward(parent.parent().parent().parent());
                 }
             })
         },
