@@ -21,28 +21,23 @@ document.querySelectorAll(".content-sub-header").forEach(function(chosen){
 
 $("#submit-edit-btn").on("click", function(){
     newAndEdit.refactorForDB();
-    if(window.location.href.split("/")[3]==="hastaliklar"){
-        var path = "/hastaliklar/"
-    } else if(window.location.href.split("/")[3]==="ilaclar"){
-        var path = "/ilaclar/"
-    }
+    var path = "/"+window.location.href.split("/")[3]+"/"+window.location.href.split("/")[4];
     var params = {
-            name: $("#data-name").text(),
+            name: $("#data-name").text().replace(/^\s\s*/, '').replace(/\s\s*$/, ''),
             image: $(".image")[0].srcset,
             description: $("details p")[0].textContent,
             beforeEdit: oldHtmlBeforeEdit, 
-            htmlCode: $(".grid.stackable").html()
+            htmlCode: $(".grid.stackable").html(),
+            htmlAsText: $(".grid.stackable").text().replace("\\r", " ").replace("\\n", " ")
         }
-    put(path + window.location.href.split('hastaliklar/').pop().replace("/degistir", "") + "?_method=PUT", params);
+    put(path + "?_method=PUT", params);
 });
 
 
-function put(path, params) {
-    method = "post"; 
+function put(path, params) { 
     var form = document.createElement("form");
-    form.setAttribute("method", method);
+    form.setAttribute("method", "POST");
     form.setAttribute("action", path);
-
     for(var key in params) {
         if(params.hasOwnProperty(key)) {
             var hiddenField = document.createElement("input");

@@ -4,17 +4,6 @@ var express = require("express"),
     middleware = require("../middleware"),
     requestIp = require('request-ip');
 
-router.get("/ara/:id", function(req, res){
-    Disease.find({ $text: { $search: req.params.id } }, function(err, foundDiseases){
-        if(err){
-            console.log(err);
-            res.redirect("/");
-        } else {
-            console.log(foundDiseases);
-            res.redirect("/hastaliklar");
-        }
-    })
-})
 
 router.get("/", function(req, res){
     Disease.find({}, function(err, allDiseases){
@@ -37,7 +26,8 @@ router.post("/", middleware.isLoggedIn, function(req, res){
             username: req.user.username,
             ip: requestIp.getClientIp(req)
         },
-        htmlCode: req.body.htmlCode
+        htmlCode: req.body.htmlCode,
+        htmlAsText: req.body.htmlAsText
     }, function(err, newDisease){
         if(err){
             console.log(err);
@@ -93,6 +83,7 @@ router.put("/:diseaseId", middleware.isLoggedIn, function(req, res){
             updatedDisease.image = req.body.image;
             updatedDisease.description = req.body.description;
             updatedDisease.htmlCode = req.body.htmlCode;
+            updatedDisease.htmlAsText = req.body.htmlAsText;
             updatedDisease.save(function(err){
                 if(err){
                     res.redirect("/hastaliklar");

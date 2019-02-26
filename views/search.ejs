@@ -1,0 +1,28 @@
+<% include partials/header %>
+<link rel="stylesheet" type="text/css" href="/stylesheets/search.css"/>
+<% include partials/navbar %>
+
+
+<div class="container">
+    <div class="results">
+        <h2 class="secondary-header pl-20px mb-20px">Arama sonucu:</h2>
+        <% if(results.length === 0){ %>
+            <p>Aradığınız parametre için sonuç bulunamamaktadır.</p>
+        <% } %>
+        <div class="top-result">
+        </div>
+        <% results.forEach(function(result){ %>
+            <div class="result-item">
+                <h3 class="search-header"> - <%=result.name%></h3>
+                <p><%= result.description.split("", 500).join("") %>... <a href="/<%=typeOfResult%>/<%=result._id%>">Daha Fazla...</a></p>
+                <p>Gönderen: <strong><%=result.author.username%></strong></p>
+            </div>
+        <% }) %>
+    </div>
+</div>
+
+
+
+<% include partials/featTopics %>
+<script src="/js/search.js"></script>
+<% include partials/footer %>

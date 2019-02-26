@@ -6,6 +6,7 @@ var diseaseSchema = new mongoose.Schema({
     image: String,
     description: String,
     htmlCode: String,
+    htmlAsText: String,
     editBy: [
         {
             _id:{

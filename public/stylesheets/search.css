@@ -1,0 +1,39 @@
+.results{
+    background-color: rgba(253, 167, 223,0.2);
+    border-radius: 20px;
+    padding: 20px;
+    padding-bottom: 1px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.result-item{
+    padding: 15px;
+    margin-bottom: 20px;
+    max-width: 850px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: rgba(153, 128, 250,0.1);
+    border-radius: 10px;
+}
+
+.search-header{
+    font-size: 2rem;
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+    text-transform: capitalize;
+    color: rgba(0, 98, 102, 0.5);
+}
+
+.top-result{
+    background-color: rgba(255, 255, 255, 0.9);
+    max-width: 890px;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.top-result h2{
+    color: rgba(0, 98, 102, 0.5);
+    padding: 10px;
+}

@@ -29,7 +29,7 @@ var newAndEdit = {
                     if(ele.val()==="" || ele.val()===" "){
                         ele.val("**Boş Kalamaz**");
                     }
-                    parent.html('<p>'+ele.val().remXss()+'</p>');
+                    parent.html('<p>'+ele.val().remXss()+' </p>');
                     newAndEdit.toggleForward(parent.parent().parent().parent());
                 }
                 if(event.which===27){

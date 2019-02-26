@@ -9,6 +9,9 @@ var express = require("express"),
     requestIp = require('request-ip'),
     diseaseRoutes   = require("./routes/diseases"),
     drugRoutes = require("./routes/drugs"),
+    Disease = require("./models/disease"),
+    Drug = require("./models/drug"),
+    Symptom = require("./models/symptom"),
     userRoutes = require("./routes/users");
 
 app.set("view engine", "ejs");
@@ -45,6 +48,26 @@ app.use(function(req, res, next){
 
 app.get("/", function(req, res){
     res.render("index");
+});
+
+//-----Search
+
+app.get("/:typeOfSearch/ara/:searchParameter", function(req, res){
+    if(req.params.typeOfSearch === "hastaliklar"){
+        var chosenDB = Disease;
+    } else if (req.params.typeOfSearch === "semptomlar"){
+        var chosenDB = Symptom;
+    } else if (req.params.typeOfSearch === "ilaclar"){
+        var chosenDB = Drug;
+    }
+    chosenDB.find({ $text: { $search: req.params.searchParameter } }, function(err, foundResults){
+        if(err){
+            console.log(err);
+            res.redirect("/");
+        } else {
+            res.render("search", {results: foundResults, typeOfResult: req.params.typeOfSearch});
+        }
+    });
 });
 
 //-----Diseases

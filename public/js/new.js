@@ -126,7 +126,8 @@ $("#submit-btn").on("click", function(){
             name: $("#data-name").text(),
             image: $(".image")[0].srcset,
             description: $("details p")[0].textContent,
-            htmlCode: $(".grid.stackable").html()
+            htmlCode: $(".grid.stackable").html(),
+            htmlAsText: $(".grid.stackable").text()
         }
     post(path, params, "POST");
 });
@@ -140,7 +141,6 @@ function post(path, params, method) {
     var form = document.createElement("form");
     form.setAttribute("method", method);
     form.setAttribute("action", path);
-
     for(var key in params) {
         if(params.hasOwnProperty(key)) {
             var hiddenField = document.createElement("input");

@@ -61,19 +61,19 @@
         </div>
     </div>
     <div class="right menu">
-        <form>
+        <form action="" method="GET">
             <select>
-                <option value="hastalik">Hastalık</option>
-                <option value="semptom">Semptom</option>
-                <option value="ilac">İlaç</option>
+                <option value="hastaliklar">Hastalık</option>
+                <option value="semptomlar">Semptom</option>
+                <option value="ilaclar">İlaç</option>
             </select>
             <div class="item">
-            <div class="ui icon input">
-                <input type="text" class="search-input" placeholder="Ara...">
-                <button class="nav-submit"><i class="search link icon"></i></button>
+                <div class="ui icon input">
+                    <input type="text" class="search-input" placeholder="Ara..." required>
+                    <button class="nav-submit"><i class="search link icon"></i></button>
+                </div>
             </div>
         </form>
-        </div>
         <% if(!currentUser){ %>
         <a class="ui item" href="/register">
             Kayıt Ol

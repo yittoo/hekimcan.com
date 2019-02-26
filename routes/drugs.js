@@ -25,11 +25,12 @@ router.post("/", middleware.isLoggedIn, function(req, res){
             username: req.user.username,
             ip: requestIp.getClientIp(req)
         },
-        htmlCode: req.body.htmlCode
+        htmlCode: req.body.htmlCode,
+        htmlAsText: req.body.htmlAsText
     }, function(err, newDrug){
         if(err){
             console.log(err);
-            res.redirect("/drugs");
+            res.redirect("/ilaclar");
         } else {
             res.redirect("/ilaclar/"+newDrug._id);
         }
@@ -44,7 +45,7 @@ router.get("/:drugId", function(req, res){
     Drug.findById(req.params.drugId, function(err, foundDrug){
         if(err){
             console.log(err);
-            res.redirect("/drugs");
+            res.redirect("/ilaclar");
         } else {
             res.render("drugs/show", {drug: foundDrug});
         }
@@ -55,7 +56,7 @@ router.get("/:drugId/degistir", middleware.isLoggedIn, function(req, res){
     Drug.findById(req.params.drugId, function(err, foundDrug){
         if(err){
             console.log(err);
-            res.redirect("/drugs");
+            res.redirect("/ilaclar");
         } else {
             res.render("drugs/edit", {drug: foundDrug});
         }
@@ -81,6 +82,7 @@ router.put("/:drugId", middleware.isLoggedIn, function(req, res){
             updatedDrug.image = req.body.image;
             updatedDrug.description = req.body.description;
             updatedDrug.htmlCode = req.body.htmlCode;
+            updatedDrug.htmlAsText = req.body.htmlAsText;
             updatedDrug.save(function(err){
                 if(err){
                     res.redirect("/ilaclar");
