@@ -6,7 +6,6 @@ var express = require("express"),
     LocalStrategy = require("passport-local"),
     methodOverride   = require("method-override"),
     User = require("./models/user.js"),
-    requestIp = require('request-ip'),
     diseaseRoutes   = require("./routes/diseases"),
     drugRoutes = require("./routes/drugs"),
     Disease = require("./models/disease"),
@@ -33,12 +32,6 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-const ipMiddleware = function(req, res, next) {
-    const clientIp = requestIp.getClientIp(req);
-    console.log(clientIp)
-    next();
-};
-
 app.use(function(req, res, next){
     res.locals.currentUser = req.user;
     next();
@@ -60,7 +53,12 @@ app.get("/:typeOfSearch/ara/:searchParameter", function(req, res){
     } else if (req.params.typeOfSearch === "ilaclar"){
         var chosenDB = Drug;
     }
-    chosenDB.find({ $text: { $search: req.params.searchParameter } }, function(err, foundResults){
+    chosenDB.find({ 
+        $text: { 
+            $search: req.params.searchParameter, 
+            $language: "turkish"}
+        }, 
+    function(err, foundResults){
         if(err){
             console.log(err);
             res.redirect("/");
@@ -68,7 +66,7 @@ app.get("/:typeOfSearch/ara/:searchParameter", function(req, res){
             res.render("search", {results: foundResults, typeOfResult: req.params.typeOfSearch});
         }
     });
-});
+}); 
 
 //-----Diseases
 

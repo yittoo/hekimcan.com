@@ -123,11 +123,11 @@ $("#submit-btn").on("click", function(){
         var path = "/ilaclar"
     }
     var params = {
-            name: $("#data-name").text(),
+            name: $("#data-name").text().replace(/^\s\s*/, '').replace(/\s\s*$/, ''),
             image: $(".image")[0].srcset,
             description: $("details p")[0].textContent,
             htmlCode: $(".grid.stackable").html(),
-            htmlAsText: $(".grid.stackable").text()
+            htmlAsText: $(".grid.stackable").text().replace("\\r", " ").replace("\\n", " ")
         }
     post(path, params, "POST");
 });

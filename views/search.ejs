@@ -10,10 +10,11 @@
             <p>Aradığınız parametre için sonuç bulunamamaktadır.</p>
         <% } %>
         <div class="top-result">
+            <h2>En iyi sonuçlar:</h2>
         </div>
         <% results.forEach(function(result){ %>
             <div class="result-item">
-                <h3 class="search-header"> - <%=result.name%></h3>
+                <h3 class="search-header"><%=result.name%></h3>
                 <p><%= result.description.split("", 500).join("") %>... <a href="/<%=typeOfResult%>/<%=result._id%>">Daha Fazla...</a></p>
                 <p>Gönderen: <strong><%=result.author.username%></strong></p>
             </div>

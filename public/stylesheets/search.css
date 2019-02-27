@@ -31,9 +31,14 @@
     border-radius: 20px;
     margin-bottom: 20px;
     border: 2px solid rgba(0, 0, 0, 0.1);
+    display: none;
 }
 
 .top-result h2{
     color: rgba(0, 98, 102, 0.5);
     padding: 10px;
+}
+
+.d-none{
+    display: none;
 }
