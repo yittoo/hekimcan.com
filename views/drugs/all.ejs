@@ -1,0 +1,36 @@
+<% include ../partials/header %>
+<% include ../partials/navbar %>
+
+
+
+<div class="container mb">
+    <h1 class="primary-header">Tüm ilaçlar: </h1>
+    <br>
+    <div class="ui grid stackable">
+        <% for(var i = drugs.length-1; i >=0 ; i--){ %>
+            <% if(drugs[i]){ %>
+                <div class="four wide column">
+                    <div class="card info-card">
+                        <div class="image-div">
+                            <img class="ui medium bordered image" alt="kart resim" srcset="<%= drugs[i].image %>">
+                        </div>
+                        <div class="content">
+                            <div class="header" id="disease-name"><p><%= drugs[i].name %></p></div>
+                            <div class="description">
+                                <p class="content-sub-header">
+                                    <%= drugs[i].description.split("", 160).join("") %>
+                                    <a href="/ilaclar/<%=drugs[i]._id%>">Daha Fazla...</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        <% } %>
+    </div>
+</div>
+
+
+
+
+<% include ../partials/footer %>

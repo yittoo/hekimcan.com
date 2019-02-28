@@ -2,8 +2,6 @@
 <% include ../partials/navbar %>
 
 
-
-
 <div class="bg-soft-blue py-40px">
     <div class="container">
         <h2 class="secondary-header">Hastalık Neden Olur?</h2>
@@ -14,7 +12,7 @@
 <br>
 
 <div class="container mb">
-    <h1 class="primary-header">En son eklenen hastalıklar:</h1>
+    <h1 class="primary-header">En son eklenen hastalıklar: <a href="/hastaliklar/hepsi">Tümünü gör...</a> </h1>
     <div class="ui grid stackable">
         <% for(var i = diseases.length-1; i > diseases.length-5; i--){ %>
             <% if(diseases[i]){ %>

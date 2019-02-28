@@ -194,6 +194,10 @@ body{
     margin-top: 40px;
 }
 
+.f-size-120{
+    font-size: 1.2rem;
+}
+
 
 
 hr.shadow {
@@ -254,6 +258,68 @@ details p {
     font-size: 1.3rem;
     padding: 5px;
     margin: 10px 5px;
+}
+
+.position-relative{
+    position: relative;
+}
+
+#new-symptom label, #new-symptom input{
+    margin-top: 8px;
+}
+
+#new-symptom label span::before, #new-symptom label span::after{
+    content: "";
+    background-color: rgba(72, 219, 251,1.0);
+    position: absolute;
+}
+
+#new-symptom label span::before{
+    display: none;
+    transform: rotate(45deg);
+    width: 7px;
+    height: 7px;
+    top: -4px;
+}
+
+#new-symptom label span::after{
+    content: "Semptom karşılığında hastalıkları sıralar iken kullanılacak 0-100 arasındaki bir değer, profesyonel deneyiminize dayanarak girebilirsiniz. Örn: Baş ağrısı için soğuk algınlığı 60 olacak iken beyin tümörü 3 olmalıdır.";
+    padding: 5px;
+    border: 2px solid rgba(0, 0, 0, 0,3);
+    text-shadow: 1px 1px rgba(255, 255, 255, 0,3);
+    color: white;
+    display: none;
+    height: auto;
+    width: 300px;
+    border-radius: 10px;
+    bottom: 17px;
+    right: -90px;
+    box-shadow: 2px 2px 2px #aaaaaa;
+}
+
+#new-symptom label span:hover::before, #new-symptom label span:hover::after{
+    display: inherit;
+    opacity: 1;
+    animation: tooltip 0.3s ease-in-out;
+}
+
+
+@keyframes tooltip {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+        transform: scale(0, 0);
+        transform-origin: 70% 100%;
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(-60px);
+        transform: scale(1, 1)
+    }
+}
+
+.addSymptomBtn, .submitSymptomBtn{
+    
 }
 
 .float-right {

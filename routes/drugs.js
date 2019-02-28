@@ -15,6 +15,16 @@ router.get("/", function(req, res){
     });
 });
 
+router.get("/hepsi", function(req, res){
+    Drug.find({}, function(err, allDrugs){
+        if(err){
+            console.log(err);
+        } else {
+            res.render("drugs/all", {drugs: allDrugs});
+        }
+    });
+});
+
 router.post("/", middleware.isLoggedIn, function(req, res){
     Drug.create({
         name: req.body.name,

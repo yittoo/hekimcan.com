@@ -27,7 +27,7 @@ var diseaseSchema = new mongoose.Schema({
     },
     beforeEdit: [String],
     symptoms:[{
-        id:{
+        _id:{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Symptom"
         },
