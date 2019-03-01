@@ -119,24 +119,31 @@ router.put("/:diseaseId/semptomlar", function(req, res){
                 if(err){
                     console.log(err);
                 } else {
-                    console.log(newSymptom);
+                    console.log("created new symptom" + newSymptom);
                     twoWayConnect(req, res, Disease, Symptom, newSymptom);
                 }
             })
         } else {
-            Disease.findOne({
-                _id: req.params.diseaseId,
-                symptoms: {name: req.body.name}
-            }, function(err, disease){
-                if(disease){
-                    twoWayConnect(req, res, Disease, Symptom, symptom);
-                } else {
-                    res.redirect("/hastaliklar/"+req.params.diseaseId);
-                }
-            });
+            console.log("existing symptom")
+            // Disease.findOne({
+            //     _id: req.params.diseaseId,
+            //     $elemMatch: {name: req.body.name}
+            // }, function(err, disease){
+            //     console.log(disease);
+            //     if(disease){
+            //         console.log("inside first if")
+            //         twoWayConnect(req, res, Disease, Symptom, symptom);
+            //     } else {
+            //         console.log("inside else")
+            //         res.redirect("/hastaliklar/"+req.params.diseaseId);
+            //     }
+            // });
+            twoWayConnect(req, res, Disease, Symptom, symptom);
         };
     });
 });
+
+
 
 function twoWayConnect(req, res, Disease, Symptom, symptom){
     Disease.findOneAndUpdate({_id: req.params.diseaseId}, {

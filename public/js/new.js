@@ -104,6 +104,7 @@ $("#addDiv").on("click", {data: $(".select-form")},
                 grid.html(grid.html()+addText12(uniqueClass)+addCard(uniqueClass));
                 break;
         }
+        checkFooter();
         function addText12(uniqueClass){
             return '<div class="twelve wide column '+ uniqueClass +'"><details open class="details-animated"> <summary class="secondary-header">Başlık:'+newAndEdit.editBtn()+newAndEdit.delBtn()+'</summary><p class="details-child">Datayı buraya giriniz'+newAndEdit.editBtn()+'</p></details></div>';
         }

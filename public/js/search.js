@@ -1,9 +1,67 @@
-
 String.prototype.replaceAll = function(search, replacement) {
     return this.replace(new RegExp(search, 'g'), replacement);
 };
 
 checkTopResult();
+checkTopSymptoms();
+
+function checkTopSymptoms(){
+    var symptomArray = [{}],
+    resultSymptom = $(".result-symptom");
+
+    for(var i = 0; i<resultSymptom.length; i++){
+        for(var j = 1; j<resultSymptom[i].children.length; j++){
+            for(var k = 0; k<symptomArray.length; k++){
+                if(symptomArray[k].name===resultSymptom[i].children[j].children[0].textContent){
+                    symptomArray[k].likelihood += Number(resultSymptom[i].children[j].children[2].textContent);
+                    break;
+                } else if(k===symptomArray.length-1){
+                    symptomArray.push({
+                        name: resultSymptom[i].children[j].children[0].textContent,
+                        likelihood: Number(resultSymptom[i].children[j].children[2].textContent),
+                        link: resultSymptom[i].children[j].children[0].pathname,
+                    });
+                    break;
+                }
+            }
+            if(j === resultSymptom[i].children.length-1 && i === resultSymptom.length-1 && symptomArray.length>1){
+                var max,
+                    indexOrder = [];
+                for(var y = 1; y < symptomArray.length; y++){
+                    max = {index: 0, value: 0};
+                    for(var x = 1; x < symptomArray.length; x++){
+                        if(symptomArray[x].likelihood >= max.value){
+                            max.value = symptomArray[x].likelihood;
+                            max.index = x;
+                        }
+                        if(x === symptomArray.length-1){
+                            indexOrder.push(max.index);
+                            symptomArray[max.index].newlikelihood = symptomArray[max.index].likelihood;
+                            symptomArray[max.index].likelihood = -1;
+                            break;
+                        }
+                    }
+                    if(y === symptomArray.length-1){
+                        $(".top-result").css("display", "block");
+                        for(var z = 0; z < 3 && z < symptomArray.length; z++){
+                            if(symptomArray[indexOrder[z]]){
+                                var htmlToAdd = '<div class="pl-10px"><h3 class="symptom-header"><a href="'+ symptomArray[indexOrder[z]].link +'">'+symptomArray[indexOrder[z]].name+'</a> <a target="_blank" href="'+ symptomArray[indexOrder[z]].link +'"><i class="fas fa-external-link-alt external-link"></i></a></h3><p></p></div>';
+                                $(".top-result")[0].innerHTML += htmlToAdd;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
 
 function checkTopResult(){
     var searchedText = window.location.href.split("/")[5].replace("?", "").replaceAll("%20", " ").toLowerCase(),

@@ -21,7 +21,7 @@
 <div class="container thin-outline py-20px f-size-120">
     <p>Semptom Tagleri:
         <% for(var i = 0; i < disease.symptoms.length; i++){ %>
-            <span><%= disease.symptoms[i].name %></span>
+            <a href="/semptomlar/ara/<%=disease.symptoms[i].name%>">#<%= disease.symptoms[i].name %></a>
         <% } %>
     </p>
         <button class="addSymptomBtn">Ekle</button>
