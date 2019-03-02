@@ -18,21 +18,20 @@
 
 <br>
 
-<div class="container thin-outline py-20px f-size-120">
+<div id="symptom-div" class="container thin-outline py-20px f-size-120">
     <p>Semptom Tagleri:
         <% for(var i = 0; i < disease.symptoms.length; i++){ %>
             <a href="/semptomlar/ara/<%=disease.symptoms[i].name%>">#<%= disease.symptoms[i].name %></a>
         <% } %>
     </p>
         <button class="addSymptomBtn">Ekle</button>
-        <form id="new-symptom" action="/hastaliklar/<%= disease._id %>/semptomlar?_method=PUT" method="POST">
-            <label>Semptom İsmi: </label><input name="name" type="text" placeholder="" required>
+        <form id="new-symptom" class="d-none" action="/hastaliklar/<%= disease._id %>/semptomlar?_method=PUT" method="POST">
+            <label>Semptom İsmi: </label><input class="newSymptomInput" name="name" type="text" placeholder="Örn: Ateş" required>
             <br>
-            <label class="position-relative">Semptomun olabilitesi (0-100) <span>? </span></label><input type="number" name="likelihood" placeholder="" required min="0" max="100" step="1">
+            <label class="position-relative">Semptomun olabilitesi (0-100) <span>? </span></label><input class="newSymptomInput" type="number" name="likelihood" placeholder="Örn: 65" required min="0" max="100" step="1">
             <br>
             <input class="submitSymptomBtn" type="submit" value="Gönder">
         </form>
-     
 </div>
 
 

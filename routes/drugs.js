@@ -2,7 +2,10 @@ var express = require("express"),
     router = express.Router(),
     Drug = require("../models/drug"),
     middleware = require("../middleware"),
-    requestIp = require('request-ip');
+    requestIp = require('request-ip'),
+    xss = require ("xss"),
+    xssOptions = require("../xssOptions"),
+    myxss = new xss.FilterXSS(xssOptions);
 
 
 router.get("/", function(req, res){
@@ -27,16 +30,16 @@ router.get("/hepsi", function(req, res){
 
 router.post("/", middleware.isLoggedIn, function(req, res){
     Drug.create({
-        name: req.body.name,
-        image: req.body.image,
-        description: req.body.description,
+        name: myxss.process(req.body.name),
+        image: myxss.process(req.body.image),
+        description: myxss.process(req.body.description),
         author: {
             id: req.user._id,
-            username: req.user.username,
+            username: xss(req.user.username),
             ip: requestIp.getClientIp(req)
         },
-        htmlCode: req.body.htmlCode,
-        htmlAsText: req.body.htmlAsText
+        htmlCode: myxss.process(req.body.htmlCode),
+        htmlAsText: myxss.process(req.body.htmlAsText)
     }, function(err, newDrug){
         if(err){
             console.log(err);
@@ -78,7 +81,7 @@ router.put("/:drugId", middleware.isLoggedIn, function(req, res){
         $push: {
             editBy: {
                 _id: req.user._id,
-                username: req.user.username,
+                username: xss(req.user.username),
                 ip: requestIp.getClientIp(req)
             },
             beforeEdit: req.body.beforeEdit,
@@ -88,11 +91,11 @@ router.put("/:drugId", middleware.isLoggedIn, function(req, res){
         if(err){
             res.redirect("/ilaclar");
         } else {
-            updatedDrug.name = req.body.name;
-            updatedDrug.image = req.body.image;
-            updatedDrug.description = req.body.description;
-            updatedDrug.htmlCode = req.body.htmlCode;
-            updatedDrug.htmlAsText = req.body.htmlAsText;
+            updatedDrug.name = myxss.process(req.body.name);
+            updatedDrug.image = myxss.process(req.body.image);
+            updatedDrug.description = myxss.process(req.body.description);
+            updatedDrug.htmlCode = myxss.process(req.body.htmlCode);
+            updatedDrug.htmlAsText = myxss.process(req.body.htmlAsText);
             updatedDrug.save(function(err){
                 if(err){
                     res.redirect("/ilaclar");

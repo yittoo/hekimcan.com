@@ -112,7 +112,7 @@ $("#addDiv").on("click", {data: $(".select-form")},
             return '<div class="four wide column '+ uniqueClass +'"><div class="image-div"><img srcset="/img/germ.jpg" alt="hastaliklar" class="ui huge bordered image details-child"><p>Açıklama</p></div></div>';
         }
         function addCard(uniqueClass){
-            return '<div class="four wide column '+uniqueClass+'"><div class="card info-card"><div class="image-div"><img class="ui medium bordered image" alt="kart resim" srcset="/img/germ.jpg"><p>Açıklama</p></div><div class="content"><div class="header"><p>Başlık</p></div><div class="description"><p class="content-sub-header"><span>Değer</span><span class="content-sub-text">Değer Karşılığı</span>'+newAndEdit.delBtn()+'</p></div><button class="addRowBtn">Satır Ekle</button></div></div></div>';
+            return '<div class="four wide column '+uniqueClass+'"><div class="card info-card"><div class="image-div"><img class="ui huge bordered image" alt="kart resim" srcset="/img/germ.jpg"><p>Açıklama</p></div><div class="content"><div class="header"><p>Başlık</p></div><div class="description"><p class="content-sub-header"><span>Değer</span><span class="content-sub-text">Değer Karşılığı</span>'+newAndEdit.delBtn()+'</p></div><button class="addRowBtn">Satır Ekle</button></div></div></div>';
         }
 });
 

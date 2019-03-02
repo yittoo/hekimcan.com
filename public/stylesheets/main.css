@@ -9,11 +9,20 @@
 
 body, html{
     height: auto;
+    
 }
 
 body{
     padding:0; 
     margin:0;
+    background: -moz-linear-gradient(left, rgba(242,242,242,0.5) 0%, rgba(255,255,255,1) 20%, rgba(255,255,255,1) 80%, rgba(242,242,242,0.5) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, rgba(242,242,242,0.5) 0%,rgba(255,255,255,1) 20%,rgba(255,255,255,1) 80%,rgba(242,242,242,0.5) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, rgba(242,242,242,0.5) 0%,rgba(255,255,255,1) 20%,rgba(255,255,255,1) 80%,rgba(242,242,242,0.5) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#80f2f2f2', endColorstr='#80f2f2f2',GradientType=1 ); /* IE6-9 */
+}
+
+select {
+    font-family: 'Source Sans Pro', sans-serif;
 }
   
 @media (min-width: 576px){
@@ -61,14 +70,43 @@ body{
     margin-left: auto;
 }
 
+.menu, .menu select, .menu select option{
+    background-color: inherit;
+}
+
 .menu .ui.menu {
     -webkit-box-shadow: none;
     box-shadow: none;
     border: none;
+    background-color: inherit;
+}
+
+
+
+.menu .ui.item p {
+    /* font-weight: 700; */
+    font-size: 1.2rem;
+    color: black;
 }
 
 .menu form {
     display: flex;
+}
+
+.menu form::before{
+    font-family: 'Source Sans Pro', sans-serif;
+    content: "Arama kriteri:";
+    position: relative;
+    opacity: 0;
+    top: 13px;
+    right: -20px;
+    font-size: 1rem;
+    transition: all 0.3s ease-in-out
+}
+
+.menu form:hover::before{
+    right: 4px;
+    opacity: 1;
 }
 
 .menu form select{
@@ -98,8 +136,31 @@ body{
     transition: opacity .3s ease;
 }
 
+
 .ui.secondary.menu .dropdown.item>.menu {
+    margin-top: -20px;
+    opacity: 0;
+}
+
+.ui.secondary.menu .dropdown.item:hover>.menu {
     margin-top: 1px;
+    opacity: 1;
+    animation: margin-top-change 0.3s ease-in-out;
+}
+
+@keyframes margin-top-change{
+    0% {
+        margin-top: -20px;
+        opacity: 0;
+        z-index: -1;
+    }
+    30%{
+        z-index: 0;
+    }
+    100% {
+        margin-top: 1px;
+        opacity: 1;
+    }
 }
 
 .bg-gray{
@@ -173,6 +234,10 @@ body{
     padding-top: 20px;
     padding-bottom: 20px;
 }
+.py-10px{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
 
 .pl-10px{
     padding-left: 10px;
@@ -198,7 +263,9 @@ body{
     font-size: 1.2rem;
 }
 
-
+.d-none{
+    display: none;
+}
 
 hr.shadow {
     margin-top: 0;
@@ -264,6 +331,14 @@ details p {
     position: relative;
 }
 
+#symptom-div p{
+    margin-bottom: 0px;
+}
+
+#new-symptom {
+    margin-top: 20px;
+}
+
 #new-symptom label, #new-symptom input{
     margin-top: 8px;
 }
@@ -279,7 +354,6 @@ details p {
     transform: rotate(45deg);
     width: 7px;
     height: 7px;
-    top: -4px;
 }
 
 #new-symptom label span::after{
@@ -303,6 +377,10 @@ details p {
     animation: tooltip 0.3s ease-in-out;
 }
 
+#new-symptom label span:hover::before{
+    top: 2px;
+    z-index: 1;
+}
 
 @keyframes tooltip {
     0% {
@@ -318,8 +396,45 @@ details p {
     }
 }
 
-.addSymptomBtn, .submitSymptomBtn{
-    
+.addSymptomBtn, .submitSymptomBtn{ 
+    background-color: white;
+    border-radius: 10px;
+    padding: 5px;
+    cursor: pointer;
+    transition: all 0.3s linear;
+}
+
+.addSymptomBtn{
+    margin-top: 5px;
+    color: #1e3799;
+    border: 2px solid #1e3799;
+}
+
+.submitSymptomBtn{
+    color: #41A317;
+    border: 2px solid #41A317;
+}
+
+.addSymptomBtn:hover{
+    background-color: #1e3799;
+    color: white;
+}
+
+.submitSymptomBtn:hover{
+    background-color: #41A317;
+    color: white;
+}
+
+.newSymptomInput{
+    border: 1px solid rgba(0, 0, 0, 0,2);
+    border-radius: 5px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.newSymptomInput:hover, .newSymptomInput:focus{
+    border-color: rgba(0, 0, 0, 0.3);
 }
 
 .float-right {
@@ -329,10 +444,15 @@ details p {
 
 .footer {
     display: block;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.02);
     color: rgba(0, 0, 0, 0.65);
     text-align: center;
     width: 100%;
+}
+
+.footer p {
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .thin-outline{
@@ -366,8 +486,6 @@ details p {
     background-color: #f8f9fa;
     color: black;
     padding: 0.2em;
-    float: right;
-    clear: right;
     line-height: 1.5em;
 }
 
@@ -390,4 +508,12 @@ details p {
 .info-card .content-sub-text::before{
     content: ": ";
     margin-left: 2px;
+}
+
+.user-info h2{
+    color: rgba(0,0,0,0.8)
+}
+
+.user-info p{
+    font-size: 1.2rem;
 }

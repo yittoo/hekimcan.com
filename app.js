@@ -66,7 +66,7 @@ app.get("/:typeOfSearch/ara/:searchParameter", function(req, res){
             res.render("search", {results: foundResults, typeOfResult: req.params.typeOfSearch});
         }
     });
-}); 
+});
 
 //-----Diseases
 

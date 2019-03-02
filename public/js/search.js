@@ -59,10 +59,6 @@ function checkTopSymptoms(){
 
 
 
-
-
-
-
 function checkTopResult(){
     var searchedText = window.location.href.split("/")[5].replace("?", "").replaceAll("%20", " ").toLowerCase(),
         repeatCount = $(".search-header").length,

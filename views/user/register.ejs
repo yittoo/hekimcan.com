@@ -8,20 +8,20 @@
 <div class="center-content">
     <form action="/register" method="post">
         <div>
-            <input type="text" name="username" placeholder="Kullanıcı Adı" required>
-            <input type="password" name="password" placeholder="Şifre" required>
+            <input type="text" name="username" autofocus placeholder="Kullanıcı Adı" required oninvalid="this.setCustomValidity('Lütfen bu alanı doldurunuz.')" oninput="setCustomValidity('')">
+            <input type="password" name="password" placeholder="Şifre" required oninvalid="this.setCustomValidity('Lütfen bu alanı doldurunuz.')" oninput="setCustomValidity('')">
         </div>
         <div>
-            <input type="text" name="name" placeholder="İsim">
-            <input type="text" name="surname" placeholder="Soyisim">
+            <input type="text" name="name" placeholder="İsim" required oninvalid="this.setCustomValidity('Lütfen bu alanı doldurunuz.')" oninput="setCustomValidity('')">
+            <input type="text" name="surname" placeholder="Soyisim" required oninvalid="this.setCustomValidity('Lütfen bu alanı doldurunuz.')" oninput="setCustomValidity('')">
         </div>
         <div>
-            <input type="email" name="email" placeholder="E-Posta">
-            <input type="text" name="degreeNo" placeholder="Diploma Numarası">
+            <input type="email" name="email" placeholder="E-Posta" required oninvalid="this.setCustomValidity('Lütfen geçerli bir e-posta adresi giriniz.')" oninput="setCustomValidity('')">
+            <input type="text" name="degreeNo" placeholder="Diploma Numarası" required oninvalid="this.setCustomValidity('Kimliğinizi doğrulamak ve sistem bilgilerini korumak için Lütfen bu alanı doldurunuz.')" oninput="setCustomValidity('')">
         </div>
         <div>
-            <input type="text" name="title" placeholder="Doç. Dr.">
-            <input type="text" name="profession" placeholder="Uzman Old. Alan">
+            <input type="text" name="title" placeholder="Doç. Dr." required oninvalid="this.setCustomValidity('Lütfen bu alanı doldurunuz.')" oninput="setCustomValidity('')">
+            <input type="text" name="profession" placeholder="Uzman Old. Alan" required oninvalid="this.setCustomValidity('Lütfen bu alanı doldurunuz.')" oninput="setCustomValidity('')">
         </div>
         <div>
             <input type="submit" value="Gönder">

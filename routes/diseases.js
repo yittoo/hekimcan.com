@@ -3,7 +3,11 @@ var express = require("express"),
     Disease = require("../models/disease"),
     Symptom = require("../models/symptom"),
     middleware = require("../middleware"),
-    requestIp = require('request-ip');
+    requestIp = require('request-ip'),
+    xss = require ("xss"),
+    xssOptions = require("../xssOptions"),
+    myxss = new xss.FilterXSS(xssOptions);
+
 
 
 router.get("/", function(req, res){
@@ -30,16 +34,16 @@ router.get("/hepsi", function(req, res){
 
 router.post("/", middleware.isLoggedIn, function(req, res){
     Disease.create({
-        name: req.body.name,
-        image: req.body.image,
-        description: req.body.description,
+        name: myxss.process(req.body.name),
+        image: myxss.process(req.body.image),
+        description: myxss.process(req.body.description),
         author: {
             id: req.user._id,
             username: req.user.username,
             ip: requestIp.getClientIp(req)
         },
-        htmlCode: req.body.htmlCode,
-        htmlAsText: req.body.htmlAsText,
+        htmlCode: myxss.process(req.body.htmlCode),
+        htmlAsText: myxss.process(req.body.htmlAsText),
         symptoms: []
     }, function(err, newDisease){
         if(err){
@@ -81,22 +85,22 @@ router.put("/:diseaseId", middleware.isLoggedIn, function(req, res){
     Disease.findOneAndUpdate({_id: req.params.diseaseId},{
         $push: {
             editBy: {
-                _id: req.user._id,
-                username: req.user.username,
+                _id: myxss.process(req.user._id),
+                username: myxss.process(req.user.username),
                 ip: requestIp.getClientIp(req)
             },
-            beforeEdit: req.body.beforeEdit,
+            beforeEdit: myxss.process(req.body.beforeEdit),
         },
     },
     function(err, updatedDisease){
         if(err){
             res.redirect("/hastaliklar");
         } else {
-            updatedDisease.name = req.body.name;
-            updatedDisease.image = req.body.image;
-            updatedDisease.description = req.body.description;
-            updatedDisease.htmlCode = req.body.htmlCode;
-            updatedDisease.htmlAsText = req.body.htmlAsText;
+            updatedDisease.name = myxss.process(req.body.name);
+            updatedDisease.image = myxss.process(req.body.image);
+            updatedDisease.description = myxss.process(req.body.description);
+            updatedDisease.htmlCode = myxss.process(req.body.htmlCode);
+            updatedDisease.htmlAsText = myxss.process(req.body.htmlAsText);
             updatedDisease.save(function(err){
                 if(err){
                     res.redirect("/hastaliklar");
@@ -108,37 +112,44 @@ router.put("/:diseaseId", middleware.isLoggedIn, function(req, res){
     });
 });
 
-router.put("/:diseaseId/semptomlar", function(req, res){
+router.put("/:diseaseId/semptomlar", middleware.isLoggedIn, function(req, res){
     Symptom.findOne({name: req.body.name}, function(err, symptom){
         if(err){
             console.log(err);
         } if(!symptom){
             Symptom.create({
-                name: req.body.name,
+                name: xss(req.body.name),
             }, function(err, newSymptom){
                 if(err){
                     console.log(err);
                 } else {
-                    console.log("created new symptom" + newSymptom);
                     twoWayConnect(req, res, Disease, Symptom, newSymptom);
                 }
             })
         } else {
-            console.log("existing symptom")
-            // Disease.findOne({
-            //     _id: req.params.diseaseId,
-            //     $elemMatch: {name: req.body.name}
-            // }, function(err, disease){
-            //     console.log(disease);
-            //     if(disease){
-            //         console.log("inside first if")
-            //         twoWayConnect(req, res, Disease, Symptom, symptom);
-            //     } else {
-            //         console.log("inside else")
-            //         res.redirect("/hastaliklar/"+req.params.diseaseId);
-            //     }
-            // });
-            twoWayConnect(req, res, Disease, Symptom, symptom);
+            Disease.findOne({
+                _id: req.params.diseaseId,
+            }, function(err, disease){
+                if(err){
+                    console.log(err);
+                    res.redirect("/hastaliklar");
+                } else if(disease){
+                    if(disease.symptoms.length===0){
+                        twoWayConnect(req, res, Disease, Symptom, symptom);
+                    } else {
+                        for(var i = 0; i < disease.symptoms.length; i++){
+                            if(disease.symptoms[i].name === symptom.name){
+                                res.redirect("/hastaliklar/"+req.params.diseaseId);
+                                break;
+                            } else if(i === disease.symptoms.length-1){
+                                twoWayConnect(req, res, Disease, Symptom, symptom);
+                            }
+                        }
+                    }
+                } else {
+                    res.redirect("/hastaliklar/"+req.params.diseaseId);
+                }
+            });
         };
     });
 });
@@ -150,7 +161,7 @@ function twoWayConnect(req, res, Disease, Symptom, symptom){
         $push: {
             symptoms: {
                 _id: symptom._id,
-                name: symptom.name
+                name: myxss.process(symptom.name)
             }
         }
     }, function(err, updatedDisease){
@@ -162,8 +173,8 @@ function twoWayConnect(req, res, Disease, Symptom, symptom){
                 $push: {
                     diseases:{
                         _id: updatedDisease._id,
-                        name: updatedDisease.name,
-                        likelihood: Math.floor(req.body.likelihood)
+                        name: myxss.process(updatedDisease.name),
+                        likelihood: myxss.process(Math.floor(req.body.likelihood))
                     }
                 }
             }, function(err, updatedSymptom){
@@ -171,7 +182,7 @@ function twoWayConnect(req, res, Disease, Symptom, symptom){
                     console.log(err);
                     res.redirect("/hastaliklar/"+req.params.diseaseId);
                 } else {
-                    res.redirect("/hastaliklar/"+req.params.diseaseId+"#new-symptom");
+                    res.redirect("/hastaliklar/"+req.params.diseaseId+"#symptom-div");
                 }
             })
         }

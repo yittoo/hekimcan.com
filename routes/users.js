@@ -3,7 +3,8 @@ var express = require("express"),
     User = require("../models/user"),
     passport = require("passport"),
     middleware = require("../middleware"),
-    requestIp = require('request-ip');
+    requestIp = require('request-ip'),
+    xss = require ("xss");
 
 router.get("/register", middleware.isLoggedOut, function(req, res) {
     res.render("user/register");
@@ -12,13 +13,13 @@ router.get("/register", middleware.isLoggedOut, function(req, res) {
 router.post("/register", middleware.isLoggedOut, function(req, res) {
     User.register(new User(
         {
-            username: req.body.username,
-            name: req.body.name,
-            surname: req.body.surname,
-            email: req.body.email,
-            degreeNo: req.body.degreeNo,
-            profession: req.body.profession,
-            title: req.body.title,
+            username: xss(req.body.username),
+            name: xss(req.body.name),
+            surname: xss(req.body.surname),
+            email: xss(req.body.email),
+            degreeNo: xss(req.body.degreeNo),
+            profession: xss(req.body.profession),
+            title: xss(req.body.title),
             ip: requestIp.getClientIp(req)
         }), req.body.password, 
     function(err, user){

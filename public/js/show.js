@@ -9,3 +9,8 @@ function createElementFromHTML(htmlString) {
 
 $("details").removeAttr("open");
 $("details")[0].setAttribute("open", "");
+
+$(".addSymptomBtn").on("click", function(){
+    $("#new-symptom").fadeIn(400);
+    $(this).addClass("d-none");
+})

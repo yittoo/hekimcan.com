@@ -43,10 +43,6 @@
     padding: 10px;
 }
 
-.d-none{
-    display: none;
-}
-
 .result-symptom p a, .symptom-header a i{
     text-transform: capitalize;
     font-size: 1.4rem;

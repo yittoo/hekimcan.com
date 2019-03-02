@@ -2,15 +2,14 @@
 <% include ../partials/navbar %>
 
 
+<div class="container thin-outline py-20px user-info">
+    <h2>Kullanıcı bilgileri - <a href="/profil/desigtir">Değiştir</a></h2>
+    <p><strong>Email:</strong> <%= currentUser.email %></p>
+    <p><strong><%= currentUser.title %></strong> <%= currentUser.name %> <%= currentUser.surname %></p>
+    <p><strong>Diploma Numarası:</strong> <%= currentUser.degreeNo %></p>
+    <p><strong>Alan:</strong> <%= currentUser.profession %></p>
+</div>
 
-
-    <p><%= currentUser.email %></p>
-    <p><%= currentUser.title %></p>
-    <p><%= currentUser.name %></p>
-    <p><%= currentUser.surname %></p>
-    <p><%= currentUser.degreeNo %></p>
-    <p><%= currentUser.profession %></p>
-    <p><%= currentUser.ip %></p>
     
 
 

@@ -19,29 +19,14 @@
                 Hastalıklar<i class="dropdown icon"></i>
             </a>
             <div class="menu">
-            <div class="item">Kronik</div>
-            <div class="item">Virübik</div>
-            <div class="item">Çükübik</div>
-            <% if(currentUser){ %>
-                <a class="ui item" href="/hastaliklar/yeni">
-                    Yeni
-                </a>
-            <% } %>
-            </div>
-        </div>
-        <div class="ui simple dropdown item">
-            <a href="/semptomlar">
-                Semptomlar<i class="dropdown icon"></i>
-            </a>
-            <div class="menu">
-            <div class="item">Kronik</div>
-            <div class="item">Virübik</div>
-            <div class="item">Çükübik</div>
-            <% if(currentUser){ %>
-                <a class="ui item" href="/semptomlar/yeni">
-                    Yeni
-                </a>
-            <% } %>
+                <div class="item">Kronik</div>
+                <div class="item">Virübik</div>
+                <div class="item">Çükübik</div>
+                <% if(currentUser){ %>
+                    <a class="ui item" href="/hastaliklar/yeni">
+                        Yeni
+                    </a>
+                <% } %>
             </div>
         </div>
         <div class="ui simple dropdown item">
@@ -49,22 +34,23 @@
                 İlaçlar<i class="dropdown icon"></i>
             </a>
             <div class="menu">
-            <div class="item">Kronik</div>
-            <div class="item">Virübik</div>
-            <div class="item">Çükübik</div>
-            <% if(currentUser){ %>
-                <a class="ui item" href="/ilaclar/yeni">
-                    Yeni
-                </a>
-            <% } %>
+                <div class="item">Kronik</div>
+                <div class="item">Virübik</div>
+                <div class="item">Çükübik</div>
+                <% if(currentUser){ %>
+                    <a class="ui item" href="/ilaclar/yeni">
+                        Yeni
+                    </a>
+                <% } %>
             </div>
         </div>
     </div>
     <div class="right menu">
+        <!-- <div class="ui simple item"><p>Arama:</p></div> -->
         <form action="" method="GET">
             <select>
-                <option value="hastaliklar">Hastalık</option>
                 <option value="semptomlar">Semptom</option>
+                <option value="hastaliklar">Hastalık</option>
                 <option value="ilaclar">İlaç</option>
             </select>
             <div class="item">
