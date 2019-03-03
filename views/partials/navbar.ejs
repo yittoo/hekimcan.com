@@ -19,9 +19,8 @@
                 Hastalıklar<i class="dropdown icon"></i>
             </a>
             <div class="menu">
-                <div class="item">Kronik</div>
-                <div class="item">Virübik</div>
-                <div class="item">Çükübik</div>
+                <a class="ui item" href="/hastaliklar">En son eklenenler</a>
+                <a class="ui item" href="/hastaliklar/hepsi">Tüm Hastalıklar</a>
                 <% if(currentUser){ %>
                     <a class="ui item" href="/hastaliklar/yeni">
                         Yeni
@@ -34,19 +33,31 @@
                 İlaçlar<i class="dropdown icon"></i>
             </a>
             <div class="menu">
-                <div class="item">Kronik</div>
-                <div class="item">Virübik</div>
-                <div class="item">Çükübik</div>
+                <a class="ui item" href="/ilaclar">En son eklenenler</a>
+                <a class="ui item" href="/ilaclar/hepsi">Tüm İlaçlar</a>
                 <% if(currentUser){ %>
                     <a class="ui item" href="/ilaclar/yeni">
-                        Yeni
+                        Yeni İlaç
+                    </a>
+                <% } %>
+            </div>
+        </div>
+        <div class="ui simple dropdown item">
+            <a href="/haberler">
+                Medikal Dünya<i class="dropdown icon"></i>
+            </a>
+            <div class="menu">
+                <a class="ui item" href="/haberler">En son eklenenler</a>
+                <a class="ui item" href="/haberler/hepsi">Tüm Haberler</a>
+                <% if(currentUser){ %>
+                    <a class="ui item" href="/haberler/yeni">
+                        Yeni Haber
                     </a>
                 <% } %>
             </div>
         </div>
     </div>
     <div class="right menu">
-        <!-- <div class="ui simple item"><p>Arama:</p></div> -->
         <form action="" method="GET">
             <select>
                 <option value="semptomlar">Semptom</option>

@@ -1,0 +1,58 @@
+<% include ../partials/header %>
+<link rel="stylesheet" type="text/css" href="../stylesheets/new.css"/>
+
+<% include ../partials/navbar %>
+
+<div class="siteOverlay"></div>
+
+<div class="toast-helper-gen" style="display: none;">Kaydetmek için <strong>kutu seçiliyken</strong> Enter'a basın, iptal için ESC</div>
+
+<div class="container thin-outline py-20px mb-20px">
+    <div class="ui grid stackable">
+        <div class="twelve wide column">
+            <details open class="details-animated">
+                <summary class="secondary-header">Haber Hakkında:<button class="editBtn">Değiştir</button></summary>
+                <p class="details-child">Datayı buraya giriniz<button class="editBtn">Değiştir</button></p>
+            </details>
+        </div>
+        <div class="four wide column">
+            <div class="card info-card">
+                <div class="image-div">
+                    <img class="ui huge bordered image" alt="kart resim" srcset="/img/oliveoil.jpg">
+                    <p>Açıklama </p>
+                </div>
+                <div class="content">
+                    <div class="header" id="data-name"><p>Haber/Makale Başlığı </p></div>
+                    <div class="description">
+                        <p class="content-sub-header">
+                            <span>Değer</span><span class="content-sub-text">Değer Karşılığı</span><button class="delBtn">Sil</button>
+                        </p>
+                    </div>
+                    <button class="addRowBtn">Satır Ekle</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container thin-outline py-20px">
+    <select class="select-form" id="type-select">
+        <option>Yeni bölüm ekle</option>
+        <option value="text">Yazı</option>
+        <option value="imgText">Resim + Yazı</option>
+        <option value="textImg">Yazı + Resim</option>
+        <option value="cardText">Kart + Yazı</option>
+        <option value="textCard">Yazı + Kart</option>
+    </select>
+    <button id="addDiv">Ekle</button>
+    <button id="submit-btn">Kaydet & Gönder</button>
+</div>
+
+
+
+
+
+<script src="/js/newEditFunctions.js"></script>
+<script src="/js/new.js"></script>
+
+<% include ../partials/footer %>

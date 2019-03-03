@@ -1,17 +1,19 @@
-var express = require("express"),
-    app     = express(),
-    bodyParser = require("body-parser"),
-    mongoose = require("mongoose"),
-    passport = require("passport"),
-    LocalStrategy = require("passport-local"),
-    methodOverride   = require("method-override"),
-    User = require("./models/user.js"),
-    diseaseRoutes   = require("./routes/diseases"),
-    drugRoutes = require("./routes/drugs"),
-    Disease = require("./models/disease"),
-    Drug = require("./models/drug"),
-    Symptom = require("./models/symptom"),
-    userRoutes = require("./routes/users");
+var express        = require("express"),
+    app            = express(),
+    bodyParser     = require("body-parser"),
+    mongoose       = require("mongoose"),
+    passport       = require("passport"),
+    LocalStrategy  = require("passport-local"),
+    methodOverride = require("method-override"),
+    User           = require("./models/user.js"),
+    articleRoutes  = require("./routes/articles")
+    diseaseRoutes  = require("./routes/diseases"),
+    drugRoutes     = require("./routes/drugs"),
+    Article        = require("./models/article"),
+    Disease        = require("./models/disease"),
+    Drug           = require("./models/drug"),
+    Symptom        = require("./models/symptom"),
+    userRoutes     = require("./routes/users");
 
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + '/public'));
@@ -34,7 +36,15 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(function(req, res, next){
     res.locals.currentUser = req.user;
-    next();
+    Article.find({}, function(err, allArticles){
+        if(err){
+            console.log("error finding article in middleware");
+            console.log(err);
+        } else {
+            res.locals.articles = allArticles;
+            next();
+        }
+    });
 });
 
 //-----Home
@@ -52,6 +62,8 @@ app.get("/:typeOfSearch/ara/:searchParameter", function(req, res){
         var chosenDB = Symptom;
     } else if (req.params.typeOfSearch === "ilaclar"){
         var chosenDB = Drug;
+    } else {
+        res.redirect("/")
     }
     chosenDB.find({ 
         $text: { 
@@ -67,6 +79,10 @@ app.get("/:typeOfSearch/ara/:searchParameter", function(req, res){
         }
     });
 });
+
+//-----News
+
+app.use("/haberler", articleRoutes);
 
 //-----Diseases
 

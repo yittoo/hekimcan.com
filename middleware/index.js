@@ -5,7 +5,19 @@
 var middlewareObj = {};
 
 
-
+middlewareObj.checkArticleOwnership = function(req, res, next){
+    Article.findById(req.params.articleId, function(err, foundArticle){
+        if(err){
+            res.redirect("/articles/"+req.params.articleId);
+        };
+        if(req.user){
+            if(foundArticle.author.id.equals(req.user._id)){
+                return next();
+            }
+        };
+        res.redirect("/articles/"+req.params.articleId);
+    });
+};
 
 // middlewareObj.checkCampgroundOwnership = function (req, res, next){
 //     Campground.findById(req.params.id, function(err, foundCampground) {

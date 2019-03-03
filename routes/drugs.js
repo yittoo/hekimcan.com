@@ -1,11 +1,11 @@
-var express = require("express"),
-    router = express.Router(),
-    Drug = require("../models/drug"),
-    middleware = require("../middleware"),
-    requestIp = require('request-ip'),
-    xss = require ("xss"),
-    xssOptions = require("../xssOptions"),
-    myxss = new xss.FilterXSS(xssOptions);
+var express     = require("express"),
+    router      = express.Router(),
+    Drug        = require("../models/drug"),
+    middleware  = require("../middleware"),
+    requestIp   = require('request-ip'),
+    xss         = require ("xss"),
+    xssOptions  = require("../xssOptions"),
+    myxss       = new xss.FilterXSS(xssOptions);
 
 
 router.get("/", function(req, res){

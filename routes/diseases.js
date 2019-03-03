@@ -1,13 +1,13 @@
-var express = require("express"),
-    router = express.Router(),
-    Disease = require("../models/disease"),
-    Symptom = require("../models/symptom"),
-    Drug = require("../models/drug"),
-    middleware = require("../middleware"),
-    requestIp = require('request-ip'),
-    xss = require ("xss"),
-    xssOptions = require("../xssOptions"),
-    myxss = new xss.FilterXSS(xssOptions);
+var express     = require("express"),
+    router      = express.Router(),
+    Disease     = require("../models/disease"),
+    Symptom     = require("../models/symptom"),
+    Drug        = require("../models/drug"),
+    middleware  = require("../middleware"),
+    requestIp   = require('request-ip'),
+    xss         = require ("xss"),
+    xssOptions  = require("../xssOptions"),
+    myxss       = new xss.FilterXSS(xssOptions);
 
 
 

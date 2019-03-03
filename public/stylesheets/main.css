@@ -186,7 +186,7 @@ select {
 }
 
 .dropdown a{
-    color: rgba(0,0,0,.87);
+    color: rgba(0,0,0,0.87);
 }
 
 .bg-soft-blue{
@@ -203,7 +203,19 @@ select {
     font-family: 'Playfair Display', serif;
     font-weight: 700;
     text-transform: capitalize;
+    line-height: initial;
 }
+
+
+.grid .primary-header{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0;
+    margin-bottom: 1px;
+    margin-top: 1px;
+}
+
 
 .primary-header a{
     font-size: 2rem;
@@ -216,13 +228,19 @@ select {
     font-size: 2.4rem;
     font-family: 'Playfair Display', serif;
     text-shadow: 2px 2px 1px #eee, 1px 1px 1px #e2e2fa;
+    margin-top: 0;
+    line-height: initial;
 }
 
-.column .image{
-    margin-top: auto;
-    margin-left: auto;
+.third-header{
+    margin-bottom: 0;
+    margin-top: 0;
+    line-height: initial;
+    margin-block-end: 0;
+    margin-block-start: 0;
+    color: #aaaaaa;
+    text-shadow: 3px 3px 1px #eee;
 }
-
 
 
 .py-40px{
@@ -357,8 +375,8 @@ details p {
 #new-symptom label span::after{
     content: "Semptom karşılığında hastalıkları sıralar iken kullanılacak 0-100 arasındaki bir değer, profesyonel deneyiminize dayanarak girebilirsiniz. Örn: Baş ağrısı için soğuk algınlığı 60 olacak iken beyin tümörü 3 olmalıdır.";
     padding: 5px;
-    border: 2px solid rgba(0, 0, 0, 0,3);
-    text-shadow: 1px 1px rgba(255, 255, 255, 0,3);
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    text-shadow: 1px 1px rgba(255, 255, 255, 0.3);
     color: white;
     display: none;
     height: auto;
@@ -424,7 +442,7 @@ details p {
 }
 
 .newSymptomInput{
-    border: 1px solid rgba(0, 0, 0, 0,2);
+    border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     padding: 5px;
     padding-left: 10px;
@@ -476,6 +494,13 @@ details p {
 .card {
     margin-left: auto;
     margin-right: auto;
+}
+
+.article-card{
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-spacing: 3px;
+    padding: 5px;
+    background-color: rgba(214, 162, 232, 0.1);
 }
 
 .info-card{

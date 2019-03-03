@@ -1,10 +1,10 @@
-var express = require("express"),
-    router = express.Router(),
-    User = require("../models/user"),
-    passport = require("passport"),
-    middleware = require("../middleware"),
-    requestIp = require('request-ip'),
-    xss = require ("xss");
+var express     = require("express"),
+    router      = express.Router(),
+    User        = require("../models/user"),
+    passport    = require("passport"),
+    middleware  = require("../middleware"),
+    requestIp   = require('request-ip'),
+    xss         = require ("xss");
 
 router.get("/register", middleware.isLoggedOut, function(req, res) {
     res.render("user/register");

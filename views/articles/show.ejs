@@ -1,0 +1,29 @@
+<% include ../partials/header %>
+<% include ../partials/navbar %>
+
+
+<div class="container">
+    <h1 class="primary-header pl-10px"><%= article.title %>
+        <% if(currentUser && currentUser._id.equals(article.author.id)){ %>
+            <a href="/haberler/<%=article._id%>/degistir">Değiştir</a>
+        <% } %>
+    </h1>
+    <h3 class="third-header pl-10px">Paylaşılma Zamanı: <%= (article.date.getDate()<10?'0':'') + article.date.getDate() %>.<%= (article.date.getMonth()<10?'0':'') + article.date.getMonth() %>.<%= article.date.getFullYear() %> - <%= article.date.getHours() %>:<%= (article.date.getMinutes()<10?'0':'') + article.date.getMinutes() %></h3>
+</div>
+
+<br>
+
+<div class="container thin-outline py-20px" id="page-content">
+    <%= article.htmlCode %>
+</div>
+
+
+
+
+
+<% include ../partials/featTopics %>
+
+<script src="/js/show.js"></script>
+
+
+<% include ../partials/footer %>

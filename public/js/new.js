@@ -119,10 +119,13 @@ $("#addDiv").on("click", {data: $(".select-form")},
 $("#submit-btn").on("click", function(){
     newAndEdit.refactorForDB();
     if(window.location.href.split("/")[3]==="hastaliklar"){
-        var path = "/hastaliklar"
+        var path = "/hastaliklar";
     } else if(window.location.href.split("/")[3]==="ilaclar"){
-        var path = "/ilaclar"
+        var path = "/ilaclar";
+    } else if(window.location.href.split("/")[3]==="haberler"){
+        var path = "/haberler";
     }
+    console.log(path);
     var params = {
             name: $("#data-name").text().replace(/^\s\s*/, '').replace(/\s\s*$/, ''),
             image: $(".image")[0].srcset,
