@@ -33,13 +33,6 @@ var drugSchema = new mongoose.Schema({
         },
         name: String
     }],
-    symptoms:[{
-        id:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Symptom"
-        },
-        name: String
-    }]
 });
 
 module.exports = mongoose.model("Drug", drugSchema);

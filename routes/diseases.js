@@ -2,6 +2,7 @@ var express = require("express"),
     router = express.Router(),
     Disease = require("../models/disease"),
     Symptom = require("../models/symptom"),
+    Drug = require("../models/drug"),
     middleware = require("../middleware"),
     requestIp = require('request-ip'),
     xss = require ("xss"),
@@ -123,7 +124,7 @@ router.put("/:diseaseId/semptomlar", middleware.isLoggedIn, function(req, res){
                 if(err){
                     console.log(err);
                 } else {
-                    twoWayConnect(req, res, Disease, Symptom, newSymptom);
+                    twoWayConnectWithSymptom(req, res, Disease, Symptom, newSymptom);
                 }
             })
         } else {
@@ -135,28 +136,114 @@ router.put("/:diseaseId/semptomlar", middleware.isLoggedIn, function(req, res){
                     res.redirect("/hastaliklar");
                 } else if(disease){
                     if(disease.symptoms.length===0){
-                        twoWayConnect(req, res, Disease, Symptom, symptom);
+                        twoWayConnectWithSymptom(req, res, Disease, Symptom, symptom);
                     } else {
                         for(var i = 0; i < disease.symptoms.length; i++){
                             if(disease.symptoms[i].name === symptom.name){
                                 res.redirect("/hastaliklar/"+req.params.diseaseId);
                                 break;
                             } else if(i === disease.symptoms.length-1){
-                                twoWayConnect(req, res, Disease, Symptom, symptom);
+                                twoWayConnectWithSymptom(req, res, Disease, Symptom, symptom);
                             }
                         }
                     }
                 } else {
-                    res.redirect("/hastaliklar/"+req.params.diseaseId);
+                    res.redirect("/hastaliklar");
                 }
             });
         };
     });
 });
 
+router.put("/:diseaseId/ilaclar", middleware.isLoggedIn, function(req, res){
+    Drug.findOne({name: req.body.name}, function(err, drug){
+        if(err){
+            console.log(err);
+            res.redirect("/hastaliklar/"+req.params.diseaseId);
+        } 
+        if(!drug){
+            var emptyDrug = createEmptyDrug();
+            Drug.create({
+                name: xss(req.body.name),
+                htmlAsText: myxss.process(req.body.name),
+                image: emptyDrug.image,
+                description: emptyDrug.description,
+                htmlCode: emptyDrug.htmlCode.replace("İlaç İsmi", req.body.name),
+                author: {
+                    id: req.user._id,
+                    username: xss(req.user.username),
+                    ip: requestIp.getClientIp(req)
+                },
+            }, function(err, newDrug){
+                if(err){
+                    console.log(err);
+                } else {
+                    twoWayConnectWithDrug(req, res, Disease, Drug, newDrug);
+                }
+            })
+        } else {
+            Disease.findOne({
+                _id: req.params.diseaseId,
+            }, function(err, disease){
+                if(err){
+                    console.log(err);
+                    res.redirect("/hastaliklar");
+                } else if(disease){
+                    if(disease.drugs.length === 0){
+                        twoWayConnectWithDrug(req, res, Disease, Drug, drug);
+                    } else {
+                        for(var i = 0; i < disease.drugs.length; i++){
+                            if(disease.drugs[i].name === drug.name){
+                                red.redirect("/hastaliklar/"+req.params.diseaseId);
+                                break;
+                            } else if(i === disease.symptoms.length-1){
+                                twoWayConnectWithDrug(req, res, Disease, Drug, drug);
+                            }
+                        }
+                    }
+                } else {
+                    res.redirect("/hastaliklar");
+                }
+            })
+        }
+    })
+});
+
+function twoWayConnectWithDrug(req, res, Disease, Drug, drug){
+    Disease.findOneAndUpdate({_id: req.params.diseaseId}, {
+        $push: {
+            drugs: {
+                _id: drug._id,
+                name: myxss.process(drug.name),
+            }
+        }
+    }, function(err, updatedDisease){
+        if(err){
+            console.log(err);
+            res.redirect("/hastaliklar/"+req.params.diseaseId);
+        } else {
+            Drug.findOneAndUpdate({_id: drug._id}, {
+                $push: {
+                    diseases:{
+                        _id: updatedDisease._id,
+                        name: myxss.process(updatedDisease.name),
+                    }
+                }
+            }, function(err, updatedDrug){
+                if(err){
+                    console.log(err);
+                    res.redirect("/hastaliklar/"+req.params.diseaseId);
+                } else {
+                    res.redirect("/hastaliklar/"+req.params.diseaseId+"#symptom-drug-div");
+                };
+            });
+        };
+    });
+};
 
 
-function twoWayConnect(req, res, Disease, Symptom, symptom){
+
+function twoWayConnectWithSymptom(req, res, Disease, Symptom, symptom){
     Disease.findOneAndUpdate({_id: req.params.diseaseId}, {
         $push: {
             symptoms: {
@@ -182,11 +269,20 @@ function twoWayConnect(req, res, Disease, Symptom, symptom){
                     console.log(err);
                     res.redirect("/hastaliklar/"+req.params.diseaseId);
                 } else {
-                    res.redirect("/hastaliklar/"+req.params.diseaseId+"#symptom-div");
-                }
-            })
-        }
-    })
+                    res.redirect("/hastaliklar/"+req.params.diseaseId+"#symptom-drug-div");
+                };
+            });
+        };
+    });
+};
+
+function createEmptyDrug(){
+    var drug = {
+        image: "/img/germ.jpg",
+        description: "İlaçla ilgili bilgi daha girilmedi",
+        htmlCode: '<div class="twelve wide column"><details open class="details-animated"><summary class="secondary-header">İlaç Hakkında: </summary><p class="details-child">İlaç bilgisi daha eklenmedi </p></details></div><div class="four wide column"><div class="card info-card"><div class="image-div"><img class="ui huge bordered image" alt="kart resim" srcset="/img/germ.jpg"><p>Açıklama </p></div><div class="content"><div class="header" id="data-name"><p>İlaç İsmi </p></div><div class="description"><p class="content-sub-header"><span>Değer </span><span class="content-sub-text">Değer Karşılığı </span></p></div></div></div></div>',
+    };
+    return drug;
 }
 
 module.exports = router;

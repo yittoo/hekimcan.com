@@ -12,5 +12,14 @@ $("details")[0].setAttribute("open", "");
 
 $(".addSymptomBtn").on("click", function(){
     $("#new-symptom").fadeIn(400);
+    $("#new-drug").fadeOut(1);
+    $(".addDrugBtn").removeClass("d-none");
     $(this).addClass("d-none");
-})
+});
+
+$(".addDrugBtn").on("click", function(){
+    $("#new-drug").fadeIn(400);
+    $("#new-symptom").fadeOut(1);
+    $(".addSymptomBtn").removeClass("d-none");
+    $(this).addClass("d-none");
+});

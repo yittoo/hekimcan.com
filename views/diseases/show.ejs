@@ -18,12 +18,14 @@
 
 <br>
 
-<div id="symptom-div" class="container thin-outline py-20px f-size-120">
+<div id="symptom-drug-div" class="container thin-outline py-20px f-size-120">
     <p>Semptom Tagleri:
         <% for(var i = 0; i < disease.symptoms.length; i++){ %>
             <a href="/semptomlar/ara/<%=disease.symptoms[i].name%>">#<%= disease.symptoms[i].name %></a>
         <% } %>
     </p>
+    <% if(currentUser){ %>
+    <div class="py-20px">
         <button class="addSymptomBtn">Ekle</button>
         <form id="new-symptom" class="d-none" action="/hastaliklar/<%= disease._id %>/semptomlar?_method=PUT" method="POST">
             <label>Semptom İsmi: </label><input class="newSymptomInput" name="name" type="text" placeholder="Örn: Ateş" required>
@@ -32,6 +34,23 @@
             <br>
             <input class="submitSymptomBtn" type="submit" value="Gönder">
         </form>
+    </div>
+    <% } %>
+    <p>İlaç Tagleri:
+        <% for(var i = 0; i < disease.drugs.length; i++){ %>
+            <a href="/ilaclar/ara/<%=disease.drugs[i].name%>">#<%= disease.drugs[i].name %></a>
+        <% } %>
+    </p>
+    <% if(currentUser){ %>
+    <div class="py-20px">
+        <button class="addDrugBtn">Ekle</button>
+        <form id="new-drug" class="d-none" action="/hastaliklar/<%= disease._id %>/ilaclar?_method=PUT" method="POST">
+            <label>İlaç İsmi: </label><input class="newDrugInput" name="name" type="text" placeholder="Örn: Nurofen" required>
+            <br>
+            <input class="submitDrugBtn" type="submit" value="Gönder">
+        </form>
+    </div>
+    <% } %>
 </div>
 
 

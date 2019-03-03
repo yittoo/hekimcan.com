@@ -285,6 +285,7 @@ hr.seperator {
     font-size: 1.2rem;
     margin-top: 0.5rem;
     font-weight: 700;
+    text-transform: capitalize;
 }
 
 .general-text{
@@ -331,15 +332,12 @@ details p {
     position: relative;
 }
 
-#symptom-div p{
+#symptom-drug-div p{
     margin-bottom: 0px;
 }
 
-#new-symptom {
-    margin-top: 20px;
-}
 
-#new-symptom label, #new-symptom input{
+#new-symptom label, #new-symptom input, #new-drug label, #new-drug input{
     margin-top: 8px;
 }
 
@@ -396,7 +394,7 @@ details p {
     }
 }
 
-.addSymptomBtn, .submitSymptomBtn{ 
+.addSymptomBtn, .submitSymptomBtn, .addDrugBtn, .submitDrugBtn{ 
     background-color: white;
     border-radius: 10px;
     padding: 5px;
@@ -404,23 +402,23 @@ details p {
     transition: all 0.3s linear;
 }
 
-.addSymptomBtn{
+.addSymptomBtn, .addDrugBtn{
     margin-top: 5px;
     color: #1e3799;
     border: 2px solid #1e3799;
 }
 
-.submitSymptomBtn{
+.submitSymptomBtn, .submitDrugBtn{
     color: #41A317;
     border: 2px solid #41A317;
 }
 
-.addSymptomBtn:hover{
+.addSymptomBtn:hover, .addDrugBtn:hover{
     background-color: #1e3799;
     color: white;
 }
 
-.submitSymptomBtn:hover{
+.submitSymptomBtn:hover, .submitDrugBtn:hover{
     background-color: #41A317;
     color: white;
 }

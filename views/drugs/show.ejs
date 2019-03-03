@@ -12,11 +12,17 @@
 
 <br>
 
-<div class="container thin-outline py-20px" id="page-content">
+<div class="container thin-outline py-20px mb-20px" id="page-content">
     <%= drug.htmlCode %>
 </div>
 
-
+<div id="symptom-drug-div" class="container thin-outline py-20px f-size-120">
+    <p>Tedavisinde kullanılan hastalık tagleri:
+        <% for(var i = 0; i < drug.diseases.length; i++){ %>
+            <a href="/hastaliklar/ara/<%=drug.diseases[i].name%>">#<%= drug.diseases[i].name %> </a>
+        <% } %>
+    </p>
+</div>
 
 <% include ../partials/featTopics %>
 

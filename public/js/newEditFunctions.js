@@ -55,7 +55,7 @@ var newAndEdit = {
         enterImg: function enterImg(imgEle, descEle, parent, oldSrc, oldDesc){
             var f = function(){
                 if(event.which===13){
-                    parent.html('<img class="ui medium bordered image" alt="kart resim" srcset="'+imgEle.val().remXss()+'"><p>'+descEle.val().remXss()+'</p>');
+                    parent.html('<img class="ui medium bordered image" alt="kart resim" srcset="'+imgEle.val().remXss()+'"><p>'+descEle.val().remXss()+' </p>');
                     newAndEdit.toggleForward(imgEle.parent().parent().parent());
                 }
                 if(event.which===27){
