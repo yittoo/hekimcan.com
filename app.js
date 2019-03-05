@@ -105,7 +105,7 @@ console.log(process.env.IP);
 
 
 var projectPort = process.env.PORT ? process.env.PORT : 3000;
-var projectIP = process.env.IP ? process.env.IP : "127.0.0.1";
+var projectIP = projectPort===3000 ? "127.0.0.1": process.env.IP;
 
 console.log(projectIP);
 console.log(projectPort);
