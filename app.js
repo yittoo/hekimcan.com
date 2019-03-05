@@ -100,7 +100,11 @@ app.use("", userRoutes);
 
 //-----Listener
 
-app.listen(3000, "127.0.0.1" , function(){
+app.listen(process.env.PORT, process.env.IP , function(){
     console.log("medi is a go");
 });
+
+// app.listen(3000, "127.0.0.1" , function(){
+//     console.log("medi is a go");
+// });
 
