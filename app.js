@@ -20,7 +20,9 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
 
-mongoose.connect("mongodb://localhost:27017/doc_web_test", { useNewUrlParser: true });
+// mongoose.connect("mongodb://localhost:27017/doc_web_test", { useNewUrlParser: true });
+mongoose.connect("mongodb://yittoo:jZVBG8TK@ds115434.mlab.com:15434/doc_web_test", { useNewUrlParser: true });
+
 
 app.use(require("express-session")({
     secret: "f7a9apfmbn47dshtejakg3ghflpqwkfd",
