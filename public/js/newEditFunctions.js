@@ -12,6 +12,9 @@ var newAndEdit = {
     save: function save(ele, parent, activator, oldHtml, isDelAfter, column){
         var delBtnFunc = (isDelAfter) ? newAndEdit.delBtn() : "";
         activator.on("click", function(){
+            if(ele.val()===""){
+                ele.val("Boş olamaz");
+            }
             parent.html(ele.val().remXss()+newAndEdit.editBtn()+delBtnFunc);
             newAndEdit.toggleForward(column);
         });
