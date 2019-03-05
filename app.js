@@ -20,8 +20,8 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
 
-// mongoose.connect("mongodb://localhost:27017/doc_web_test", { useNewUrlParser: true });
-mongoose.connect("mongodb://yittoo:jZVBG8TK@ds115434.mlab.com:15434/doc_web_test", { useNewUrlParser: true });
+var mongoDbPath = process.env.DATABASEURL ? process.env.DATABASEURL : "mongodb://localhost:27017/doc_web_test";
+mongoose.connect(mongoDbPath, { useNewUrlParser: true });
 
 
 app.use(require("express-session")({
@@ -100,8 +100,9 @@ app.use("", userRoutes);
 
 //-----Listener
 
-var projectPort = process.env.PORT || 3000;
-var projectIP = process.env.IP || "127.0.0.1";
+
+var projectPort = process.env.PORT ? process.env.PORT : 3000;
+var projectIP = process.env.IP ? process.env.IP : "127.0.0.1";
 
 app.listen(projectPort, projectIP , function(){
     console.log("medi is a go");
