@@ -25,11 +25,11 @@
                             <div class="description">
                                 <p class="content-sub-header">
                                     <% if(drugs[i].description){ %>
-                                        <%= drugs[i].description.split("", 160).join("") %>
-                                        <a href="/ilaclar/<%=drugs[i]._id%>">Daha Fazla...</a>
+                                        <%= drugs[i].description.split("", 160).join("") %>...
+                                        <a href="/ilaclar/<%=drugs[i]._id%>">daha fazla...</a>
                                     <% } else {%>
-                                        İlaçla ilgili bilgi daha girilmedi
-                                        <a href="/ilaclar/<%=drugs[i]._id%>">Daha Fazla...</a>
+                                        İlaçla ilgili bilgi daha girilmedi...
+                                        <a href="/ilaclar/<%=drugs[i]._id%>">daha fazla...</a>
                                     <% } %>
                                 </p>
                             </div>

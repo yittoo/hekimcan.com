@@ -14,9 +14,33 @@ var newAndEdit = {
         activator.on("click", function(){
             if(ele.val()===""){
                 ele.val("Boş olamaz");
-            }
+            } 
             parent.html(ele.val().remXss()+newAndEdit.editBtn()+delBtnFunc);
             newAndEdit.toggleForward(column);
+        });
+        ele.keydown(function(){
+            if(event.which===27){
+                parent.html(oldHtml);
+                newAndEdit.toggleForward(column);
+            }
+        })
+    },
+    saveContent: function saveContent(ele, parent, activator, oldHtml, isDelAfter, column){
+        var delBtnFunc = (isDelAfter) ? newAndEdit.delBtn() : "";
+        activator.on("click", function(){
+            if(ele.val()===""){
+                ele.val("Boş olamaz");
+            } else if(ele.val().length < 200){
+                var toastWarning = $(".toast-warning-notification");
+                toastWarning.fadeIn(300);
+                toastWarning.text("Lütfen 200 karakterden daha uzun yazınız.");
+                setTimeout(function(){
+                    toastWarning.fadeOut(300);
+                }, 4700);
+            } else {
+                parent.html(ele.val().remXss()+newAndEdit.editBtn()+delBtnFunc);
+                newAndEdit.toggleForward(column);
+            }
         });
         ele.keydown(function(){
             if(event.which===27){

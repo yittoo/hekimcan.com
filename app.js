@@ -1,3 +1,5 @@
+//----- Libraries
+
 var express        = require("express"),
     app            = express(),
     bodyParser     = require("body-parser"),
@@ -5,20 +7,29 @@ var express        = require("express"),
     passport       = require("passport"),
     LocalStrategy  = require("passport-local"),
     methodOverride = require("method-override"),
-    User           = require("./models/user.js"),
-    articleRoutes  = require("./routes/articles")
-    diseaseRoutes  = require("./routes/diseases"),
-    drugRoutes     = require("./routes/drugs"),
+    flash          = require("connect-flash"),
+
+//----- Models
+
+    User           = require("./models/user.js"),    
     Article        = require("./models/article"),
     Disease        = require("./models/disease"),
     Drug           = require("./models/drug"),
     Symptom        = require("./models/symptom"),
+
+//----- Routes
+    
+    articleRoutes  = require("./routes/articles"),
+    diseaseRoutes  = require("./routes/diseases"),
+    drugRoutes     = require("./routes/drugs"),
     userRoutes     = require("./routes/users");
+
 
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
+app.use(flash());
 
 var mongoDbPath = process.env.DATABASEURL ? process.env.DATABASEURL : "mongodb://localhost:27017/doc_web_test";
 mongoose.connect(mongoDbPath, { useNewUrlParser: true });
@@ -38,10 +49,14 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(function(req, res, next){
     res.locals.currentUser = req.user;
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
+    res.locals.info = req.flash("info");
     Article.find({}, function(err, allArticles){
         if(err){
             console.log("error finding article in middleware");
             console.log(err);
+            res.redirect("/");
         } else {
             res.locals.articles = allArticles;
             next();
@@ -65,7 +80,8 @@ app.get("/:typeOfSearch/ara/:searchParameter", function(req, res){
     } else if (req.params.typeOfSearch === "ilaclar"){
         var chosenDB = Drug;
     } else {
-        res.redirect("/")
+        req.flash("error", "Seçtiğiniz arama kriteri bulunmamaktadır.");
+        res.redirect("/");
     }
     chosenDB.find({ 
         $text: { 
@@ -75,6 +91,7 @@ app.get("/:typeOfSearch/ara/:searchParameter", function(req, res){
     function(err, foundResults){
         if(err){
             console.log(err);
+            req.flash("error", "Bilinmeyen bir hata gerçekleşti.");
             res.redirect("/");
         } else {
             res.render("search", {results: foundResults, typeOfResult: req.params.typeOfSearch});
@@ -100,15 +117,8 @@ app.use("", userRoutes);
 
 //-----Listener
 
-console.log(process.env.PORT);
-console.log(process.env.IP);
-
-
 var projectPort = process.env.PORT ? process.env.PORT : 3000;
 var projectIP = projectPort===3000 ? "127.0.0.1": process.env.IP;
-
-console.log(projectIP);
-console.log(projectPort);
 
 app.listen(projectPort, projectIP , function(){
     console.log("medi is a go");

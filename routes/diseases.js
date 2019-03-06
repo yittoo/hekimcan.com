@@ -15,6 +15,7 @@ router.get("/", function(req, res){
     Disease.find({}, function(err, allDiseases){
         if(err){
             console.log(err);
+            req.flash("error", "Bilinmeyen bir hata gerçekleşti.")
             res.redirect("/");
         } else {
             res.render("diseases/index", {diseases: allDiseases});
@@ -26,6 +27,7 @@ router.get("/hepsi", function(req, res){
     Disease.find({}, function(err, allDiseases){
         if(err){
             console.log(err);
+            req.flash("error", "Bilinmeyen bir hata gerçekleşti.")
             res.redirect("/");
         } else {
             res.render("diseases/all", {diseases: allDiseases});
@@ -49,8 +51,10 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     }, function(err, newDisease){
         if(err){
             console.log(err);
+            req.flash("error", "Hastalık kaydı yaratılırken bir hata gerçekleşti")
             res.redirect("/hastaliklar");
         } else {
+            req.flash("success", "Hastalık kaydı başarıyla yaratıldı.")
             res.redirect("/hastaliklar/"+newDisease._id);
         }
     })
@@ -64,6 +68,7 @@ router.get("/:diseaseId", function(req, res){
     Disease.findById(req.params.diseaseId, function(err, foundDisease){
         if(err){
             console.log(err);
+            req.flash("error", "Bu kayıt numarasına sahip hastalık bulunamadı.")
             res.redirect("/hastaliklar");
         } else {
             res.render("diseases/show", {disease: foundDisease});
@@ -95,6 +100,7 @@ router.put("/:diseaseId", middleware.isLoggedIn, function(req, res){
     },
     function(err, updatedDisease){
         if(err){
+            req.flash("error", "Kayıt güncellenirken bilinmeyen bir hata gerçekleşti.")
             res.redirect("/hastaliklar");
         } else {
             updatedDisease.name = myxss.process(req.body.name);
@@ -104,8 +110,10 @@ router.put("/:diseaseId", middleware.isLoggedIn, function(req, res){
             updatedDisease.htmlAsText = myxss.process(req.body.htmlAsText);
             updatedDisease.save(function(err){
                 if(err){
+                    req.flash("error", "Kayıt güncellenirken bilinmeyen bir hata gerçekleşti.")
                     res.redirect("/hastaliklar");
                 } else {
+                    req.flash("success", "Kayıt başarıyla güncellendi.")
                     res.redirect("/hastaliklar/" + req.params.diseaseId);
                 }
             });
@@ -122,6 +130,7 @@ router.put("/:diseaseId/semptomlar", middleware.isLoggedIn, function(req, res){
                 name: xss(req.body.name),
             }, function(err, newSymptom){
                 if(err){
+                    req.flash("error", "Kayıt güncellenirken bilinmeyen bir hata gerçekleşti.")
                     console.log(err);
                 } else {
                     twoWayConnectWithSymptom(req, res, Disease, Symptom, newSymptom);
@@ -133,6 +142,7 @@ router.put("/:diseaseId/semptomlar", middleware.isLoggedIn, function(req, res){
             }, function(err, disease){
                 if(err){
                     console.log(err);
+                    req.flash("error", "Kayıt güncellenirken bilinmeyen bir hata gerçekleşti.")
                     res.redirect("/hastaliklar");
                 } else if(disease){
                     if(disease.symptoms.length===0){
@@ -140,6 +150,7 @@ router.put("/:diseaseId/semptomlar", middleware.isLoggedIn, function(req, res){
                     } else {
                         for(var i = 0; i < disease.symptoms.length; i++){
                             if(disease.symptoms[i].name === symptom.name){
+                                req.flash("error", "Girmek istediğiniz veri zaten mevcut.")
                                 res.redirect("/hastaliklar/"+req.params.diseaseId);
                                 break;
                             } else if(i === disease.symptoms.length-1){
@@ -176,6 +187,7 @@ router.put("/:diseaseId/ilaclar", middleware.isLoggedIn, function(req, res){
                 },
             }, function(err, newDrug){
                 if(err){
+                    req.flash("error", "Kayıt güncellenirken bilinmeyen bir hata gerçekleşti.")
                     console.log(err);
                 } else {
                     twoWayConnectWithDrug(req, res, Disease, Drug, newDrug);
@@ -194,7 +206,8 @@ router.put("/:diseaseId/ilaclar", middleware.isLoggedIn, function(req, res){
                     } else {
                         for(var i = 0; i < disease.drugs.length; i++){
                             if(disease.drugs[i].name === drug.name){
-                                red.redirect("/hastaliklar/"+req.params.diseaseId);
+                                req.flash("error", "Girmek istediğiniz veri zaten mevcut ve kayıtlı.")
+                                res.redirect("/hastaliklar/"+req.params.diseaseId);
                                 break;
                             } else if(i === disease.symptoms.length-1){
                                 twoWayConnectWithDrug(req, res, Disease, Drug, drug);
@@ -220,6 +233,7 @@ function twoWayConnectWithDrug(req, res, Disease, Drug, drug){
     }, function(err, updatedDisease){
         if(err){
             console.log(err);
+            req.flash("error", "Kayıt güncellenirken bilinmeyen bir hata gerçekleşti.")
             res.redirect("/hastaliklar/"+req.params.diseaseId);
         } else {
             Drug.findOneAndUpdate({_id: drug._id}, {
@@ -232,8 +246,10 @@ function twoWayConnectWithDrug(req, res, Disease, Drug, drug){
             }, function(err, updatedDrug){
                 if(err){
                     console.log(err);
+                    req.flash("error", "Kayıt güncellenirken bilinmeyen bir hata gerçekleşti.")
                     res.redirect("/hastaliklar/"+req.params.diseaseId);
                 } else {
+                    req.flash("success", "Hastalık bilgisine "+ updatedDrug.name +" başarıyla eklendi")
                     res.redirect("/hastaliklar/"+req.params.diseaseId+"#symptom-drug-div");
                 };
             });
@@ -254,6 +270,7 @@ function twoWayConnectWithSymptom(req, res, Disease, Symptom, symptom){
     }, function(err, updatedDisease){
         if(err){
             console.log(err);
+            req.flash("error", "Kayıt güncellenirken bilinmeyen bir hata gerçekleşti.")
             res.redirect("/hastaliklar/"+req.params.diseaseId);
         } else {
             Symptom.findOneAndUpdate({_id: symptom._id}, {
@@ -267,8 +284,10 @@ function twoWayConnectWithSymptom(req, res, Disease, Symptom, symptom){
             }, function(err, updatedSymptom){
                 if(err){
                     console.log(err);
+                    req.flash("error", "Kayıt güncellenirken bilinmeyen bir hata gerçekleşti.")
                     res.redirect("/hastaliklar/"+req.params.diseaseId);
                 } else {
+                    req.flash("success", "Hastalık bilgisine "+ updatedSymptom.name +" başarıyla eklendi")
                     res.redirect("/hastaliklar/"+req.params.diseaseId+"#symptom-drug-div");
                 };
             });

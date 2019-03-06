@@ -12,6 +12,7 @@ router.get("/", function(req, res){
     Drug.find({}, function(err, allDrugs){
         if(err){
             console.log(err);
+            req.flash("error", "Bilinmeyen bir hata gerçekleşti.")
         } else {
             res.render("drugs/index", {drugs: allDrugs});
         }
@@ -22,6 +23,7 @@ router.get("/hepsi", function(req, res){
     Drug.find({}, function(err, allDrugs){
         if(err){
             console.log(err);
+            req.flash("error", "Bilinmeyen bir hata gerçekleşti.")
         } else {
             res.render("drugs/all", {drugs: allDrugs});
         }
@@ -43,8 +45,10 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     }, function(err, newDrug){
         if(err){
             console.log(err);
+            req.flash("error", "İlaç kaydı yaratılırken bir hata gerçekleşti")
             res.redirect("/ilaclar");
         } else {
+            req.flash("success", "İlaç kaydı başarıyla yaratıldı.")
             res.redirect("/ilaclar/"+newDrug._id);
         }
     })
@@ -58,6 +62,7 @@ router.get("/:drugId", function(req, res){
     Drug.findById(req.params.drugId, function(err, foundDrug){
         if(err){
             console.log(err);
+            req.flash("error", "Bu kayıt numarasına sahip ilaç bulunamadı.")
             res.redirect("/ilaclar");
         } else {
             res.render("drugs/show", {drug: foundDrug});
@@ -89,6 +94,7 @@ router.put("/:drugId", middleware.isLoggedIn, function(req, res){
     },
     function(err, updatedDrug){
         if(err){
+            req.flash("error", "Kayıt güncellenirken bilinmeyen bir hata gerçekleşti.")
             res.redirect("/ilaclar");
         } else {
             updatedDrug.name = myxss.process(req.body.name);
@@ -98,8 +104,10 @@ router.put("/:drugId", middleware.isLoggedIn, function(req, res){
             updatedDrug.htmlAsText = myxss.process(req.body.htmlAsText);
             updatedDrug.save(function(err){
                 if(err){
+                    req.flash("error", "Kayıt güncellenirken bilinmeyen bir hata gerçekleşti.")
                     res.redirect("/ilaclar");
                 } else {
+                    req.flash("success", "Kayıt başarıyla güncellendi.");
                     res.redirect("/ilaclar/" + req.params.drugId);
                 }
             });

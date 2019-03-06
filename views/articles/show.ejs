@@ -1,10 +1,11 @@
 <% include ../partials/header %>
 <% include ../partials/navbar %>
 
+<div class="loading-screen"></div>
 
 <div class="container">
     <h1 class="primary-header pl-10px"><%= article.title %>
-        <% if(currentUser && currentUser._id.equals(article.author.id)){ %>
+        <% if(currentUser && (currentUser._id.equals(article.author.id) || currentUser.isOp)){ %>
             <a href="/haberler/<%=article._id%>/degistir">Değiştir</a>
         <% } %>
     </h1>

@@ -20,12 +20,15 @@ router.post("/register", middleware.isLoggedOut, function(req, res) {
             degreeNo: xss(req.body.degreeNo),
             profession: xss(req.body.profession),
             title: xss(req.body.title),
-            ip: requestIp.getClientIp(req)
+            ip: requestIp.getClientIp(req),
+            isOp: false,
         }), req.body.password, 
     function(err, user){
         if(err){
+            req.flash("error", "Kayıt başarısız.")
             return res.redirect("register");
         }
+        req.flash("success", "Kayıt başarılı. Hoşgeldiniz, "+ req.user.name + " " + req.user.surname + ".")
         passport.authenticate("local")(req, res, function(){
             res.redirect("/");
         });
@@ -40,9 +43,11 @@ router.post("/login", passport.authenticate("local",
     {
         successRedirect: "/",
         failureRedirect: "/login",
+        failureFlash: "Yanlış kullanıcı adı ve parola kombinasyonu.",
+        successFlash: "Hoşgeldiniz."
     }),
-        function(req, res) {
-        
+    function(req, res) {
+
 });
 
 router.get("/profil", middleware.isLoggedIn, function(req, res) {
@@ -50,6 +55,9 @@ router.get("/profil", middleware.isLoggedIn, function(req, res) {
 });
 
 router.get("/logout", function(req, res) {
+    if(req.user){
+        req.flash("info", "Çıkış başarılı.")
+    }
     req.logout();
     res.redirect("/");
 });

@@ -1,5 +1,6 @@
 var express = require("express"),
     router = express.Router(),
+    Article = require("../models/article"),
     middleware = require("../middleware"),
     requestIp = require('request-ip'),
     xss = require ("xss"),
@@ -30,9 +31,11 @@ router.post("/", middleware.isLoggedIn, function(req, res){
         date: new Date()
     }, function(err, newArticle){
         if(err){
+            req.flash("error", "Haber girdisi yaratılırken bir hata gerçekleşti")
             console.log(err);
             res.redirect("/haberler");
         } else {
+            req.flash("info", "Haberiniz başarıyla yayınlandı.")
             res.redirect("/haberler/"+newArticle._id);
         }
     })
@@ -46,6 +49,7 @@ router.get("/:articleId", function(req, res){
     Article.findById(req.params.articleId, function(err, foundArticle){
         if(err){
             console.log(err);
+            req.flash("error", "Bu kayıt numarasına sahip haber bulunamadı.")
             res.redirect("/haberler");
         } else {
             res.render("articles/show", {article: foundArticle});
@@ -53,7 +57,7 @@ router.get("/:articleId", function(req, res){
     });
 });
 
-router.get("/:articleId/degistir", middleware.isLoggedIn, function(req, res){
+router.get("/:articleId/degistir", middleware.checkArticleOwnership, function(req, res){
     Article.findById(req.params.articleId, function(err, foundArticle){
         if(err){
             console.log(err);
@@ -74,8 +78,10 @@ router.put("/:articleId", middleware.checkArticleOwnership, function(req, res){
     }, function(err, updatedArticle){
         if(err){
             console.log(err);
+            req.flash("error", "Kayıt güncellenirken bilinmeyen bir hata gerçekleşti.")
             res.redirect("/haberler");
         } else {
+            req.flash("success", "Kayıt başarıyla güncellendi.");
             res.redirect("/haberler/"+updatedArticle._id);
         }
     })

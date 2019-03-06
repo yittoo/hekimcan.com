@@ -205,9 +205,8 @@ input{
     color: white;
 }
 
-.toast-helper-gen{
+.toast-custom{
     position: fixed;
-    background-color: rgba(37, 204, 247,1.0);
     color: white;
     font-size: 1.2rem;
     padding-left: 15px;
@@ -219,6 +218,19 @@ input{
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 100;
+}
+
+.toast-helper-gen{
+    background-color: rgba(37, 204, 247,1.0);
+}
+
+.toast-info-notification{
+    background-color: #17a2b8cc;
+}
+
+.toast-warning-notification{
+    top: 15%;
+    background-color: #ffc107cc;
 }
 
 

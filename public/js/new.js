@@ -1,5 +1,8 @@
 newAndEdit.detailsAttrSet();
 
+var toastWarning = $(".toast-warning-notification"),
+    toastInfo = $(".toast-info-notification");
+
 $(".container .grid").on("click", "details summary .editBtn", function(){
     var parent = $(this).parent(),
         column = parent.parent().parent();
@@ -19,6 +22,11 @@ $(".container .grid").on("click", "details summary .editBtn", function(){
 $(".container .grid").on("click", "details summary .delBtn", function(){
     var objectToDel = $(this).parent().parent().parent();
     objectToDel.removeClass("twelve sixteen wide column");
+    toastWarning.fadeIn(300);
+    toastWarning.text("Satır silindi");
+    setTimeout(function(){
+        toastWarning.fadeOut(300);
+    }, 4700);
     $("."+objectToDel[0].classList.value).remove();
 });
 
@@ -36,7 +44,7 @@ $(".container .grid").on("click", "details p .editBtn", function(){
     parent.html('<textarea id='+uniqueId +'>'+ parent.text().replace($(this).text(), "") + '</textarea>'+newAndEdit.saveBtn(saveBtnId));
     $("#"+uniqueId).css("height", height);
     newAndEdit.toggleForward(column);
-    newAndEdit.save($("#"+uniqueId), parent, $("#"+saveBtnId), oldHtml, false, column);
+    newAndEdit.saveContent($("#"+uniqueId), parent, $("#"+saveBtnId), oldHtml, false, column);
 });
 
 $(".container .grid").on("click", ".image-div img, .image-div p", function(){
@@ -103,6 +111,13 @@ $("#addDiv").on("click", {data: $(".select-form")},
             case "textCard":
                 grid.html(grid.html()+addText12(uniqueClass)+addCard(uniqueClass));
                 break;
+        }
+        if(event.data.data[0].value !== "Yeni bölüm ekle"){
+            toastInfo.fadeIn(300);
+            toastInfo.text("Yeni satır eklendi.");
+            setTimeout(function(){
+                toastInfo.fadeOut(300);
+            }, 4700);
         }
         checkFooter();
         function addText12(uniqueClass){
