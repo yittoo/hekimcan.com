@@ -78,6 +78,11 @@
                 <%= currentUser.name %> <%= currentUser.surname %>
                 <i class="dropdown icon"></i>
                 <div class="menu">
+                    <% if(currentUser.isOp){ %>
+                        <a class="ui item" href="/admin">
+                            Admin CP
+                        </a>
+                    <% } %>
                     <a class="ui item" href="/profil">
                         Profil
                     </a>

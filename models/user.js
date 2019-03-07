@@ -11,9 +11,11 @@ var userSchema = new mongoose.Schema({
     profession: String,
     title: String,
     ip: String,
-    isOp: Boolean,
+    isOp: {type: Boolean, default: false},
+    isActivated: {type: Boolean, default: false},
+    isTrustable: {type: Boolean, default: false},
 });
 
 userSchema.plugin(passportLocalMongoose);
 
-module.exports= mongoose.model("User", userSchema);
+module.exports = mongoose.model("User", userSchema);

@@ -14,8 +14,10 @@ var articleSchema = new mongoose.Schema({
         username: String,
         ip: String
     },
-    timesClicked: Number,
+    timesClicked: {type: Number, default: 0},
     date: Date,
+    isActivated: {type: Boolean, default: false},
+    isFeatured: {type: Boolean, default: false},
 });
 
 module.exports = mongoose.model("Article", articleSchema);

@@ -10,51 +10,55 @@
             <a href="/hastaliklar/<%=disease._id%>/degistir">Değiştir</a>
         <% } %>
     </h1>
-</div>
-
-<br>
-
-<div class="container thin-outline py-20px" id="page-content">
-    <%= disease.htmlCode %>
-</div>
-
-<br>
-
-<div id="symptom-drug-div" class="container thin-outline py-20px f-size-120">
-    <p>Semptom Tagleri:
-        <% for(var i = 0; i < disease.symptoms.length; i++){ %>
-            <a href="/semptomlar/ara/<%=disease.symptoms[i].name%>">#<%= disease.symptoms[i].name %></a>
-        <% } %>
-    </p>
-    <% if(currentUser){ %>
-    <div class="py-20px">
-        <button class="addSymptomBtn">Ekle</button>
-        <form id="new-symptom" class="d-none" action="/hastaliklar/<%= disease._id %>/semptomlar?_method=PUT" method="POST">
-            <label>Semptom İsmi: </label><input class="newSymptomInput" name="name" type="text" placeholder="Örn: Ateş" required>
-            <br>
-            <label class="position-relative">Semptomun olabilitesi (0-100) <span>? </span></label><input class="newSymptomInput" type="number" name="likelihood" placeholder="Örn: 65" required min="0" max="100" step="1">
-            <br>
-            <input class="submitSymptomBtn" type="submit" value="Gönder">
-        </form>
-    </div>
-    <% } %>
-    <p>İlaç Tagleri:
-        <% for(var i = 0; i < disease.drugs.length; i++){ %>
-            <a href="/ilaclar/ara/<%=disease.drugs[i].name%>">#<%= disease.drugs[i].name %></a>
-        <% } %>
-    </p>
-    <% if(currentUser){ %>
-    <div class="py-20px">
-        <button class="addDrugBtn">Ekle</button>
-        <form id="new-drug" class="d-none" action="/hastaliklar/<%= disease._id %>/ilaclar?_method=PUT" method="POST">
-            <label>İlaç İsmi: </label><input class="newDrugInput" name="name" type="text" placeholder="Örn: Nurofen" required>
-            <br>
-            <input class="submitDrugBtn" type="submit" value="Gönder">
-        </form>
-    </div>
+    <% if(!disease.isActivated) { %>
+        <h4 class="error-header">Bu başlık daha aktif değil. Yönetici kontrolünden geçtikten sonra uygun ise aktif olacaktır.</h4>
     <% } %>
 </div>
 
+<% if(disease.isActivated || currentUser && (currentUser.isOp || currentUser._id.equals(disease.author.id))) { %>
+    <br>
+
+    <div class="container thin-outline py-20px" id="page-content">
+        <%= disease.htmlCode %>
+    </div>
+
+    <br>
+
+    <div id="symptom-drug-div" class="container thin-outline py-20px f-size-120">
+        <p>Semptom Tagleri:
+            <% for(var i = 0; i < disease.symptoms.length; i++){ %>
+                <a href="/semptomlar/ara/<%=disease.symptoms[i].name%>">#<%= disease.symptoms[i].name %></a>
+            <% } %>
+        </p>
+        <% if(currentUser){ %>
+        <div class="py-20px">
+            <button class="addSymptomBtn">Ekle</button>
+            <form id="new-symptom" class="d-none" action="/hastaliklar/<%= disease._id %>/semptomlar?_method=PUT" method="POST">
+                <label>Semptom İsmi: </label><input class="newSymptomInput" name="name" type="text" placeholder="Örn: Ateş" required>
+                <br>
+                <label class="position-relative">Semptomun olabilitesi (0-100) <span>? </span></label><input class="newSymptomInput" type="number" name="likelihood" placeholder="Örn: 65" required min="0" max="100" step="1">
+                <br>
+                <input class="submitSymptomBtn" type="submit" value="Gönder">
+            </form>
+        </div>
+        <% } %>
+        <p>İlaç Tagleri:
+            <% for(var i = 0; i < disease.drugs.length; i++){ %>
+                <a href="/ilaclar/ara/<%=disease.drugs[i].name%>">#<%= disease.drugs[i].name %></a>
+            <% } %>
+        </p>
+        <% if(currentUser){ %>
+        <div class="py-20px">
+            <button class="addDrugBtn">Ekle</button>
+            <form id="new-drug" class="d-none" action="/hastaliklar/<%= disease._id %>/ilaclar?_method=PUT" method="POST">
+                <label>İlaç İsmi: </label><input class="newDrugInput" name="name" type="text" placeholder="Örn: Nurofen" required>
+                <br>
+                <input class="submitDrugBtn" type="submit" value="Gönder">
+            </form>
+        </div>
+        <% } %>
+    </div>
+<% } %>
 
 
 <% include ../partials/featTopics %>

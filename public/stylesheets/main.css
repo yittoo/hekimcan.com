@@ -376,6 +376,13 @@ select {
     text-shadow: 3px 3px 1px #eee;
 }
 
+.error-header{
+    font-weight: 700;
+    color: red;
+    padding: 10px;
+    border: 1px solid red;
+}
+
 
 .py-40px{
     padding-top: 40px;

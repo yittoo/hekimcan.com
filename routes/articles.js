@@ -15,7 +15,7 @@ router.get("/hepsi", function(req, res){
     res.render("articles/all");
 });
 
-router.post("/", middleware.isLoggedIn, function(req, res){
+router.post("/", middleware.userIsActivated, function(req, res){
     Article.create({
         title: myxss.process(req.body.name),
         image: myxss.process(req.body.image),
@@ -27,8 +27,8 @@ router.post("/", middleware.isLoggedIn, function(req, res){
         },
         htmlCode: myxss.process(req.body.htmlCode),
         htmlAsText: myxss.process(req.body.htmlAsText),
-        timesClicked: 0,
-        date: new Date()
+        date: new Date(),
+        isActivated: middleware.userIsTrustableBool(req, res),
     }, function(err, newArticle){
         if(err){
             req.flash("error", "Haber girdisi yaratılırken bir hata gerçekleşti")
@@ -41,14 +41,13 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     })
 });
 
-router.get("/yeni", middleware.isLoggedIn, function(req, res){
+router.get("/yeni", middleware.userIsActivated, function(req, res){
     res.render("articles/new");
 });
 
 router.get("/:articleId", function(req, res){
     Article.findById(req.params.articleId, function(err, foundArticle){
-        if(err){
-            console.log(err);
+        if(err || !foundArticle){
             req.flash("error", "Bu kayıt numarasına sahip haber bulunamadı.")
             res.redirect("/haberler");
         } else {

@@ -2,12 +2,12 @@
 <% include ../partials/navbar %>
 
 
-<div class="container mb">
+<div class="container">
     <h1 class="primary-header">Tüm haberler: </h1>
     <br>
     <div class="ui grid stackable">
         <% for(var i = articles.length-1; i >= 0; i--){ %>
-            <% if(articles[i]){ %>
+            <% if(articles[i] && articles[i].isActivated){ %>
                 <div class="four wide column">
                     <div class="card article-card">
                         <div class="image-div">

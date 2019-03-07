@@ -21,14 +21,14 @@ router.post("/register", middleware.isLoggedOut, function(req, res) {
             profession: xss(req.body.profession),
             title: xss(req.body.title),
             ip: requestIp.getClientIp(req),
-            isOp: false,
         }), req.body.password, 
     function(err, user){
         if(err){
-            req.flash("error", "Kayıt başarısız.")
+            req.flash("error", "Kayıt başarısız.");
+            console.log(err);
             return res.redirect("register");
         }
-        req.flash("success", "Kayıt başarılı. Hoşgeldiniz, "+ req.user.name + " " + req.user.surname + ".")
+        req.flash("success", "Kayıt başarılı. Hoşgeldiniz, "+ user.name + " " + user.surname + ". Hesabınız 48 saat içinde girdiğiniz bilgiler doğru ise aktif olacaktır sonrasında siteye gönderi yapabilirsiniz.")
         passport.authenticate("local")(req, res, function(){
             res.redirect("/");
         });
@@ -52,6 +52,11 @@ router.post("/login", passport.authenticate("local",
 
 router.get("/profil", middleware.isLoggedIn, function(req, res) {
     res.render("user/profile");
+});
+
+router.get("/profil/degistir", function(req, res){
+    req.flash("info", "Bu kısım daha eklenmedi.");
+    res.redirect("/profil");
 });
 
 router.get("/logout", function(req, res) {

@@ -1,0 +1,59 @@
+<% include ../partials/header %>
+<link rel="stylesheet" type="text/css" href="../stylesheets/admin.css"/>
+<% include ../partials/navbar %>
+
+<div class="container mb-20px">
+    <div class="admin-soft-outline">
+        <h1 class="admin-sub-header">İnaktif hastalıklar: </h1>
+        <% for(var i = diseases.length-1; i >= 0; i--){ %>
+            <% if(diseases[i]){ %>
+                <div class="admin-row">
+                    <p>Başlık: </p>
+                    <a href="/hastaliklar/<%=diseases[i]._id%>"><%= diseases[i].name %></a>
+                    <p>Yazar: <span><%= diseases[i].author.username %></span></p>
+                    <a class="admin-approve" href="/hastaliklar/<%=diseases[i]._id%>/onayla">Onayla</a>
+                    <a class="admin-delete" href="/hastaliklar/<%=diseases[i]._id%>/sil">Sil</a>
+
+                </div>
+            <% } %>
+        <% } %>
+    </div>
+</div>
+
+<div class="container mb-20px">
+    <div class="admin-soft-outline">
+        <h1 class="admin-sub-header">İnaktif ilaçlar: </h1>
+        <% for(var i = drugs.length-1; i >= 0; i--){ %>
+            <% if(drugs[i]){ %>
+                <div class="admin-row">
+                    <p>Başlık: </p>
+                    <a href="/ilaclar/<%=drugs[i]._id%>"><%= drugs[i].name %></a>
+                    <p>Yazar: <%= drugs[i].author.username %></p>
+                    <a class="admin-approve" href="/ilaclar/<%=drugs[i]._id%>/onayla">Onayla</a>
+                    <a class="admin-delete" href="/ilaclar/<%=drugs[i]._id%>/sil">Sil</a>
+
+                </div>
+            <% } %>
+        <% } %>
+    </div>
+</div>
+
+<div class="container">
+    <div class="admin-soft-outline">
+        <h1 class="admin-sub-header">İnaktif Haberler: </h1>
+        <% for(var i = articles.length-1; i >= 0; i--){ %>
+            <% if(articles[i]){ %>
+                <div class="admin-row">
+                    <p>Başlık: </p>
+                    <a href="/haberler/<%=articles[i]._id%>"><%= articles[i].title %></a>
+                    <p>Yazar: <%= articles[i].author.username %></p>
+                    <a class="admin-approve" href="/haberler/<%=articles[i]._id%>/onayla">Onayla</a>
+                    <a class="admin-delete" href="/haberler/<%=articles[i]._id%>/sil">Sil</a>
+
+                </div>
+            <% } %>
+        <% } %>
+    </div>
+</div>
+
+<% include ../partials/footer %>

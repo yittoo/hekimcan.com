@@ -140,7 +140,6 @@ $("#submit-btn").on("click", function(){
     } else if(window.location.href.split("/")[3]==="haberler"){
         var path = "/haberler";
     }
-    console.log(path);
     var params = {
             name: $("#data-name").text().replace(/^\s\s*/, '').replace(/\s\s*$/, ''),
             image: $(".image")[0].srcset,

@@ -3,12 +3,12 @@
 
 
 
-<div class="container mb">
+<div class="container">
     <h1 class="primary-header">Tüm ilaçlar: </h1>
     <br>
     <div class="ui grid stackable">
         <% for(var i = drugs.length-1; i >=0 ; i--){ %>
-            <% if(drugs[i]){ %>
+            <% if(drugs[i] && drugs[i].isActivated){ %>
                 <div class="four wide column">
                     <div class="card info-card">
                         <% if(drugs[i].image) { %>

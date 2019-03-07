@@ -12,7 +12,7 @@ var symptomSchema = new mongoose.Schema({
             name: String,
             likelihood: Number,
         }
-    ]
+    ],
 });
 
 module.exports = mongoose.model("Symptom", symptomSchema);

@@ -9,7 +9,7 @@ var express        = require("express"),
     methodOverride = require("method-override"),
     flash          = require("connect-flash"),
 
-//----- Models
+//----- Database Models
 
     User           = require("./models/user.js"),    
     Article        = require("./models/article"),
@@ -22,7 +22,8 @@ var express        = require("express"),
     articleRoutes  = require("./routes/articles"),
     diseaseRoutes  = require("./routes/diseases"),
     drugRoutes     = require("./routes/drugs"),
-    userRoutes     = require("./routes/users");
+    userRoutes     = require("./routes/users"),
+    adminRoutes    = require("./routes/admin");
 
 
 app.set("view engine", "ejs");
@@ -54,7 +55,6 @@ app.use(function(req, res, next){
     res.locals.info = req.flash("info");
     Article.find({}, function(err, allArticles){
         if(err){
-            console.log("error finding article in middleware");
             console.log(err);
             res.redirect("/");
         } else {
@@ -69,6 +69,10 @@ app.use(function(req, res, next){
 app.get("/", function(req, res){
     res.render("index");
 });
+
+//-----Admin
+
+app.use("/", adminRoutes);
 
 //-----Search
 

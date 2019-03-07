@@ -5,25 +5,28 @@
 
 <div class="container">
     <h1 class="primary-header mb-20px pl-10px"><%= drug.name %>
-        <% if(currentUser){ %>
+        <% if(currentUser && (currentUser._id.equals(drug.author.id) || currentUser.isTrustable)){ %>
             <a href="/ilaclar/<%=drug._id%>/degistir">Değiştir</a>
         <% } %>
     </h1>
+    <% if(!drug.isActivated) { %>
+        <h4 class="error-header">Bu başlık daha aktif değil. Yönetici kontrolünden geçtikten sonra uygun ise aktif olacaktır.</h4>
+    <% } %>
 </div>
 
-<br>
-
-<div class="container thin-outline py-20px mb-20px" id="page-content">
-    <%= drug.htmlCode %>
-</div>
-
-<div id="symptom-drug-div" class="container thin-outline py-20px f-size-120">
-    <p>Tedavisinde kullanılan hastalık tagleri:
-        <% for(var i = 0; i < drug.diseases.length; i++){ %>
-            <a href="/hastaliklar/ara/<%=drug.diseases[i].name%>">#<%= drug.diseases[i].name %> </a>
-        <% } %>
-    </p>
-</div>
+<% if(drug && (drug.isActivated || currentUser && (currentUser.isOp || currentUser._id.equals(drug.author.id)))) { %>
+    <br>
+    <div class="container thin-outline py-20px mb-20px" id="page-content">
+        <%= drug.htmlCode %>
+    </div>
+    <div id="symptom-drug-div" class="container thin-outline py-20px f-size-120">
+        <p>Tedavisinde kullanılan hastalık tagleri:
+            <% for(var i = 0; i < drug.diseases.length; i++){ %>
+                <a href="/hastaliklar/ara/<%=drug.diseases[i].name%>">#<%= drug.diseases[i].name %> </a>
+            <% } %>
+        </p>
+    </div>
+<% } %>
 
 <% include ../partials/featTopics %>
 

@@ -1,0 +1,56 @@
+.admin-sub-header{
+    font-weight: 700;
+    color: #718093;
+    font-size: 2.5rem;
+    margin-left: 10px;
+}
+
+.admin-soft-outline{
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.admin-row{
+    margin-top: 10px;
+}
+
+.admin-row a{
+    text-transform: capitalize;
+    font-size: 1.4rem;
+}
+
+.admin-row p {
+    display: inline;
+    line-height: 40px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-left: 10px;
+}
+
+.admin-row p span {
+    font-weight: 400;
+}
+
+.admin-approve:hover, .admin-delete:hover{
+    color: black;
+}
+
+.admin-approve{
+    padding: 5px;
+    background-color:#41A317;
+    border: 2px solid #41A317;
+    color: white;
+    border-radius: 10px;
+    float: right;
+}
+
+.admin-delete{
+    padding: 5px;
+    background-color:#dd321f;
+    border: 2px solid #dd321f;
+    color: white;
+    border-radius: 10px;
+    float: right;
+    margin-right: 5px;
+}

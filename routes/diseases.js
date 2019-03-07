@@ -35,7 +35,7 @@ router.get("/hepsi", function(req, res){
     });
 });
 
-router.post("/", middleware.isLoggedIn, function(req, res){
+router.post("/", middleware.userIsActivated, function(req, res){
     Disease.create({
         name: myxss.process(req.body.name),
         image: myxss.process(req.body.image),
@@ -47,7 +47,8 @@ router.post("/", middleware.isLoggedIn, function(req, res){
         },
         htmlCode: myxss.process(req.body.htmlCode),
         htmlAsText: myxss.process(req.body.htmlAsText),
-        symptoms: []
+        symptoms: [],
+        isActivated: middleware.userIsTrustableBool(req, res),
     }, function(err, newDisease){
         if(err){
             console.log(err);
@@ -60,14 +61,13 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     })
 });
 
-router.get("/yeni", middleware.isLoggedIn, function(req, res){
+router.get("/yeni", middleware.userIsActivated, function(req, res){
     res.render("diseases/new");
 });
 
 router.get("/:diseaseId", function(req, res){
     Disease.findById(req.params.diseaseId, function(err, foundDisease){
-        if(err){
-            console.log(err);
+        if(err || !foundDisease){
             req.flash("error", "Bu kayıt numarasına sahip hastalık bulunamadı.")
             res.redirect("/hastaliklar");
         } else {
@@ -76,10 +76,11 @@ router.get("/:diseaseId", function(req, res){
     });
 });
 
-router.get("/:diseaseId/degistir", middleware.isLoggedIn, function(req, res){
+router.get("/:diseaseId/degistir", middleware.checkDiseaseAuthor, function(req, res){
     Disease.findById(req.params.diseaseId, function(err, foundDisease){
         if(err){
             console.log(err);
+            req.flash("error", "Bu kayıt numarasına sahip hastalık bulunamadı.");
             res.redirect("/hastaliklar");
         } else {
             res.render("diseases/edit", {disease: foundDisease});
@@ -87,7 +88,7 @@ router.get("/:diseaseId/degistir", middleware.isLoggedIn, function(req, res){
     });
 });
 
-router.put("/:diseaseId", middleware.isLoggedIn, function(req, res){
+router.put("/:diseaseId", middleware.checkDiseaseAuthor, function(req, res){
     Disease.findOneAndUpdate({_id: req.params.diseaseId},{
         $push: {
             editBy: {
@@ -117,109 +118,121 @@ router.put("/:diseaseId", middleware.isLoggedIn, function(req, res){
                     res.redirect("/hastaliklar/" + req.params.diseaseId);
                 }
             });
-        }
+        };
     });
 });
 
-router.put("/:diseaseId/semptomlar", middleware.isLoggedIn, function(req, res){
-    Symptom.findOne({name: req.body.name}, function(err, symptom){
-        if(err){
-            console.log(err);
-        } if(!symptom){
-            Symptom.create({
-                name: xss(req.body.name),
-            }, function(err, newSymptom){
-                if(err){
-                    req.flash("error", "Kayıt güncellenirken bilinmeyen bir hata gerçekleşti.")
-                    console.log(err);
-                } else {
-                    twoWayConnectWithSymptom(req, res, Disease, Symptom, newSymptom);
-                }
-            })
+router.put("/:diseaseId/semptomlar", middleware.userIsActivated, function(req, res){
+    Disease.findById(req.params.diseaseId, function(err, foundDisease){
+        if(err || !foundDisease){
+            res.redirect("/hastaliklar");
         } else {
-            Disease.findOne({
-                _id: req.params.diseaseId,
-            }, function(err, disease){
+            Symptom.findOne({name: req.body.name}, function(err, symptom){
                 if(err){
                     console.log(err);
-                    req.flash("error", "Kayıt güncellenirken bilinmeyen bir hata gerçekleşti.")
-                    res.redirect("/hastaliklar");
-                } else if(disease){
-                    if(disease.symptoms.length===0){
-                        twoWayConnectWithSymptom(req, res, Disease, Symptom, symptom);
-                    } else {
-                        for(var i = 0; i < disease.symptoms.length; i++){
-                            if(disease.symptoms[i].name === symptom.name){
-                                req.flash("error", "Girmek istediğiniz veri zaten mevcut.")
-                                res.redirect("/hastaliklar/"+req.params.diseaseId);
-                                break;
-                            } else if(i === disease.symptoms.length-1){
-                                twoWayConnectWithSymptom(req, res, Disease, Symptom, symptom);
-                            }
+                } if(!symptom){
+                    Symptom.create({
+                        name: xss(req.body.name),
+                    }, function(err, newSymptom){
+                        if(err){
+                            req.flash("error", "Kayıt güncellenirken bilinmeyen bir hata gerçekleşti.")
+                            console.log(err);
+                        } else {
+                            twoWayConnectWithSymptom(req, res, Disease, Symptom, newSymptom);
                         }
-                    }
+                    })
                 } else {
-                    res.redirect("/hastaliklar");
-                }
+                    Disease.findOne({
+                        _id: req.params.diseaseId,
+                    }, function(err, disease){
+                        if(err){
+                            console.log(err);
+                            req.flash("error", "Kayıt güncellenirken bilinmeyen bir hata gerçekleşti.")
+                            res.redirect("/hastaliklar");
+                        } else if(disease){
+                            if(disease.symptoms.length===0){
+                                twoWayConnectWithSymptom(req, res, Disease, Symptom, symptom);
+                            } else {
+                                for(var i = 0; i < disease.symptoms.length; i++){
+                                    if(disease.symptoms[i].name === symptom.name){
+                                        req.flash("error", "Girmek istediğiniz veri zaten mevcut.")
+                                        res.redirect("/hastaliklar/"+req.params.diseaseId);
+                                        break;
+                                    } else if(i === disease.symptoms.length-1){
+                                        twoWayConnectWithSymptom(req, res, Disease, Symptom, symptom);
+                                    }
+                                }
+                            }
+                        } else {
+                            res.redirect("/hastaliklar");
+                        }
+                    });
+                };
             });
         };
     });
 });
 
-router.put("/:diseaseId/ilaclar", middleware.isLoggedIn, function(req, res){
-    Drug.findOne({name: req.body.name}, function(err, drug){
-        if(err){
-            console.log(err);
-            res.redirect("/hastaliklar/"+req.params.diseaseId);
-        } 
-        if(!drug){
-            var emptyDrug = createEmptyDrug();
-            Drug.create({
-                name: xss(req.body.name),
-                htmlAsText: myxss.process(req.body.name),
-                image: emptyDrug.image,
-                description: emptyDrug.description,
-                htmlCode: emptyDrug.htmlCode.replace("İlaç İsmi", req.body.name),
-                author: {
-                    id: req.user._id,
-                    username: xss(req.user.username),
-                    ip: requestIp.getClientIp(req)
-                },
-            }, function(err, newDrug){
-                if(err){
-                    req.flash("error", "Kayıt güncellenirken bilinmeyen bir hata gerçekleşti.")
-                    console.log(err);
-                } else {
-                    twoWayConnectWithDrug(req, res, Disease, Drug, newDrug);
-                }
-            })
+router.put("/:diseaseId/ilaclar", middleware.userIsActivated, function(req, res){
+    Disease.findById(req.params.diseaseId, function(err, foundDisease){
+        if(err || !foundDisease){
+            res.redirect("/hastaliklar");
         } else {
-            Disease.findOne({
-                _id: req.params.diseaseId,
-            }, function(err, disease){
+            Drug.findOne({name: req.body.name}, function(err, drug){
                 if(err){
                     console.log(err);
-                    res.redirect("/hastaliklar");
-                } else if(disease){
-                    if(disease.drugs.length === 0){
-                        twoWayConnectWithDrug(req, res, Disease, Drug, drug);
-                    } else {
-                        for(var i = 0; i < disease.drugs.length; i++){
-                            if(disease.drugs[i].name === drug.name){
-                                req.flash("error", "Girmek istediğiniz veri zaten mevcut ve kayıtlı.")
-                                res.redirect("/hastaliklar/"+req.params.diseaseId);
-                                break;
-                            } else if(i === disease.symptoms.length-1){
-                                twoWayConnectWithDrug(req, res, Disease, Drug, drug);
-                            }
+                    res.redirect("/hastaliklar/"+req.params.diseaseId);
+                } 
+                if(!drug){
+                    var emptyDrug = createEmptyDrug();
+                    Drug.create({
+                        name: xss(req.body.name),
+                        htmlAsText: myxss.process(req.body.name),
+                        image: emptyDrug.image,
+                        description: emptyDrug.description,
+                        htmlCode: emptyDrug.htmlCode.replace("İlaç İsmi", req.body.name),
+                        author: {
+                            id: req.user._id,
+                            username: xss(req.user.username),
+                            ip: requestIp.getClientIp(req)
+                        },
+                    }, function(err, newDrug){
+                        if(err){
+                            req.flash("error", "Kayıt güncellenirken bilinmeyen bir hata gerçekleşti.")
+                            console.log(err);
+                        } else {
+                            twoWayConnectWithDrug(req, res, Disease, Drug, newDrug);
                         }
-                    }
+                    })
                 } else {
-                    res.redirect("/hastaliklar");
-                }
-            })
-        }
-    })
+                    Disease.findOne({
+                        _id: req.params.diseaseId,
+                    }, function(err, disease){
+                        if(err){
+                            console.log(err);
+                            res.redirect("/hastaliklar");
+                        } else if(disease){
+                            if(disease.drugs.length === 0){
+                                twoWayConnectWithDrug(req, res, Disease, Drug, drug);
+                            } else {
+                                for(var i = 0; i < disease.drugs.length; i++){
+                                    if(disease.drugs[i].name === drug.name){
+                                        req.flash("error", "Girmek istediğiniz veri zaten mevcut ve kayıtlı.")
+                                        res.redirect("/hastaliklar/"+req.params.diseaseId);
+                                        break;
+                                    } else if(i === disease.symptoms.length-1){
+                                        twoWayConnectWithDrug(req, res, Disease, Drug, drug);
+                                    }
+                                }
+                            }
+                        } else {
+                            res.redirect("/hastaliklar");
+                        };
+                    });
+                };
+            });
+        };
+    });
 });
 
 function twoWayConnectWithDrug(req, res, Disease, Drug, drug){
@@ -297,7 +310,7 @@ function twoWayConnectWithSymptom(req, res, Disease, Symptom, symptom){
 
 function createEmptyDrug(){
     var drug = {
-        image: "/img/germ.jpg",
+        image: "/img/pills.jpg",
         description: "İlaçla ilgili bilgi daha girilmedi",
         htmlCode: '<div class="twelve wide column"><details open class="details-animated"><summary class="secondary-header">İlaç Hakkında: </summary><p class="details-child">İlaç bilgisi daha eklenmedi </p></details></div><div class="four wide column"><div class="card info-card"><div class="image-div"><img class="ui huge bordered image" alt="kart resim" srcset="/img/germ.jpg"><p>Açıklama </p></div><div class="content"><div class="header" id="data-name"><p>İlaç İsmi </p></div><div class="description"><p class="content-sub-header"><span>Değer </span><span class="content-sub-text">Değer Karşılığı </span></p></div></div></div></div>',
     };

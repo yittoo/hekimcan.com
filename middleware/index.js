@@ -1,15 +1,98 @@
 var middlewareObj = {},
-    Article = require("../models/article");
+    Article = require("../models/article"),
+    Drug = require("../models/drug"),
+    Disease = require("../models/disease");
 
+middlewareObj.isOp = function(req, res, next){
+    if(req.isAuthenticated() && req.user.isOp){
+        return next();
+    } else {
+        req.flash("error", "Bunun için yetkiniz yok.");
+        res.redirect("/");
+    }
+}
 
+middlewareObj.userIsActivated = function(req, res, next){
+    if(req.isAuthenticated()){
+        if(req.user.isActivated){
+            return next();
+        } else {
+            req.flash("info", "Hesabınız daha yönetici tarafından aktif edilmedi. Girdiğiniz bilgiler doğru ise aktif edilecektir. Lütfen daha sonra tekrar deneyiniz.")
+            res.redirect("/");
+        }
+    } else {
+        req.flash("info", "Bunun için giriş yapmış olmalısınız");
+        res.redirect("/login");
+    }
+}
+
+middlewareObj.userIsTrustableBool = function(req, res){
+    if(req.isAuthenticated() && req.user.isTrustable){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+middlewareObj.userIsTrustable = function(req, res, next){
+    if(req.isAuthenticated()){
+        if(req.user.isActivated){
+            if(req.user.isTrustable){
+                return next();
+            } else {
+                req.flash("error", "Bunun için şimdilik yetkiniz yok.");
+                res.redirect("/");
+            }
+        } else {
+            req.flash("info", "Hesabınız daha yönetici tarafından aktif edilmedi. Girdiğiniz bilgiler doğru ise en geç 48 saat içinde aktif edilecektir. Lütfen daha sonra tekrar deneyiniz.")
+            res.redirect("/");
+        }
+    } else {
+        req.flash("error", "Bunun için giriş yapmış olmalısınız");
+        res.redirect("/login");
+    }
+}
+
+middlewareObj.checkDrugAuthor = function(req, res, next){
+    Drug.findById(req.params.drugId, function(err, foundDrug){
+        if(err || !foundDrug){
+            res.redirect("/ilaclar/"+req.params.drugId);
+        } else if(req.user){
+            if(foundDrug && foundDrug.author.id.equals(req.user._id) || req.user.isOp){
+                return next();
+            } else {
+                middlewareObj.userIsTrustable(req, res, next);
+            }
+        } else {
+            req.flash("error", "Bunun için giriş yapmalısınız.")
+            res.redirect("/ilaclar/"+req.params.drugId);
+        }
+    });
+};
+
+middlewareObj.checkDiseaseAuthor = function(req, res, next){
+    Disease.findById(req.params.diseaseId, function(err, foundDisease){
+        if(err || !foundDisease){
+            res.redirect("/hastaliklar");
+        } else if(req.user){
+            if(foundDisease && foundDisease.author.id.equals(req.user._id) || req.user.isOp){
+                return next();
+            } else {
+                middlewareObj.userIsTrustable(req, res, next);
+            }
+        } else {
+            req.flash("error", "Bunun için giriş yapmalısınız.")
+            res.redirect("/hastaliklar/"+req.params.diseaseId);
+        };
+    });
+};
 
 middlewareObj.checkArticleOwnership = function(req, res, next){
     Article.findById(req.params.articleId, function(err, foundArticle){
-        if(err){
-            res.redirect("/haberler/"+req.params.articleId);
-        };
-        if(req.user){
-            if(foundArticle.author.id.equals(req.user._id) || req.user.isOp){
+        if(err || !foundArticle){
+            res.redirect("/haberler");
+        } else if(req.user){
+            if(foundArticle && foundArticle.author.id.equals(req.user._id) || req.user.isOp){
                 return next();
             } else {
                 req.flash("error", "Bunun için yetkiniz yok.")

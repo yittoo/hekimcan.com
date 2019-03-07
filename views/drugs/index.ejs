@@ -16,10 +16,10 @@
 <div class="container mt-40px">
     <h1 class="primary-header">En son eklenen ilaçlar: <a href="/ilaclar/hepsi">Tümünü gör...</a> </h1>
     <div class="ui grid stackable">
-        <% var j = 0 %>
+        <% var uniqDrugCounter = 0 %>
         <% for(var i = drugs.length-1; i > 0; i--){ %>
             <% if(drugs[i]){ %>
-                <% if(drugs[i].description){ %>
+                <% if(drugs[i].description && drugs[i].isActivated){ %>
                     <div class="four wide column">
                         <div class="card info-card">
                             <div class="image-div">
@@ -36,8 +36,8 @@
                             </div>
                         </div>
                     </div>
-                    <% j++ %>
-                    <% if(i===0 || j===4){break;} %>
+                    <% uniqDrugCounter++ %>
+                    <% if(i===0 || uniqDrugCounter===4){break;} %>
                 <% } %>
             <% } %>
         <% } %> 

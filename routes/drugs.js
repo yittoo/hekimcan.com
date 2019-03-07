@@ -15,7 +15,7 @@ router.get("/", function(req, res){
             req.flash("error", "Bilinmeyen bir hata gerçekleşti.")
         } else {
             res.render("drugs/index", {drugs: allDrugs});
-        }
+        };
     });
 });
 
@@ -30,7 +30,7 @@ router.get("/hepsi", function(req, res){
     });
 });
 
-router.post("/", middleware.isLoggedIn, function(req, res){
+router.post("/", middleware.userIsActivated, function(req, res){
     Drug.create({
         name: myxss.process(req.body.name),
         image: myxss.process(req.body.image),
@@ -41,7 +41,8 @@ router.post("/", middleware.isLoggedIn, function(req, res){
             ip: requestIp.getClientIp(req)
         },
         htmlCode: myxss.process(req.body.htmlCode),
-        htmlAsText: myxss.process(req.body.htmlAsText)
+        htmlAsText: myxss.process(req.body.htmlAsText),
+        isActivated: middleware.userIsTrustableBool(req, res),
     }, function(err, newDrug){
         if(err){
             console.log(err);
@@ -51,17 +52,16 @@ router.post("/", middleware.isLoggedIn, function(req, res){
             req.flash("success", "İlaç kaydı başarıyla yaratıldı.")
             res.redirect("/ilaclar/"+newDrug._id);
         }
-    })
+    });
 });
 
-router.get("/yeni", middleware.isLoggedIn, function(req, res){
+router.get("/yeni", middleware.userIsActivated, function(req, res){
     res.render("drugs/new");
 });
 
 router.get("/:drugId", function(req, res){
     Drug.findById(req.params.drugId, function(err, foundDrug){
-        if(err){
-            console.log(err);
+        if(err || !foundDrug){
             req.flash("error", "Bu kayıt numarasına sahip ilaç bulunamadı.")
             res.redirect("/ilaclar");
         } else {
@@ -70,7 +70,7 @@ router.get("/:drugId", function(req, res){
     });
 });
 
-router.get("/:drugId/degistir", middleware.isLoggedIn, function(req, res){
+router.get("/:drugId/degistir", middleware.checkDrugAuthor, function(req, res){
     Drug.findById(req.params.drugId, function(err, foundDrug){
         if(err){
             console.log(err);
@@ -81,7 +81,7 @@ router.get("/:drugId/degistir", middleware.isLoggedIn, function(req, res){
     });
 });
 
-router.put("/:drugId", middleware.isLoggedIn, function(req, res){
+router.put("/:drugId", middleware.checkDrugAuthor, function(req, res){
     Drug.findOneAndUpdate({_id: req.params.drugId},{
         $push: {
             editBy: {
