@@ -186,10 +186,10 @@ router.get("/admin/users/:userId/sil", middleware.isOp, function(req, res){
                     req.flash("error", "Silme işlemi sırasında bir hata gerçekleşti.");
                     res.redirect("/admin/users");
                 } else {
-                    res.flash("info", "Kullanıcı silindi.");
+                    req.flash("info", "Kullanıcı silindi.");
                     res.redirect("/admin/users");
                 }
-            })
+            });
         }
     })
 })
