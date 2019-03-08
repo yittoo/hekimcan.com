@@ -13,12 +13,16 @@ middlewareObj.isOp = function(req, res, next){
 }
 
 middlewareObj.userIsActivated = function(req, res, next){
+    if(req.isAuthenticated() && req.user.isFrozen){
+        req.flash("error", "Hesabınız dondurulmuş bir kullanıcı işlemi yapamazsınız");
+        return res.redirect("/");
+    }
     if(req.isAuthenticated()){
         if(req.user.isActivated){
             return next();
         } else {
             req.flash("info", "Hesabınız daha yönetici tarafından aktif edilmedi. Girdiğiniz bilgiler doğru ise aktif edilecektir. Lütfen daha sonra tekrar deneyiniz.")
-            res.redirect("/");
+            res.redirect("back");
         }
     } else {
         req.flash("info", "Bunun için giriş yapmış olmalısınız");
@@ -35,17 +39,21 @@ middlewareObj.userIsTrustableBool = function(req, res){
 }
 
 middlewareObj.userIsTrustable = function(req, res, next){
+    if(req.isAuthenticated() && req.user.isFrozen){
+        req.flash("error", "Hesabınız dondurulmuş bir kullanıcı işlemi yapamazsınız");
+        return res.redirect("/");
+    }
     if(req.isAuthenticated()){
         if(req.user.isActivated){
             if(req.user.isTrustable){
                 return next();
             } else {
                 req.flash("error", "Bunun için şimdilik yetkiniz yok.");
-                res.redirect("/");
+                res.redirect("back");
             }
         } else {
             req.flash("info", "Hesabınız daha yönetici tarafından aktif edilmedi. Girdiğiniz bilgiler doğru ise en geç 48 saat içinde aktif edilecektir. Lütfen daha sonra tekrar deneyiniz.")
-            res.redirect("/");
+            res.redirect("back");
         }
     } else {
         req.flash("error", "Bunun için giriş yapmış olmalısınız");
@@ -54,6 +62,10 @@ middlewareObj.userIsTrustable = function(req, res, next){
 }
 
 middlewareObj.checkDrugAuthor = function(req, res, next){
+    if(req.isAuthenticated() && req.user.isFrozen){
+        req.flash("error", "Hesabınız dondurulmuş bir kullanıcı işlemi yapamazsınız");
+        return res.redirect("/");
+    }
     Drug.findById(req.params.drugId, function(err, foundDrug){
         if(err || !foundDrug){
             res.redirect("/ilaclar/"+req.params.drugId);
@@ -71,6 +83,10 @@ middlewareObj.checkDrugAuthor = function(req, res, next){
 };
 
 middlewareObj.checkDiseaseAuthor = function(req, res, next){
+    if(req.isAuthenticated() && req.user.isFrozen){
+        req.flash("error", "Hesabınız dondurulmuş bir kullanıcı işlemi yapamazsınız");
+        return res.redirect("/");
+    }
     Disease.findById(req.params.diseaseId, function(err, foundDisease){
         if(err || !foundDisease){
             res.redirect("/hastaliklar");
@@ -88,6 +104,10 @@ middlewareObj.checkDiseaseAuthor = function(req, res, next){
 };
 
 middlewareObj.checkArticleOwnership = function(req, res, next){
+    if(req.isAuthenticated() && req.user.isFrozen){
+        req.flash("error", "Hesabınız dondurulmuş bir kullanıcı işlemi yapamazsınız");
+        return res.redirect("/");
+    }
     Article.findById(req.params.articleId, function(err, foundArticle){
         if(err || !foundArticle){
             res.redirect("/haberler");
@@ -120,9 +140,7 @@ middlewareObj.isLoggedOut = function(req, res, next){
     } else {
         req.flash("error", "Bunun için çıkış yapmalısınız.")
         res.redirect("/");
-    }
-
-}
-
+    };
+};
 
 module.exports = middlewareObj;

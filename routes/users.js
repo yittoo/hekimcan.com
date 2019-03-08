@@ -1,6 +1,7 @@
 var express     = require("express"),
     router      = express.Router(),
     User        = require("../models/user"),
+    Article     = require("../models/article"),
     passport    = require("passport"),
     middleware  = require("../middleware"),
     requestIp   = require('request-ip'),
@@ -51,17 +52,43 @@ router.post("/login", passport.authenticate("local",
 });
 
 router.get("/profil", middleware.isLoggedIn, function(req, res) {
-    res.render("user/profile");
+    Article.find({"author.id": req.user._id}, function(err, foundArticles){
+        if(err){
+            req.flash("error", err.message);
+            res.redirect("/");
+        } else {
+            res.render("user/profile", {user: req.user, articles: foundArticles});
+        };
+    });
+    // res.render("user/profile");
 });
 
-router.get("/profil/degistir", function(req, res){
+router.get("/profil/:userId", function(req, res){
+    User.findOne({_id: req.params.userId}, function(err, foundUser){
+        if(err || !foundUser){
+            req.flash("error", "Bu kayıtta kullanıcı bulunamadı");
+            res.redirect("/");
+        } else {
+            Article.find({"author.id": req.params.userId}, function(err, foundArticles){
+                if(err){
+                    req.flash("error", err.message);
+                    res.redirect("/");
+                } else {
+                    res.render("user/profile", {user: foundUser, articles: foundArticles});
+                };
+            });
+        };
+    });
+});
+
+router.get("/profil/:userId/degistir", function(req, res){
     req.flash("info", "Bu kısım daha eklenmedi.");
     res.redirect("/profil");
 });
 
 router.get("/logout", function(req, res) {
     if(req.user){
-        req.flash("info", "Çıkış başarılı.")
+        req.flash("info", "Çıkış başarılı.");
     }
     req.logout();
     res.redirect("/");

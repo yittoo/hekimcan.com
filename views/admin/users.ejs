@@ -1,0 +1,105 @@
+<% include ../partials/header %>
+<link rel="stylesheet" type="text/css" href="../../stylesheets/admin.css"/>
+<% include ../partials/navbar %>
+
+<% if(!active){ %>
+
+<div class="container mb-20px">
+    <div class="ui three item menu">
+        <a href="/admin" class="item">CP Index</a>
+        <a href="/admin/users" class="item active">İnaktif ve Dondurulmuş Kullanıcılar</a>
+        <a href="/admin/users/active" class="item">Aktif Kullanıcılar</a>
+    </div>
+</div>
+
+<div class="container mb-20px">
+    <div class="admin-soft-outline">
+        <h1 class="admin-sub-header">İnaktif Kullanıcılar: </h1>
+        <% for(var i = users.length-1; i >= 0; i--){ %>
+            <% if(!users[i].isActivated && !users[i].isFrozen){ %>
+                <div class="admin-row">
+                    <p>Kullanıcı adı:</p>
+                    <a href="/profil/<%=users[i]._id%>"><%= users[i].username %></a>
+                    <a class="admin-approve admin-btn" href="/admin/users/<%=users[i]._id%>/promote">Terfi</a>
+                    <a class="admin-freeze admin-btn" href="/admin/users/<%=users[i]._id%>/freeze">Dondur</a>
+                    <a class="admin-delete admin-btn" href="/admin/users/<%=users[i]._id%>/sil">Sil</a>
+                </div>
+            <% } %>
+        <% } %>
+    </div>
+</div>
+
+<div class="container mb-20px">
+    <div class="admin-soft-outline">
+        <h1 class="admin-sub-header">Dondurulmuş Kullanıcılar:</h1>
+        <% for(var i = users.length-1; i >= 0; i--){ %>
+            <% if(users[i].isFrozen){ %>
+                <div class="admin-row">
+                    <p>Kullanıcı adı:</p>
+                    <a href="/profil/<%=users[i]._id%>"><%= users[i].username %></a>
+                    <a class="admin-freeze admin-btn" href="/admin/users/<%=users[i]._id%>/unfreeze">Çözdür</a>
+                    <a class="admin-delete admin-btn" href="/admin/users/<%=users[i]._id%>/sil">Sil</a>
+                </div>
+            <% } %>
+        <% } %>
+    </div>
+</div>
+
+<% } else { %>
+<div class="container mb-20px">
+    <div class="ui three item menu">
+        <a href="/admin" class="item">CP Index</a>
+        <a href="/admin/users" class="item">İnaktif ve Dondurulmuş Kullanıcılar</a>
+        <a href="/admin/users/active" class="item active">Aktif Kullanıcılar</a>
+    </div>
+</div>
+<div class="container mb-20px">
+    <div class="admin-soft-outline">
+        <h1 class="admin-sub-header">Aktif Fakat Güvenilir Olmayan Kullanıcılar:</h1>
+        <% for(var i = users.length-1; i >= 0; i--){ %>
+            <% if(!users[i].isTrustable && !users[i].isOp){ %>
+                <div class="admin-row">
+                    <p>Kullanıcı adı:</p>
+                    <a href="/profil/<%=users[i]._id%>"><%= users[i].username %></a>
+                    <a class="admin-approve admin-btn" href="/admin/users/<%=users[i]._id%>/promote">Terfi</a>
+                    <a class="admin-freeze admin-btn" href="/admin/users/<%=users[i]._id%>/freeze">Dondur</a>
+                    <a class="admin-delete admin-btn" href="/admin/users/<%=users[i]._id%>/sil">Sil</a>
+                </div>
+            <% } %>
+        <% } %>
+    </div>
+</div>
+
+<div class="container mb-20px">
+    <div class="admin-soft-outline">
+        <h1 class="admin-sub-header">Aktif ve Güvenilir Kullanıcılar:</h1>
+        <% for(var i = users.length-1; i >= 0; i--){ %>
+            <% if(users[i].isTrustable && !users[i].isOp){ %>
+                <div class="admin-row">
+                    <p>Kullanıcı adı:</p>
+                    <a href="/profil/<%=users[i]._id%>"><%= users[i].username %></a>
+                    <a class="admin-freeze admin-btn" href="/admin/users/<%=users[i]._id%>/freeze">Dondur</a>
+                    <a class="admin-delete admin-btn" href="/admin/users/<%=users[i]._id%>/sil">Sil</a>
+                </div>
+            <% } %>
+        <% } %>
+    </div>
+</div>
+
+<div class="container mb-20px">
+    <div class="admin-soft-outline">
+        <h1 class="admin-sub-header">Admin:</h1>
+        <% for(var i = users.length-1; i >= 0; i--){ %>
+            <% if(users[i].isOp){ %>
+                <div class="admin-row">
+                    <p>Kullanıcı adı:</p>
+                    <a href="/profil/<%=users[i]._id%>"><%= users[i].username %></a>
+                </div>
+            <% } %>
+        <% } %>
+    </div>
+</div>
+
+<% } %>
+
+<% include ../partials/footer %>

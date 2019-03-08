@@ -70,9 +70,25 @@ app.get("/", function(req, res){
     res.render("index");
 });
 
+//-----Login & Register
+
+app.use("", userRoutes);
+
 //-----Admin
 
 app.use("/", adminRoutes);
+
+//-----News
+
+app.use("/haberler", articleRoutes);
+
+//-----Diseases
+
+app.use("/hastaliklar", diseaseRoutes);
+
+//-----Drugs
+
+app.use("/ilaclar", drugRoutes);
 
 //-----Search
 
@@ -102,22 +118,6 @@ app.get("/:typeOfSearch/ara/:searchParameter", function(req, res){
         }
     });
 });
-
-//-----News
-
-app.use("/haberler", articleRoutes);
-
-//-----Diseases
-
-app.use("/hastaliklar", diseaseRoutes);
-
-//-----Drugs
-
-app.use("/ilaclar", drugRoutes);
-
-//-----Login & Register
-
-app.use("", userRoutes);
 
 //-----Listener
 

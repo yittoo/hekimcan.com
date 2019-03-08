@@ -32,25 +32,46 @@
     font-weight: 400;
 }
 
-.admin-approve:hover, .admin-delete:hover{
-    color: black;
-}
-
-.admin-approve{
-    padding: 5px;
-    background-color:#41A317;
-    border: 2px solid #41A317;
-    color: white;
-    border-radius: 10px;
-    float: right;
-}
-
-.admin-delete{
-    padding: 5px;
-    background-color:#dd321f;
-    border: 2px solid #dd321f;
-    color: white;
+.admin-btn{
     border-radius: 10px;
     float: right;
     margin-right: 5px;
+    padding: 5px;
+    cursor: pointer;
+    transition: all 0.3s linear;
+    background-color: white;
+}
+
+.admin-btn:hover{
+    color: white;
+}
+
+.admin-approve{
+    color:#41A317;
+    border: 2px solid #41A317;
+}
+
+.admin-delete{
+    color:#dd321f;
+    border: 2px solid #dd321f;
+}
+
+.admin-freeze{
+    color:#82ccdd;
+    border: 2px solid #82ccdd;
+}
+
+.admin-approve:hover{
+    background-color:#41A317;
+    border: 2px solid #41A317;
+}
+
+.admin-delete:hover{
+    background-color:#dd321f;
+    border: 2px solid #dd321f;
+}
+
+.admin-freeze:hover{
+    background-color:#82ccdd;
+    border: 2px solid #82ccdd;
 }

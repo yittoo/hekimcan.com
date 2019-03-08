@@ -8,8 +8,11 @@
         <% if(currentUser && (currentUser._id.equals(article.author.id) || currentUser.isOp)){ %>
             <a href="/haberler/<%=article._id%>/degistir">Değiştir</a>
         <% } %>
+        <% if(currentUser && currentUser.isOp) {%>
+            <a href="/haberler/<%=article._id%>/sil">Sil</a>            
+        <% } %>
     </h1>
-    <h3 class="third-header pl-10px">Paylaşılma Zamanı: <%= (article.date.getDate()<10?'0':'') + article.date.getDate() %>.<%= (article.date.getMonth()<10?'0':'') + article.date.getMonth() %>.<%= article.date.getFullYear() %> - <%= article.date.getHours() %>:<%= (article.date.getMinutes()<10?'0':'') + article.date.getMinutes() %></h3>
+    <p class="article-author-link">Paylaşan Kullanıcı: <a href="/profil/<%= article.author.id%>" target="_blank"><%= article.author.username%></a></p>
     <% if(!article.isActivated) { %>
         <h4 class="error-header">Bu başlık daha aktif değil. Yönetici kontrolünden geçtikten sonra uygun ise aktif olacaktır.</h4>
     <% } %>
@@ -17,15 +20,16 @@
 
 <% if(article.isActivated || currentUser && (currentUser.isOp || currentUser._id.equals(article.author.id))) { %>
     <br>
-    <div class="container thin-outline py-20px" id="page-content">
+    <div class="container thin-outline py-20px mb-20px" id="page-content">
         <%= article.htmlCode %>
     </div>
 <% } %>
-
+<div class="container">
+    <h3 class="third-header pl-10px">Paylaşılma Zamanı: <%= (article.date.getDate()<10?'0':'') + article.date.getDate() %>.<%= (article.date.getMonth()<10?'0':'') + article.date.getMonth() %>.<%= article.date.getFullYear() %> - <%= article.date.getHours() %>:<%= (article.date.getMinutes()<10?'0':'') + article.date.getMinutes() %></h3>
+</div>
 
 <% include ../partials/featTopics %>
 
 <script src="/js/show.js"></script>
-
 
 <% include ../partials/footer %>

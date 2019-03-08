@@ -1,16 +1,29 @@
 <% include ../partials/header %>
 <% include ../partials/navbar %>
 
+<% if(typeof user !== 'undefined') { %>
+    <div class="container thin-outline py-20px profile-content mb-20px">
+        <h2>Kullanıcı bilgileri: 
+            <% if(currentUser.equals(user)){ %>
+                <a href="profil/<%=currentUser._id%>/degistir">Değiştir</a>
+            <% } %>
+        </h2>
+        <p><strong><%= user.title %></strong> <%= user.name %> <%= user.surname %></p>
+        <p><strong>Alan:</strong> <%= user.profession %></p>
+    </div>
 
-<div class="container thin-outline py-20px user-info">
-    <h2>Kullanıcı bilgileri - <a href="/profil/degistir">Değiştir</a></h2>
-    <p><strong>Email:</strong> <%= currentUser.email %></p>
-    <p><strong><%= currentUser.title %></strong> <%= currentUser.name %> <%= currentUser.surname %></p>
-    <p><strong>Diploma Numarası:</strong> <%= currentUser.degreeNo %></p>
-    <p><strong>Alan:</strong> <%= currentUser.profession %></p>
-</div>
-
-    
-
+    <div class="container thin-outline py-20px profile-content">
+        <h2>Kullanıcıdan gelen haberler: </h2>
+        <% for(var i = 0; i < articles.length; i++) {%>
+            <% if(articles[i].isActivated){ %>
+                <p>
+                    <strong>Haber başlığı: </strong><span><a href="/haberler/<%=articles[i]._id%>"><%= articles[i].title %></span></a> <br>
+                    <%= articles[i].description.split("", 160).join("") %>...
+                    <a href="/haberler/<%=articles[i]._id%>">daha fazla...</a>
+                </p>
+            <% } %>
+        <% } %>
+    </div>
+<% } %>
 
 <% include ../partials/footer %>

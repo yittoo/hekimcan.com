@@ -32,7 +32,7 @@
                         <p>
                             <a href="/hastaliklar/<%=disease._id%>"><%= disease.name %></a>
                             <a href="/hastaliklar/<%=disease._id%>" target="_blank"><i class="fas fa-external-link-alt external-link"></i></a> 
-                            <% if(currentUser){ %>
+                            <% if(currentUser && currentUser.isOp){ %>
                                 <span><%= disease.likelihood %></span>
                             <% } else { %>
                                 <span class="d-none"><%= disease.likelihood %></span>

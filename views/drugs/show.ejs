@@ -8,6 +8,9 @@
         <% if(currentUser && (currentUser._id.equals(drug.author.id) || currentUser.isTrustable)){ %>
             <a href="/ilaclar/<%=drug._id%>/degistir">Değiştir</a>
         <% } %>
+        <% if(currentUser && currentUser.isOp) {%>
+            <a href="/ilaclar/<%=drug._id%>/sil">Sil</a>            
+        <% } %>
     </h1>
     <% if(!drug.isActivated) { %>
         <h4 class="error-header">Bu başlık daha aktif değil. Yönetici kontrolünden geçtikten sonra uygun ise aktif olacaktır.</h4>

@@ -14,6 +14,7 @@ var userSchema = new mongoose.Schema({
     isOp: {type: Boolean, default: false},
     isActivated: {type: Boolean, default: false},
     isTrustable: {type: Boolean, default: false},
+    isFrozen: {type: Boolean, default: false},
 });
 
 userSchema.plugin(passportLocalMongoose);

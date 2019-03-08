@@ -376,6 +376,17 @@ select {
     text-shadow: 3px 3px 1px #eee;
 }
 
+.article-author-link{
+    padding-left: 10px;
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.article-author-link a{
+    color: midnightblue
+}
+
 .error-header{
     font-weight: 700;
     color: red;
@@ -680,10 +691,15 @@ details p {
     margin-left: 2px;
 }
 
-.user-info h2{
-    color: rgba(0,0,0,0.8)
+.profile-content h2{
+    color: rgba(0,0,0,0.8);
+    text-transform: capitalize;
 }
 
-.user-info p{
+.profile-content p{
     font-size: 1.2rem;
+}
+
+.profile-content p span{
+    text-transform: capitalize;
 }
