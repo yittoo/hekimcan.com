@@ -187,7 +187,7 @@ router.get("/admin/users/:userId/sil", middleware.isOp, function(req, res){
                     res.redirect("/admin/users");
                 } else {
                     res.flash("info", "Kullanıcı silindi.");
-                    res.redirect("back");
+                    res.redirect("/admin/users");
                 }
             })
         }
