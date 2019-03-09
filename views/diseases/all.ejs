@@ -10,14 +10,16 @@
             <% if(diseases[i] && diseases[i].isActivated){ %>
                 <div class="four wide column">
                     <div class="card info-card">
-                        <div class="image-div">
-                            <img class="ui medium bordered image" alt="kart resim" srcset="<%= diseases[i].image %>">
-                        </div>
+                        <a href="/hastaliklar/<%=diseases[i]._id%>">
+                            <div class="image-div">
+                                <img class="ui medium bordered image" alt="kart resim" srcset="<%= diseases[i].image %>">
+                            </div>
+                        </a>
                         <div class="content">
                             <div class="header" id="disease-name"><p><%= diseases[i].name %></p></div>
                             <div class="description">
                                 <p class="content-sub-header">
-                                    <%= diseases[i].description.split("", 160).join("") %>...
+                                    <%= diseases[i].description.split("", 75).join("") %>...
                                     <a href="/hastaliklar/<%=diseases[i]._id%>">daha fazla...</a>
                                 </p>
                             </div>

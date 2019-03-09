@@ -11,21 +11,23 @@
             <% if(drugs[i] && drugs[i].isActivated){ %>
                 <div class="four wide column">
                     <div class="card info-card">
-                        <% if(drugs[i].image) { %>
-                            <div class="image-div">
-                                <img class="ui medium bordered image" alt="kart resim" srcset="<%= drugs[i].image %>">
-                            </div>
-                        <% } else {%>
-                            <div class="image-div">
-                                <img class="ui medium bordered image" alt="kart resim" srcset="/img/germ.jpg">
-                            </div>
-                        <% } %>
+                        <a href="/ilaclar/<%=drugs[i]._id%>">
+                            <% if(drugs[i].image) { %>
+                                <div class="image-div">
+                                    <img class="ui medium bordered image" alt="kart resim" srcset="<%= drugs[i].image %>">
+                                </div>
+                            <% } else {%>
+                                <div class="image-div">
+                                    <img class="ui medium bordered image" alt="kart resim" srcset="/img/germ.jpg">
+                                </div>
+                            <% } %>
+                        </a>
                         <div class="content">
                             <div class="header" id="disease-name"><p><%= drugs[i].name %></p></div>
                             <div class="description">
                                 <p class="content-sub-header">
                                     <% if(drugs[i].description){ %>
-                                        <%= drugs[i].description.split("", 160).join("") %>...
+                                        <%= drugs[i].description.split("", 75).join("") %>...
                                         <a href="/ilaclar/<%=drugs[i]._id%>">daha fazla...</a>
                                     <% } else {%>
                                         İlaçla ilgili bilgi daha girilmedi...

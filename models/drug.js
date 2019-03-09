@@ -33,6 +33,7 @@ var drugSchema = new mongoose.Schema({
         name: String
     }],
     isActivated: {type: Boolean, default: false},
+    isFeatured: {type: Boolean, default: false},
 });
 
 module.exports = mongoose.model("Drug", drugSchema);

@@ -18,7 +18,15 @@ router.get("/", function(req, res){
             req.flash("error", "Bilinmeyen bir hata gerçekleşti.")
             res.redirect("/");
         } else {
-            res.render("diseases/index", {diseases: allDiseases});
+            Disease.findOne({isFeatured: true}, function(err, featuredDisease){
+                if(err){
+                    console.log(err);
+                    req.flash("error", "Bilinmeyen bir hata gerçekleşti.")
+                    res.redirect("/");
+                } else {
+                    res.render("diseases/index", {diseases: allDiseases, featuredDisease: featuredDisease});
+                }
+            })
         }
     });
 });

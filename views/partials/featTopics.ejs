@@ -6,14 +6,16 @@
             <% if(articles[i] && articles[i].isActivated){ %>
                 <div class="four wide column">
                     <div class="card article-card">
-                        <div class="image-div">
-                            <img class="ui medium bordered image" alt="kart resim" srcset="<%= articles[i].image %>">
-                        </div>
+                        <a href="/haberler/<%=articles[i]._id%>">
+                            <div class="image-div">
+                                <img class="ui medium bordered image" alt="kart resim" srcset="<%= articles[i].image %>">
+                            </div>
+                        </a>
                         <div class="content">
                             <div class="header" id="disease-name"><p><%= articles[i].title %></p></div>
                             <div class="description">
                                 <p class="content-sub-header">
-                                    <%= articles[i].description.split("", 160).join("") %>...
+                                    <%= articles[i].description.split("", 75).join("") %>...
                                     <a href="/haberler/<%=articles[i]._id%>">daha fazla...</a>
                                 </p>
                             </div>

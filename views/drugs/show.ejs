@@ -4,12 +4,19 @@
 <div class="loading-screen"></div>
 
 <div class="container">
-    <h1 class="primary-header mb-20px pl-10px"><%= drug.name %>
+    <h1 class="primary-header link-activator mb-20px pl-10px"><%= drug.name %>
         <% if(currentUser && (currentUser._id.equals(drug.author.id) || currentUser.isTrustable)){ %>
             <a href="/ilaclar/<%=drug._id%>/degistir">Değiştir</a>
         <% } %>
         <% if(currentUser && currentUser.isOp) {%>
-            <a href="/ilaclar/<%=drug._id%>/sil">Sil</a>            
+            <% if(drug.isActivated){ %>
+                <% if(drug.isFeatured){ %>
+                    <a class="perma-inactive-link" href="">Öne çıkarılmış durumda</a>
+                <% } else { %>
+                    <a href="/ilaclar/<%=drug._id%>/feature">Öne Çıkar</a>            
+                <% } %>
+            <% } %>
+            <a class="inactive-link" href="/ilaclar/<%=drug._id%>/sil">Sil</a>            
         <% } %>
     </h1>
     <% if(!drug.isActivated) { %>

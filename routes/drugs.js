@@ -14,7 +14,15 @@ router.get("/", function(req, res){
             console.log(err);
             req.flash("error", "Bilinmeyen bir hata gerçekleşti.")
         } else {
-            res.render("drugs/index", {drugs: allDrugs});
+            Drug.findOne({isFeatured: true}, function(err, featuredDrug){
+                if(err){
+                    console.log(err);
+                    req.flash("error", "Bilinmeyen bir hata gerçekleşti.")
+                    res.redirect("/");
+                } else {
+                    res.render("drugs/index", {drugs: allDrugs, featuredDrug: featuredDrug});
+                }
+            })
         };
     });
 });

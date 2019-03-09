@@ -24,6 +24,50 @@ body{
 select {
     font-family: 'Source Sans Pro', sans-serif;
 }
+.social-media-buttons{
+    position: absolute;
+    top: 50px;
+    right: 20%;
+    font-size: 1rem;
+    display: none;
+    border: 1px solid #0c2461;
+    padding-top: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-bottom: 0px;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.social-media-buttons span{
+    position: relative;
+    bottom: 5px;
+    color: #0c2461;
+}
+@media only screen and (max-width: 2000px) {
+    .social-media-buttons{
+        right: 18%;
+    }
+}
+@media only screen and (max-width: 1600px) {
+    .social-media-buttons{
+        right: 10%;
+    }
+}
+@media only screen and (max-width: 1300px) {
+    .social-media-buttons{
+        right: 7%;
+    }
+}
+@media only screen and (max-width: 1000px) {
+    .social-media-buttons{
+        right: 10px;
+        top: 270px;
+    }
+}
+
+
+
 
 .loading-screen{
     position: fixed;
@@ -219,7 +263,7 @@ select {
     outline: rgba(0, 0, 0, 0.1) 1px solid;
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 1000px) {
     .ui.stackable.grid {
         width: auto;
         margin-left: 0!important;
@@ -227,7 +271,7 @@ select {
     }
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 1000px) {
     .ui.grid>.stackable.stackable.row>.column, .ui.stackable.grid>.column.grid>.column, .ui.stackable.grid>.column.row>.column, .ui.stackable.grid>.column:not(.row), .ui.stackable.grid>.row>.column, .ui.stackable.grid>.row>.wide.column, .ui.stackable.grid>.wide.column {
         width: 100%!important;
         margin: 0 0!important;
@@ -376,6 +420,61 @@ select {
     text-shadow: 3px 3px 1px #eee;
 }
 
+.link-activator{
+    position: relative;
+}
+
+.inactive-link{
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.perma-inactive-link{
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.link-activator-guide::before, .link-activator-guide::after{
+    content: "";
+    background-color: rgba(72, 219, 251,1.0);
+    position: absolute;
+}
+
+.link-activator-guide::before{
+    display: none;
+    transform: rotate(45deg);
+    width: 7px;
+    height: 7px;
+    bottom: 31px;
+    left: 200px;
+}
+
+.link-activator-guide::after{
+    content: "Sil butonunu aktif etmek için 3 saniye hover yap sonrasında çek.";
+    padding: 5px;
+    font-size: 1.2rem;
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    text-shadow: 1px 1px rgba(255, 255, 255, 0.3);
+    color: white;
+    display: none;
+    height: auto;
+    width: 300px;
+    border-radius: 10px;
+    bottom: 33px;
+    left: 20px;
+    box-shadow: 2px 2px 2px #aaaaaa;
+}
+
+.link-activator-guide:hover::before, .link-activator-guide:hover::after{
+    display: inherit;
+    opacity: 1;
+    animation: tooltip 0.3s ease-in-out;
+}
+
+.link-activator-guide:hover::before{
+    z-index: 1;
+}
+
 .article-author-link{
     padding-left: 10px;
     font-size: 1.4rem;
@@ -447,6 +546,8 @@ hr.shadow {
 hr.seperator {
     border: 0;
     height: 0;
+    margin-top: -1px;
+    margin-bottom: 1px;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
@@ -670,23 +771,47 @@ details p {
     line-height: 1.5em;
 }
 
-.info-card img{
+.featured-header{
+    margin-left: 30px;
+    margin-right: 30px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 10px;
+    color: white;
+    font-size: 2rem;
+    border-radius: 10px;
+    background-color: #ffcccc;
+    text-align: center;
+}
+
+.featured-card{
+    border: 2px solid #fdcdf9;
+    border-spacing: 3px;
+    background-color: #fbf7fc;
+    color: black;
+    padding: 0.2em;
+    line-height: 1.5em;
+}
+
+.info-card img, .featured-card img{
     margin-right: auto;
     margin-left: auto;
 }
 
-.info-card .content .header {
+.info-card .content .header , .featured-card .content .header{
     text-align: center;
     font-weight: 900;
 }
 
-.info-card .content-sub-header span{
+.info-card .content-sub-header span, .featured-card .content-sub-header span{
     font-weight: 700;
 }
-.info-card span.content-sub-text{
+.info-card span.content-sub-text, .featured-card span.content-sub-text{
     font-weight: 400;
 }
-.info-card .content-sub-text::before{
+.info-card .content-sub-text::before, .featured-card .content-sub-text::before{
     content: ": ";
     margin-left: 2px;
 }

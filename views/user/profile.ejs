@@ -18,7 +18,7 @@
             <% if(articles[i].isActivated){ %>
                 <p>
                     <strong>Haber başlığı: </strong><span><a href="/haberler/<%=articles[i]._id%>"><%= articles[i].title %></span></a> <br>
-                    <%= articles[i].description.split("", 160).join("") %>...
+                    <%= articles[i].description.split("", 75).join("") %>...
                     <a href="/haberler/<%=articles[i]._id%>">daha fazla...</a>
                 </p>
             <% } %>

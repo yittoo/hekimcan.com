@@ -4,12 +4,19 @@
 <div class="loading-screen"></div>
 
 <div class="container">
-    <h1 class="primary-header pl-10px"><%= article.title %>
+    <h1 class="primary-header link-activator pl-10px"><%= article.title %>
         <% if(currentUser && (currentUser._id.equals(article.author.id) || currentUser.isOp)){ %>
             <a href="/haberler/<%=article._id%>/degistir">Değiştir</a>
         <% } %>
         <% if(currentUser && currentUser.isOp) {%>
-            <a href="/haberler/<%=article._id%>/sil">Sil</a>            
+            <% if(article.isActivated){ %>
+                <% if(article.isFeatured){ %>
+                    <a class="perma-inactive-link" href="">Öne çıkarılmış durumda</a>
+                <% } else { %>
+                    <a href="/haberler/<%=article._id%>/feature">Öne Çıkar</a>            
+                <% } %>
+            <% } %>
+            <a class="inactive-link" href="/haberler/<%=article._id%>/sil">Sil</a>            
         <% } %>
     </h1>
     <p class="article-author-link">Paylaşan Kullanıcı: <a href="/profil/<%= article.author.id%>" target="_blank"><%= article.author.username%></a></p>

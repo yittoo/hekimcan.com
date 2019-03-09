@@ -8,7 +8,15 @@ var express = require("express"),
     myxss = new xss.FilterXSS(xssOptions);
 
 router.get("/", function(req, res){
-    res.render("articles/index");
+    Article.findOne({isFeatured: true}, function(err, featuredArticle){
+        if(err){
+            console.log(err);
+            req.flash("error", "Bilinmeyen bir hata gerçekleşti.")
+            res.redirect("/");
+        } else {
+            res.render("articles/index", {featuredArticle: featuredArticle});
+        }
+    })
 });
 
 router.get("/hepsi", function(req, res){

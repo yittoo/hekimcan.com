@@ -217,6 +217,57 @@ router.get("/:typeOf/:id/onayla", middleware.isOp, function(req, res) {
     })
 });
 
+router.get("/:typeOf/:id/feature", middleware.isOp, function(req, res) {
+    if(req.params.typeOf === "hastaliklar"){
+        var chosenDB = Disease;
+    } else if (req.params.typeOf === "haberler"){
+        var chosenDB = Article;
+    } else if (req.params.typeOf === "ilaclar"){
+        var chosenDB = Drug;
+    } else {
+        req.flash("error", "Seçtiğiniz arama kriteri bulunmamaktadır.");
+        res.redirect("back");
+    }
+    chosenDB.findOne({isFeatured: true}, function(err, foundResult){
+        if(err){
+            req.flash("error", err.message);
+            res.redirect("back");
+        } else if(!foundResult){
+            feature(req, res, chosenDB, req.params.id);                    
+        } else {
+            foundResult.isFeatured = false;
+            foundResult.save(function(err){
+                if(err){
+                    req.flash("error", err.message);
+                    res.redirect("back");
+                } else {
+                    feature(req, res, chosenDB, req.params.id);
+                }
+            });
+        };
+    });
+});
+
+function feature(req, res, chosenDB, id){
+    chosenDB.findById(id, function(err, resultToUpdate){
+        if(err){
+            req.flash("error", err.message);
+            res.redirect("back");
+        } else {
+            resultToUpdate.isFeatured = true;
+            resultToUpdate.save(function(err){
+                if(err){
+                    req.flash("error", err.message);
+                    res.redirect("back");
+                } else {
+                    req.flash("info", "Öne çıkan gönderi güncellendi.");
+                    res.redirect("back");
+                };
+            });
+        };
+    });
+}
+
 router.get("/:typeOf/:id/sil", middleware.isOp, function(req, res) {
     if(req.params.typeOf === "hastaliklar"){
         var chosenDB = Disease;

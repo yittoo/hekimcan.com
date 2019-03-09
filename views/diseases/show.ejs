@@ -5,12 +5,19 @@
 
 
 <div class="container">
-    <h1 class="primary-header mb-20px pl-10px"><%= disease.name %>
+    <h1 class="primary-header link-activator mb-20px pl-10px"><%= disease.name %>
         <% if(currentUser){ %>
             <a href="/hastaliklar/<%=disease._id%>/degistir">Değiştir</a>
         <% } %>
         <% if(currentUser && currentUser.isOp) {%>
-            <a href="/hastaliklar/<%=disease._id%>/sil">Sil</a>            
+            <% if(disease.isActivated){ %>
+                <% if(disease.isFeatured){ %>
+                    <a class="perma-inactive-link" href="">Öne çıkarılmış durumda</a>
+                <% } else { %>
+                    <a href="/hastaliklar/<%=disease._id%>/feature">Öne Çıkar</a>            
+                <% } %>
+            <% } %>
+            <a class="inactive-link" href="/hastaliklar/<%=disease._id%>/sil">Sil</a>            
         <% } %>
     </h1>
     <% if(!disease.isActivated) { %>
