@@ -8,7 +8,7 @@ middlewareObj.isOp = function(req, res, next){
         return next();
     } else {
         req.flash("error", "Bunun için yetkiniz yok.");
-        res.redirect("/");
+        return res.redirect("/");
     }
 }
 
@@ -22,11 +22,11 @@ middlewareObj.userIsActivated = function(req, res, next){
             return next();
         } else {
             req.flash("info", "Hesabınız daha yönetici tarafından aktif edilmedi. Girdiğiniz bilgiler doğru ise aktif edilecektir. Lütfen daha sonra tekrar deneyiniz.")
-            res.redirect("back");
+            return res.redirect("back");
         }
     } else {
         req.flash("info", "Bunun için giriş yapmış olmalısınız");
-        res.redirect("/login");
+        return res.redirect("/login");
     }
 }
 
@@ -49,15 +49,15 @@ middlewareObj.userIsTrustable = function(req, res, next){
                 return next();
             } else {
                 req.flash("error", "Bunun için şimdilik yetkiniz yok.");
-                res.redirect("back");
+                return res.redirect("back");
             }
         } else {
             req.flash("info", "Hesabınız daha yönetici tarafından aktif edilmedi. Girdiğiniz bilgiler doğru ise en geç 48 saat içinde aktif edilecektir. Lütfen daha sonra tekrar deneyiniz.")
-            res.redirect("back");
+            return res.redirect("back");
         }
     } else {
         req.flash("error", "Bunun için giriş yapmış olmalısınız");
-        res.redirect("/login");
+        return res.redirect("/login");
     }
 }
 
@@ -68,16 +68,16 @@ middlewareObj.checkDrugAuthor = function(req, res, next){
     }
     Drug.findById(req.params.drugId, function(err, foundDrug){
         if(err || !foundDrug){
-            res.redirect("/ilaclar/"+req.params.drugId);
+            return res.redirect("/ilaclar/"+req.params.drugId);
         } else if(req.user){
             if(foundDrug && foundDrug.author.id.equals(req.user._id) || req.user.isOp){
                 return next();
             } else {
-                middlewareObj.userIsTrustable(req, res, next);
+                return middlewareObj.userIsTrustable(req, res, next);
             }
         } else {
             req.flash("error", "Bunun için giriş yapmalısınız.")
-            res.redirect("/ilaclar/"+req.params.drugId);
+            return res.redirect("/ilaclar/"+req.params.drugId);
         }
     });
 };
@@ -94,11 +94,11 @@ middlewareObj.checkDiseaseAuthor = function(req, res, next){
             if(foundDisease && foundDisease.author.id.equals(req.user._id) || req.user.isOp){
                 return next();
             } else {
-                middlewareObj.userIsTrustable(req, res, next);
+                return middlewareObj.userIsTrustable(req, res, next);
             }
         } else {
             req.flash("error", "Bunun için giriş yapmalısınız.")
-            res.redirect("/hastaliklar/"+req.params.diseaseId);
+            return res.redirect("/hastaliklar/"+req.params.diseaseId);
         };
     });
 };
@@ -110,17 +110,17 @@ middlewareObj.checkArticleOwnership = function(req, res, next){
     }
     Article.findById(req.params.articleId, function(err, foundArticle){
         if(err || !foundArticle){
-            res.redirect("/haberler");
+            return res.redirect("/haberler");
         } else if(req.user){
             if(foundArticle && foundArticle.author.id.equals(req.user._id) || req.user.isOp){
                 return next();
             } else {
                 req.flash("error", "Bunun için yetkiniz yok.")
-                res.redirect("/haberler/"+req.params.articleId);
+                return res.redirect("/haberler/"+req.params.articleId);
             }
         } else {
             req.flash("error", "Bunun için giriş yapmalısınız.")
-            res.redirect("/haberler/"+req.params.articleId);
+            return res.redirect("/haberler/"+req.params.articleId);
         }
     });
 };

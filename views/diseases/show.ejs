@@ -37,7 +37,9 @@
     <div id="symptom-drug-div" class="container thin-outline py-20px f-size-120">
         <p>Semptom Tagleri:
             <% for(var i = 0; i < disease.symptoms.length; i++){ %>
-                <a href="/semptomlar/ara/<%=disease.symptoms[i].name%>">#<%= disease.symptoms[i].name %></a>
+                <% if(disease.symptoms[i] !== {}){ %>
+                    <a href="/semptomlar/ara/<%=disease.symptoms[i].name%>">#<%= disease.symptoms[i].name %></a>
+                <% } %>
             <% } %>
         </p>
         <% if(currentUser){ %>
@@ -54,7 +56,9 @@
         <% } %>
         <p>İlaç Tagleri:
             <% for(var i = 0; i < disease.drugs.length; i++){ %>
-                <a href="/ilaclar/ara/<%=disease.drugs[i].name%>">#<%= disease.drugs[i].name %></a>
+                <% if(disease.drugs[i] !== {}){ %>
+                    <a href="/ilaclar/ara/<%=disease.drugs[i].name%>">#<%= disease.drugs[i].name %></a>
+                <% } %>
             <% } %>
         </p>
         <% if(currentUser){ %>

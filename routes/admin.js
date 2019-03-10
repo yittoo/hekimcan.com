@@ -270,24 +270,133 @@ function feature(req, res, chosenDB, id){
 
 router.get("/:typeOf/:id/sil", middleware.isOp, function(req, res) {
     if(req.params.typeOf === "hastaliklar"){
-        var chosenDB = Disease;
+        Disease.findByIdAndDelete(req.params.id, function(err){
+            if(err){
+                req.flash("error", err.message);
+                res.redirect("back");
+            } else {
+                Drug.find({"diseases._id": req.params.id}, function(err, foundDrugs){
+                    if(err){
+                        req.flash("error", err.message);
+                        res.redirect("back");
+                    } else {
+                        for(var i = 0; i < foundDrugs.length; i++){
+                            for(var j = 0; j < foundDrugs[i].diseases.length; j++){
+                                if(foundDrugs[i].diseases[j]._id.equals(req.params.id)){
+                                    foundDrugs[i].diseases.splice(j, 1);
+                                    foundDrugs[i].save(function(err){
+                                        if(err){
+                                            req.flash("error", "İlaç içinde silme sonrası kayıt sırasında hata oldu");
+                                            return res.redirect("back");
+                                        }
+                                    });
+                                    break;
+                                }
+                            }
+                        }
+                        Symptom.find({"diseases._id": req.params.id}, function(err, foundSymptoms){
+                            if(err){
+                                req.flash("error", err.message);
+                                res.redirect("back");
+                            } else {
+                                for(var i = 0; i < foundSymptoms.length; i++){
+                                    for(var j = 0; j < foundSymptoms[i].diseases.length; j++){
+                                        if(foundSymptoms[i].diseases[j]._id.equals(req.params.id)){
+                                            foundSymptoms[i].diseases.splice(j, 1);
+                                        }
+                                        foundSymptoms[i].save(function(err){
+                                            if(err){
+                                                req.flash("error", "Semptom içinde silme sonrası kayıt sırasında hata oldu");
+                                                return res.redirect("back");
+                                            }
+                                        })
+                                        break;
+                                    }
+                                }
+                                req.flash("info", "Hastalık, DBden ve tüm entegre olduğu DB ünitelerinden başarılı bir şekilde silindi.");
+                                res.redirect("/admin");
+                            }
+                        })
+                    }
+                })
+            }
+        })
     } else if (req.params.typeOf === "haberler"){
-        var chosenDB = Article;
+        Article.findByIdAndDelete(req.params.id, function(err){
+            if(err){
+                req.flash("error", err.message);
+                res.redirect("back");
+            } else {
+                req.flash("info", "Haber başarıyla silindi");
+                res.redirect("/admin");
+            }
+        })
     } else if (req.params.typeOf === "ilaclar"){
-        var chosenDB = Drug;
+        Drug.findByIdAndDelete(req.params.id, function(err){
+            if(err){
+                req.flash("error", err.message);
+                res.redirect("back");
+            } else {
+                Disease.find({"drugs._id": req.params.id}, function(err, foundDiseases){
+                    if(err){
+                        req.flash("error", err.message);
+                        res.redirect("back");
+                    } else {
+                        for(var i = 0; i < foundDiseases.length; i++){
+                            for(var j = 0; j < foundDiseases[i].drugs.length; j++){
+                                if(foundDiseases[i].drugs[j]._id.equals(req.params.id)){
+                                    foundDiseases[i].drugs.splice(j, 1);
+                                    foundDiseases[i].save(function(err){
+                                        if(err){
+                                            req.flash("error", "Hastalık içinde silme sonrası kayıt sırasında hata oldu");
+                                            return res.redirect("back");
+                                        }
+                                    });
+                                    break;
+                                }
+                            }
+                        }
+                        req.flash("info", "İlaç, DBden ve tüm entegre olduğu DB ünitelerinden başarılı bir şekilde silindi.");
+                        res.redirect("/admin");
+                    };
+                });
+            };
+        });
+    } else if (req.params.typeOf === "semptomlar"){
+        Symptom.findByIdAndDelete(req.params.id, function(err){
+            if(err){
+                req.flash("error", err.message);
+                res.redirect("back");
+            } else {
+                Disease.find({"symptoms._id": req.params.id}, function(err, foundDiseases){
+                    if(err){
+                        req.flash("error", err.message);
+                        res.redirect("back");
+                    } else {
+                        for(var i = 0; i < foundDiseases.length; i++){
+                            for(var j = 0; j < foundDiseases[i].symptoms.length; j++){
+                                if(foundDiseases[i].symptoms[j]._id.equals(req.params.id)){
+                                    foundDiseases[i].symptoms.splice(j, 1);
+                                    foundDiseases[i].save(function(err){
+                                        if(err){
+                                            req.flash("error", "Hastalık içinde silme sonrası kayıt sırasında hata oldu");
+                                            return res.redirect("back");
+                                        }
+                                    });
+                                    break;
+                                }
+                            }
+                        }
+                        req.flash("info", "Semptom, DBden ve tüm entegre olduğu DB ünitelerinden başarılı bir şekilde silindi.");
+                        res.redirect("/admin");
+                    };
+                });
+            };
+        });
     } else {
         req.flash("error", "Seçtiğiniz arama kriteri bulunmamaktadır.");
         res.redirect("back");
     }
-    chosenDB.findByIdAndRemove(req.params.id, function(err){
-        if(err){
-            req.flash("error", "Bir hata oluştu");
-            res.redirect("back");
-        } else {
-            req.flash("info", "Girdi silindi");
-            res.redirect("back");
-        }
-    });
 });
 
 

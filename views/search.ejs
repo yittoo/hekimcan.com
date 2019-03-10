@@ -7,22 +7,28 @@
     <div class="results">
         <h2 class="secondary-header pl-20px mb-20px">Arama sonucu:</h2>
         <div class="top-result">
-                <h2>En iyi sonuçlar:</h2>
+            <h2>En iyi sonuçlar:</h2>
         </div>
+        <% var writtenResultCount = 0 %>
         <% if(results.length === 0){ %>
             <p class="mb-20px">Aradığınız parametre için sonuç bulunamamaktadır.</p>
-
         <% } else if(results[0] && results[0].description){ %>
             <% results.forEach(function(result){ %>
-                <div class="result-item">
-                    <h3 class="search-header"><%=result.name%></h3>
-                    <p><%= result.description.split("", 500).join("") %>... 
-                        <a href="/<%=typeOfResult%>/<%=result._id%>">Daha Fazla...</a>
-                        <a href="/<%=typeOfResult%>/<%=result._id%>" target="_blank"><i class="fas fa-external-link-alt external-link"></i></a> 
-                    </p>
-                    <p>Gönderen: <strong><%=result.author.username%></strong></p>
-                </div>
+                <% if(result.isActivated) { %>
+                    <div class="result-item">
+                        <h3 class="search-header"><%=result.name%></h3>
+                        <p><%= result.description.split("", 500).join("") %>... 
+                            <a href="/<%=typeOfResult%>/<%=result._id%>">Daha Fazla...</a>
+                            <a href="/<%=typeOfResult%>/<%=result._id%>" target="_blank"><i class="fas fa-external-link-alt external-link"></i></a> 
+                        </p>
+                        <p>Gönderen: <strong><%=result.author.username%></strong></p>
+                    </div>
+                    <% writtenResultCount++ %>
+                <% } %>
             <% }) %>
+            <% if(writtenResultCount===0){ %> 
+                <p class="mb-20px">Aradığınız parametre için sonuç bulunamamaktadır.</p>
+            <% } %>
         <% } else { %>
             <p>Uyarı: Yukarıdaki sonuçlar hastalığın semptom sonucu olma olasılığına göre çoktan aza göre sıralanmıştır. Aramanız kesin sonuç vermemektedir. Kesin sonuç için doktorunuza başvurunuz. Aşağıdaki sonuçlar semptomların belirmesinde daha az olası etkenlerdirler.</p>
             <% results.forEach(function(result){ %>
@@ -44,8 +50,6 @@
         <% } %>
     </div>
 </div>
-
-
 
 <% include partials/featTopics %>
 <script src="/js/search.js"></script>
