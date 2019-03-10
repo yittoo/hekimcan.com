@@ -60,7 +60,6 @@ router.get("/profil", middleware.isLoggedIn, function(req, res) {
             res.render("user/profile", {user: req.user, articles: foundArticles});
         };
     });
-    // res.render("user/profile");
 });
 
 router.get("/profil/:userId", function(req, res){
