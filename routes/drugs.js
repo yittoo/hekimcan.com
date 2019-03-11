@@ -78,6 +78,17 @@ router.get("/:drugId", function(req, res){
     });
 });
 
+router.get("/:drugId/eski/:oldIndex", middleware.checkDrugAuthor, function(req, res){
+    Drug.findById(req.params.drugId, function(err, foundDrug){
+        if(err || !foundDrug){
+            req.flash("error", "Bu kayıt numarasına sahip ilaç bulunamadı.")
+            res.redirect("/ilaclar");
+        } else {
+            res.render("drugs/show", {drug: foundDrug, index: req.params.oldIndex});
+        };
+    });
+})
+
 router.get("/:drugId/degistir", middleware.checkDrugAuthor, function(req, res){
     Drug.findById(req.params.drugId, function(err, foundDrug){
         if(err){

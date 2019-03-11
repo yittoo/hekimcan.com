@@ -25,9 +25,9 @@ router.get("/", function(req, res){
                     res.redirect("/");
                 } else {
                     res.render("diseases/index", {diseases: allDiseases, featuredDisease: featuredDisease});
-                }
-            })
-        }
+                };
+            });
+        };
     });
 });
 
@@ -83,6 +83,17 @@ router.get("/:diseaseId", function(req, res){
         }
     });
 });
+
+router.get("/:diseaseId/eski/:oldIndex", middleware.checkDiseaseAuthor, function(req, res){
+    Disease.findById(req.params.diseaseId, function(err, foundDisease){
+        if(err || !foundDisease){
+            req.flash("error", "Bu kayıt numarasına sahip hastalık bulunamadı.")
+            res.redirect("/hastaliklar");
+        } else {
+            res.render("diseases/show", {disease: foundDisease, index: req.params.oldIndex});
+        };
+    });
+})
 
 router.get("/:diseaseId/degistir", middleware.checkDiseaseAuthor, function(req, res){
     Disease.findById(req.params.diseaseId, function(err, foundDisease){

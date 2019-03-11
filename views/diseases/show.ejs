@@ -6,8 +6,25 @@
 
 <div class="container">
     <h1 class="primary-header link-activator mb-20px pl-10px"><%= disease.name %>
-        <% if(currentUser){ %>
+        <% if(currentUser && (currentUser._id.equals(disease.author.id) || currentUser.isTrustable)){ %>
             <a href="/hastaliklar/<%=disease._id%>/degistir">Değiştir</a>
+            <% if(typeof index !== 'undefined' && index){ %>
+                <% if(0 < Number(index) ) { %>
+                    <a href="/hastaliklar/<%=disease._id%>/eski/<%=Number(index)-1%>">Daha eski</a>                
+                <% } else { %>
+                    <a class="perma-inactive-link" href="">Daha eski</a>                
+                <% } %>
+                <% if(Number(index) < disease.beforeEdit.length-1) { %>
+                    <a href="/hastaliklar/<%=disease._id%>/eski/<%=Number(index)+1%>">Daha yeni</a>                
+                <% } else { %>
+                    <a class="perma-inactive-link" href="">Daha yeni</a>                
+                <% } %>
+                <a href="/hastaliklar/<%=disease._id%>">Güncel Hali</a>                
+            <% } else if (disease.beforeEdit.length===0){ %>
+                <a class="perma-inactive-link" href="">Eski Versiyon Mevcut Değil</a>
+            <% } else { %>
+                <a href="/hastaliklar/<%=disease._id%>/eski/<%=disease.beforeEdit.length-1%>">Eski Versiyonlar</a>
+            <% } %>
         <% } %>
         <% if(currentUser && currentUser.isOp) {%>
             <% if(disease.isActivated){ %>
@@ -17,7 +34,7 @@
                     <a href="/hastaliklar/<%=disease._id%>/feature">Öne Çıkar</a>            
                 <% } %>
             <% } %>
-            <a class="inactive-link" href="/hastaliklar/<%=disease._id%>/sil">Sil</a>            
+            <a class="inactive-link" href="/hastaliklar/<%=disease._id%>/sil">Sil</a>
         <% } %>
     </h1>
     <% if(!disease.isActivated) { %>
@@ -27,10 +44,23 @@
 
 <% if(disease.isActivated || currentUser && (currentUser.isOp || currentUser._id.equals(disease.author.id))) { %>
     <br>
-
+    
     <div class="container thin-outline py-20px" id="page-content">
-        <%= disease.htmlCode %>
+        <% if(typeof index !== 'undefined' && index){ %> 
+            <%= disease.beforeEdit[index] %>
+        <% } else { %>
+            <%= disease.htmlCode %>
+        <% } %>
     </div>
+    <% if(typeof index !== 'undefined' && index){ %>
+        <div class="d-none" id="current-main-content">
+            <%= disease.htmlCode %>
+        </div>
+        <br>
+        <div class="container thin-outline py-20px">
+            <button id="revert-old-btn">Bu Halini Yenisi Yerine Kaydet</button>
+        </div>    
+    <% } %>
 
     <br>
 
@@ -39,6 +69,9 @@
             <% for(var i = 0; i < disease.symptoms.length; i++){ %>
                 <% if(disease.symptoms[i] !== {}){ %>
                     <a href="/semptomlar/ara/<%=disease.symptoms[i].name%>">#<%= disease.symptoms[i].name %></a>
+                    <% if(currentUser && currentUser.isOp) { %>
+                        <a href="/semptomlar/<%=disease.symptoms[i]._id%>/sil"><i class="fas fa-backspace"></i></a>
+                    <% } %>
                 <% } %>
             <% } %>
         </p>
@@ -79,5 +112,8 @@
 
 <script src="/js/show.js"></script>
 
+<% if(typeof index !== 'undefined' && index){ %>
+    <script src="/js/revertOld.js"></script>
+<% } %>
 
 <% include ../partials/footer %>

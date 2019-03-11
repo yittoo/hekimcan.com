@@ -7,6 +7,23 @@
     <h1 class="primary-header link-activator mb-20px pl-10px"><%= drug.name %>
         <% if(currentUser && (currentUser._id.equals(drug.author.id) || currentUser.isTrustable)){ %>
             <a href="/ilaclar/<%=drug._id%>/degistir">Değiştir</a>
+            <% if(typeof index !== 'undefined' && index){ %>
+                <% if(0 < Number(index) ) { %>
+                    <a href="/ilaclar/<%=drug._id%>/eski/<%=Number(index)-1%>">Daha eski</a>                
+                <% } else { %>
+                    <a class="perma-inactive-link" href="">Daha eski</a>                
+                <% } %>
+                <% if(Number(index) < drug.beforeEdit.length-1) { %>
+                    <a href="/ilaclar/<%=drug._id%>/eski/<%=Number(index)+1%>">Daha yeni</a>                
+                <% } else { %>
+                    <a class="perma-inactive-link" href="">Daha yeni</a>                
+                <% } %>
+                <a href="/ilaclar/<%=drug._id%>">Güncel Hali</a>                
+            <% } else if(drug.beforeEdit.length===0){ %>
+                <a class="perma-inactive-link" href="">Eski Versiyon Mevcut Değil</a>
+            <% } else { %>
+                <a href="/ilaclar/<%=drug._id%>/eski/<%=drug.beforeEdit.length-1%>">Eski Versiyonlar</a>
+            <% } %>
         <% } %>
         <% if(currentUser && currentUser.isOp) {%>
             <% if(drug.isActivated){ %>
@@ -27,8 +44,22 @@
 <% if(drug && (drug.isActivated || currentUser && (currentUser.isOp || currentUser._id.equals(drug.author.id)))) { %>
     <br>
     <div class="container thin-outline py-20px mb-20px" id="page-content">
-        <%= drug.htmlCode %>
+        <% if(typeof index !== 'undefined' && index){ %> 
+            <%= drug.beforeEdit[index] %>
+        <% } else { %>
+            <%= drug.htmlCode %>
+        <% } %>
     </div>
+    <% if(typeof index !== 'undefined' && index){ %>
+        <div class="d-none" id="current-main-content">
+            <%= drug.htmlCode %>
+        </div>
+        <div class="container thin-outline py-20px">
+            <button id="revert-old-btn">Bu Halini Yenisi Yerine Kaydet</button>
+        </div>
+        <br>
+    <% } %>
+
     <div id="symptom-drug-div" class="container thin-outline py-20px f-size-120">
         <p>Tedavisinde kullanılan hastalık tagleri:
             <% for(var i = 0; i < drug.diseases.length; i++){ %>
@@ -44,5 +75,8 @@
 
 <script src="/js/show.js"></script>
 
+<% if(typeof index !== 'undefined' && index){ %>
+    <script src="/js/revertOld.js"></script>
+<% } %>
 
 <% include ../partials/footer %>
